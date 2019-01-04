@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link href="//www.wisecareer.org/css/zhituo/jiaolian_list.css" type="text/css" rel="stylesheet" />
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<!--[if IE]>
+	<script src="//www.wisecareer.org/js/html5shiv.min.js"></script>
+	<![endif]-->
+
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.danxuan>li, .duoxuan>li {
+			line-height: 20px;
+		}
+		.students_inner>form>input{
+			width: 90%;
+			padding: 0 5%;
+			height: 34px;
+			font-size: 14px;
+			border: solid 1px rgba(0,0,0,0.3);
+		}
+		.students_inner>form>select{
+			width: 100%;
+			padding: 0 5%;
+			height: 36px;
+			font-size: 14px;
+			border: solid 1px rgba(0,0,0,0.3);
+		}
+		.students_inner>form>h5{
+			font-size: 16px;
+			line-height: 30px;
+			color: #666;
+			text-align: left;
+		}
+		a.click_input{
+			display: block;
+			line-height: 36px;
+			border: solid 1px rgba(0,0,0,0.3);
+			padding:0 5%;
+			color: #666;
+			font-size: 12px;
+			text-align: left;
+		}
+		ul#hangye_list{
+			width: 35%;
+			position: fixed;
+			left: 0;
+			top: 0;
+			z-index: 1000;
+			height: 100%;
+			overflow-y: scroll;
+		}
+		ul#hangye_list>li>a{
+			display: block;
+			text-align: center;
+			border-bottom: solid 1px #ebebeb;
+			line-height: 48px;
+			font-size: 14px;
+			color: #666;
+			background: #ebebeb;
+		}
+		ul#hangye_list>li>a.this{
+			font-size: 16px;
+			font-weight: bold;
+			color: #f58020;
+			background: #fff;
+		}
+
+		ul#zhiye_list>li>a{
+			display: block;
+			text-align: center;
+			line-height: 48px;
+			font-size: 14px;
+			color: #666;
+		}
+		ul#zhiye_list>li>a.this{
+			font-size: 16px;
+			font-weight: bold;
+			color: #f58020;
+		}
+		ul#zhiye_list>li>a.this:before{
+			content: '·  ';
+			font-size: 30px;
+			line-height: 50px;
+
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">找教练</h1>
+		<a href="/index/index" class="return"><i class="return-right"></i></a>
+	</div>
+
+<!-- home -->
+<div id="dBody">
+	<div class="mycontent">
+		<div class="cleardiv50"></div>
+		<div class="inner">
+			<div class="students clear">
+				<div class="students_inner">
+					<div class="cleardiv20"></div>
+					<form action="/jiaolian/jiaolian_list/" name="myform" id="myform" class="clear" style="height: auto" accept-charset="UTF-8" onsubmit="document.charset='UTF-8';">
+						<h5>教练姓名</h5>
+						<input type="text" name="name" id="name" placeholder="请输入教练姓名"  AUTOCOMPLETE="off"/>
+						<div class="cleardiv10"></div>
+						<h5>为哪个职业代言</h5>
+						<div><a href="javascript:a2()" class="click_input" id="text2" tpid="0" zid="0">点击选择</a></div>
+						<input type="hidden" name="job" id="job" value="0"/>
+						<div class="cleardiv10"></div>
+						<h5>所在国家</h5>
+						<select name="cou" id="cou">
+							<option value="0">中国（大陆）</option>
+						</select>
+						<div class="cleardiv10"></div>
+						<h5>所在城市</h5>
+						<select name="city" id="city">
+							<option value="0">请选择</option>
+						</select>
+						<div class="cleardiv10"></div>
+						<h5>教练类型</h5>
+						<ul class="duoxuan clear">
+							<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" >推荐过我</a><img src="//www.wisecareer.org/images/zhituo/icon/yes.png" alt=""/><input type="hidden" name="recommend" value="0" id="recommend"></li>
+							<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center"  >关注我的</a><img src="//www.wisecareer.org/images/zhituo/icon/yes.png" alt=""/><input type="hidden" name="attention" value="0" id="attention"></li>
+							<!--<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center">给我提问</a><img src="/public/img/icon/yes.png" alt=""/><input type="hidden" name="tiwen" value="0"></li>-->
+							<!--<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center">为我点赞</a><img src="/public/img/icon/yes.png" alt=""/><input type="hidden" name="like" value="0"></li>-->
+							<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center">评价过我</a><img src="//www.wisecareer.org/images/zhituo/icon/yes.png" alt=""/><input type="hidden" name="evaluate" value="0" id="evaluate"></li>
+							<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center">现场指导</a><img src="//www.wisecareer.org/images/zhituo/icon/yes.png" alt=""/><input type="hidden" name="scene" value="0" id="scene"></li>
+						</ul>
+
+
+						<div class="cleardiv20"></div>
+						<div class="cleardiv10"></div>
+						<div class="sub_div">
+							<input type="button"  value="找教练" class="tijiao" onclick = "checkUser();"/>
+						</div>
+						<div class="cleardiv20"></div>
+						<div class="cleardiv20"></div>
+						<div>
+						</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="show_hide" style="display: none">
+	<div class="class_bg"></div>
+	<div class="class_content" style="padding: 0;overflow-y: scroll">
+		<div id="box1_tittle">
+			<div class="head">
+				<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">选择职业</h1>
+				<a href="javascript:hide()" class="box1_return"><i class="return-right"></i></a>
+				<a href="javascript:void(0)" name="submit" style="" id="screen_btn">
+					<input type="submit" value="提交" style="line-height: 40px;" class="tijiao father" id="btn1"/>
+				</a>
+			</div>
+		</div>
+
+		<div width="100%" id="box1" class="clear">
+			<ul id="hangye_list">
+
+			</ul>
+			<table width="100%" style="padding-top: 55px;background: #fff">
+				<tr>
+					<td width="35%" align="center" style="height: 100%">&nbsp;</td>
+					<td width="65%" align="center" style="height: 100%">
+						<ul id="zhiye_list">
+
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="clear"></div>
+		<div style="width: 100%;text-align: center;display: block"></div>
+		<div class="cleardiv5 "></div>
+	</div>
+</div>
+<script>
+//	$(function(){
+//		isHaveLogin('/jiaolian/jiaolian_search');
+//	});
+var uid =localStorage.CURRENT_USER_ID;
+var tpid='7';
+var id='';
+var name_stop=0;
+var stop=false;
+	$('.danxuan>li>a').click(function(){
+		$('.danxuan>li>a').removeClass("this");
+		$('.danxuan>li>img').hide();
+		$(this).addClass("this");
+		$(this).next().show();
+		var lx = $(this).attr('tag');
+		$("#lx").val(lx);
+	});
+
+$('.duoxuan>li>a').toggle(function(){
+	$(this).addClass("this");
+	$(this).next().show();
+	$(this).next().next().val(1);
+	name_stop++;
+	console.log(name_stop)
+},function(){
+	$(this).removeClass("this");
+	$(this).next().hide();
+	$(this).next().next().val(0);
+	name_stop--;
+	console.log(name_stop)
+})
+
+	function checkUser(){
+		var name_val=document.getElementById('name').value;
+
+		if(name_stop==0&&name_val==''){
+			layer.open({
+				content: '教练姓名或教练类型必须填写选择其中一项！'
+				,btn: '我知道了'
+			});
+		}else{
+			document.getElementById("myform").submit();
+		}
+	}
+
+
+
+
+$.ajax({ url:WEB_API_URL + "classnamel/industry2?", async: false,data:{}, success: function(json){
+	var data=json.data;
+	var first=true;
+	var str1='<li><div class="cleardiv50" style="background: #fff"></div></li>';
+	$.each(json.data.list1, function (index, array) {
+		if(first==true){
+			str1+='<li><a href="javascript:void(0);" tpid="'+array['tpid']+'" class="this">'+array['tpname']+'</a></li>';
+			first=false;
+		}else{
+			str1+='<li><a href="javascript:void(0);"  tpid="'+array['tpid']+'">'+array['tpname']+'</a></li>';
+		}
+	});
+	$.each(json.data.list2, function (index, array) {
+			str1+='<li><a href="javascript:void(0);" id="'+array['id']+'">'+array['tpname']+'</a></li>';
+	});
+	$('ul#hangye_list').html(str1);
+}});
+
+$.ajax({ url:WEB_API_URL + "classnamel/getoccupation?", async: false,data:{tpid:tpid}, success: function(json){
+	var data=json.data;
+	var str1='';
+	$.each(json.data, function (index, array) {
+		str1+='<li><a href="javascript:void(0);" id="'+array['id']+'">'+array['titlename']+'</a></li>';
+	});
+	$('ul#zhiye_list').html(str1);
+}});
+
+$('#hangye_list>li>a').live('click',function(){
+	if($(this).attr('tpid')==undefined){
+		tpid='';
+	}else{
+		tpid=$(this).attr('tpid');
+	}
+	if($(this).attr('id')==undefined){
+		id='';
+	}else{
+		id=$(this).attr('id');
+	}
+	$('#hangye_list>li>a').removeClass('this');
+	$(this).addClass('this');
+	$.ajax({ url:WEB_API_URL + "classnamel/getoccupation?", async: false,data:{tpid:tpid,id:id}, success: function(json){
+		var data=json.data;
+		var str1='';
+		if(data!=''){
+			$.each(json.data, function (index, array) {
+				str1+='<li><a href="javascript:void(0);" id="'+array['id']+'">'+array['titlename']+'</a></li>';
+			});
+		}else{
+			str1='<li><div class="cleardiv20"></div></li><li style="text-align: center;font-size: 14px;color: #666" >暂无职业</li><li><div class="cleardiv20"></div></li>';
+		}
+
+		$('ul#zhiye_list').html(str1);
+	}});
+});
+
+
+$('#zhiye_list>li>a').live('click',function(){
+	id=$(this).attr('id');
+	$('#job').val(id);
+	val=$(this).html();
+	$('#zhiye_list>li>a').removeClass('this');
+	$(this).addClass('this');
+	stop=true;
+});
+
+
+$('#btn1').live('click',function fa_sub(){
+	if(stop==true){
+		$('#text2').attr('tpid',tpid);
+		$('#text2').attr('zid',id);
+		$('#text2').html(val);
+		$('#zhiye_list>li>a').removeClass('this');
+		stop=false;
+		$('.show_hide').hide();
+		$('body').css('overflow-y','scroll')
+	}else{
+		layer.open({
+			content: '请选择职业！'
+			,btn: '我知道了'
+		});
+	}
+})
+
+
+function hide(){
+	$('.show_hide').hide();
+	$('body').css('overflow-y','scroll')
+}
+
+
+function a2(){
+	$('.father').show();
+	$('.show_hide').show();
+	$('body').css('overflow-y','hidden')
+}
+
+$('a#text2').live('click',function(){
+	$('.father').show();
+	$('.show_hide').show();
+});
+
+$.ajax({ url:WEB_API_URL + "user/city?" , async: false,data:{scid:0,token:uid}, success: function(json){
+	var str1='';
+	var str2='';
+	$.each(json.data, function (index, array) {
+		if(array['has']=='1'){
+			str1+='<option id="'+array['ar_id']+'" value="'+array['ar_id']+'" selected="selected">'+array['ar_name']+'</option>';
+		}else{
+			str1+='<option id="'+array['ar_id']+'" value="'+array['ar_id']+'">'+array['ar_name']+'</option>';
+		}
+		str2+='<option id="'+array['ar_id']+'" value="'+array['ar_id']+'">'+array['ar_name']+'</option>';
+	});
+	$('#city').append(str1);
+}});
+
+wx.config({
+	debug: false,//关闭调试模式
+	appId: '{$signPackage["appId"]}',
+	timestamp: {$signPackage["timestamp"]},
+	nonceStr: '{$signPackage["nonceStr"]}',
+	signature: '{$signPackage["signature"]}',
+	/*appId: 'xxxxxx',
+	 timestamp: xxxxx,
+	 nonceStr: 'xxxxx',
+	 signature: 'xxxxx',*/
+
+	jsApiList: [
+		// 所有要调用的 API 都要加到这个列表中
+		'checkJsApi',
+		'onMenuShareTimeline',
+		'onMenuShareAppMessage',
+		'onMenuShareQQ'
+	]
+});
+wx.ready(function () {
+
+	// 2. 分享接口
+	// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+	wx.onMenuShareAppMessage({
+		title: '跨行业职业体验及现场实习平台',
+		desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+		link: 'http://zt.wisecareer.org/jiaolian/jiaolian_search',
+		imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+		trigger: function (res) {
+			// alert('用户点击发送给朋友');
+		},
+		success: function (res) {
+			//alert('已分享');
+			//   window.location.href = 'http://m.duolehuan.com/';
+		},
+		cancel: function (res) {
+			//alert('已取消');
+		},
+		fail: function (res) {
+			//alert(JSON.stringify(res));
+		}
+	});
+
+	// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+	wx.onMenuShareTimeline({
+		title: '跨行业职业体验及现场实习平台',
+		desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+		link: 'http://zt.wisecareer.org/jialian/jiaolian_search',
+		imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+		trigger: function (res) {
+			// alert('用户点击分享到朋友圈');
+		},
+		success: function (res) {
+			//alert('已分享');
+			//window.location.href = '';
+		},
+		cancel: function (res) {
+			//alert('已取消');
+		},
+		fail: function (res) {
+			//alert(JSON.stringify(res));
+		}
+	});
+});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

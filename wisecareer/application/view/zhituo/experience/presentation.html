@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/experience.css"/>
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/interface.css"/>
+	<link rel="stylesheet" type="text/css" href="//www.wisecareer.org/css/normalize.css" />
+	<link rel="stylesheet" href="//www.wisecareer.org/css/flickity-docs.css" media="screen" />
+	<!--[if IE]>
+	<script src="//www.wisecareer.org/js/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<link rel="stylesheet" type="text/css" href="//www.wisecareer.org/css/zhituo/layui.css" />
+	<style>
+		.content td{padding-top: 10px;line-height: 30px;}
+		.inner ul.yuan{
+			width: 100px;
+			height: 100px;
+			border: 1px #f58020 solid;
+			border-radius: 50%;
+		}
+		.inner ul.yuan>li{
+			line-height: 20px;
+		}
+		.btn_yes {
+			width: 100%;
+			border-radius: 0;
+			margin: 20px auto;
+		}
+		h3{
+			line-height: 40px;
+			font-size: 16px;
+		}
+		.number{
+			color: #f58020;
+			font-size: 16px;
+			font-weight: bold;
+		}
+		.layui-progress-big .layui-progress-text {
+
+			 padding: 0;
+
+		}
+	</style>
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">本次体验报告</h1>
+		<a href="/experience/index/" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent experience" style="height:100%;margin: 0">
+	<div class="inner">
+		<div class="cleardiv20"></div>
+		<h1 style="text-align: center;line-height: 60px;font-size: 24px">恭喜你完成体验！</h1>
+		<h3>体验计划已完成 <span id="jihua">50</span>%，加油！</h3>
+		<div class="layui-progress layui-progress-big" lay-showpercent="true">
+			<div class="layui-progress-bar" lay-percent="50%"></div>
+		</div>
+		<div class="cleardiv20"></div>
+		<table width="100%">
+			<tr>
+				<td width="50%" align="center">
+					<ul class="yuan">
+						<li>&nbsp;</li>
+						<li>今天获得</li>
+						<li class="number" id="today_num">17.85</li>
+						<li>经验值</li>
+						<li>&nbsp;</li>
+					</ul>
+				</td>
+				<td width="50%" align="center">
+					<ul class="yuan">
+						<li>&nbsp;</li>
+						<li>累计</li>
+						<li class="number" id="all_num">342</li>
+						<li>经验值</li>
+						<li>&nbsp;</li>
+					</ul>
+				</td>
+			</tr>
+			<tr><td colspan="2" style="height: 10px">&nbsp;</td></tr>
+			<tr>
+				<td align="center">
+					<ul class="yuan">
+						<li>&nbsp;</li>
+						<li>综合</li>
+						<li>职业胜任力</li>
+						<li class="number" id="zy">70.8</li>
+						<li>&nbsp;</li>
+					</ul>
+				</td>
+				<td align="center">
+					<ul class="yuan">
+						<li>&nbsp;</li>
+						<li>超过了</li>
+						<li class="number"><span id="cg">66</span>%</li>
+						<li>的人</li>
+						<li>&nbsp;</li>
+					</ul>
+				</td>
+			</tr>
+		</table>
+		<div class="cleardiv20"></div>
+		<div class="cleardiv10"></div>
+		<h3>分行业、职能职业胜任力</h3>
+		<div id="tubiao"></div>
+		<div class="cleardiv5"></div>
+		<div><input type="button" value="查看完整报告" class="btn_yes" onclick="location.href='/presentation/index/'"/></div>
+		<div class="cleardiv10"></div>
+		<div class="cleardiv20"></div>
+	</div>
+	</div>
+</div>
+
+<script src="//www.wisecareer.org/js/zhituo/layui.js" charset="utf-8"></script>
+<script>
+	$(function(){
+		isHaveLogin('/experience/presentation');
+	});
+
+	layui.use('element', function(){
+		var $ = layui.jquery
+				,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+		//触发事件
+		var active = {
+			setPercent: function(){
+				//设置50%进度
+				element.progress('demo', '50%')
+			}
+			,loading: function(othis){
+				var DISABLED = 'layui-btn-disabled';
+				if(othis.hasClass(DISABLED)) return;
+
+				//模拟loading
+				var n = 0, timer = setInterval(function(){
+					n = n + Math.random()*10|0;
+					if(n>100){
+						n = 100;
+						clearInterval(timer);
+						othis.removeClass(DISABLED);
+					}
+					element.progress('demo', n+'%');
+				}, 300+Math.random()*1000);
+
+				othis.addClass(DISABLED);
+			}
+		};
+
+		$('.site-demo-active').on('click', function(){
+			var othis = $(this), type = $(this).data('type');
+			active[type] ? active[type].call(this, othis) : '';
+		});
+	});
+</script>
+
+<script>
+
+	Request = GetRequest();
+	var eid = localStorage.CURRENT_USER_ID;
+	var tid = getUrlParam("tid");
+	var fanhui = getUrlParam("return");
+	if(fanhui==0){$('a.return').attr('href','javascript:history.go(-1)')}
+	var id ='';
+	var font_num='';
+	$('div#tubiao').html('<iframe src="http://www.wisecareer.org/Report/report_zt/report_ty_pre.php?token='+eid+'&tid='+tid+'" id="iframepage" name="iframepage" frameborder="0" scrolling="no" width="100%"  height="350"></iframe>');
+	$.ajax({ url:WEB_API_URL + "problem/todayReport?" + Request, async: false,data:{token: eid,tid:tid}, success: function(json){
+		var data=json.data;
+		$('#jihua').html(data.pro);
+		$('.layui-progress-bar').attr('lay-percent',data.pro+'%');
+		$('#today_num').html(data.todayjifen);
+		$('#all_num').html(data.sumjifen);
+		$('#zy').html(data.competence+'%');
+		$('#cg').html(data.pass);
+	}})
+
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>
+
+
+<script>
+
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/presentation',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/presentation',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>

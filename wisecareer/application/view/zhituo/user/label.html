@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="http://xueye.wisecareer.org/css/xueye/style.css" type="text/css" rel="stylesheet" />
+	<link href="http://xueye.wisecareer.org/css/xueye/label.css" type="text/css" rel="stylesheet" />
+	<link href="http://xueye.wisecareer.org/css/xueye/interface.css" type="text/css" rel="stylesheet" />
+	<script src="http://xueye.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="http://xueye.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="http://xueye.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="http://xueye.wisecareer.org/js/zhituo/base.min.js"></script>
+	<script src="http://xueye.wisecareer.org/js/zhituo/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.content h5{
+			padding-left: 10px;
+		}
+		.content .grade{
+			font-size:14px;cursor: pointer;
+			background:#f4f4f4 url(http://jiaolian.wisecareer.org/public/img/icon/arrow-right-xiao.png) no-repeat right center;
+			margin-top: 10px;
+		}
+		input[type="button"]{
+			background: #2e8ded;
+			width: 100%;
+			height: 36px;
+			border: none;
+			color: #fff;
+			font-size: 16px;
+			font-weight: bold;
+			-webkit-appearance: none;
+		}
+		/*.content .list2{*/
+		/*display: none;*/
+		/*}*/
+	</style>
+</head>
+<body>
+
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">个人中心</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<!-- user-info  -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+			<div class="content">
+	<div class="photo">
+		<div class="cleardiv20"></div>
+		<h4 style="padding-bottom: 5px;font-size: 14px">你所授权的教练标签为：<{$newstr}></h4>
+		<ul>
+			<h5 class="grade">行业标签</h5>
+			<li class="list2 clear" style="display: none">
+				<table class="experience" width="100%" style="padding: 20px 0">
+					<!--无标签-->
+					<{foreach $hys as $value}>
+					<tr>
+						<td width="5">&nbsp;</td>
+						<td width="55%" align="left" valign="top"><{$value.tpname}></td>
+						<td width="5%">&nbsp;</td>
+						<td width="40%" align="left">已授权</td>
+						<td width="5">&nbsp;</td>
+					</tr>
+					<tr>
+						<td width="5">&nbsp;</td>
+						<td colspan="3" width="95%" align="left" style="padding-bottom: 10px;border-bottom: 1px solid #ebebeb"><{$value.content}></td>
+						<td width="5">&nbsp;</td>
+					</tr>
+					<{foreachelse}>
+					<td width="5">&nbsp;</td>
+						<td colspan="3" align="center" style="padding-bottom: 10px">暂无标签</td>
+						<td width="5">&nbsp;</td> 
+					<{/foreach}>
+
+					<!--<tr>-->
+						<!--<td width="5">&nbsp;</td>-->
+						<!--<td colspan="3" align="center">暂无标签</td>-->
+						<!--<td width="5">&nbsp;</td>-->
+					<!--</tr>-->
+
+					<tr>
+						<td width="5">&nbsp;</td>
+						<td colspan="3" align="center" onclick="location.href='http://jiaolian.wisecareer.org/user/label_fillIn/type/hangye'">
+							<input type="button" value="增加"/>
+						</td>
+						<td width="5">&nbsp;</td>
+					</tr>
+				</table>
+			</li>
+			<h5 class="grade">职能标签</h5>
+			<li class="list2 clear" style="display: none">
+				<table class="experience" width="100%" style="padding: 20px 0">
+					<{foreach $ls as $value}>
+
+					<tr>
+						<td width="5">&nbsp;</td>
+						<td width="55%" align="left" valign="top"><{$value.tpname}></td>
+						<td width="5%">&nbsp;</td>
+						<td width="40%" align="left">已授权</td>
+						<td width="5">&nbsp;</td>
+					</tr>
+					<tr>
+						<td width="5">&nbsp;</td>
+						<td colspan="3" width="95%" align="left" style="padding-bottom: 10px;border-bottom: 1px solid #ebebeb"><{$value.content}></td>
+						<td width="5">&nbsp;</td>
+					</tr>
+					<{foreachelse}>
+					<td width="5">&nbsp;</td>
+						<td colspan="3" align="center" style="padding-bottom: 10px">暂无标签</td>
+						<td width="5">&nbsp;</td> 
+					<{/foreach}>
+					<tr>
+						<td width="5">&nbsp;</td>
+						<td colspan="3" align="center" onclick="location.href='http://jiaolian.wisecareer.org/user/label_fillIn/type/lx'">
+							<input type="button" value="增加"/>
+						</td>
+						<td width="5">&nbsp;</td>
+					</tr>
+				</table>
+			</li>
+			<h5 class="grade">专题标签</h5>
+			<li class="list2 clear" style="display: none">
+				<table class="experience" width="100%" style="padding: 20px 0">
+					<{foreach $zts as $value}>
+
+					<tr>
+						<td width="5">&nbsp;</td>
+						<td width="55%" align="left" valign="top"><{$value.tpname}></td>
+						<td width="5%">&nbsp;</td>
+						<td width="40%" align="left">已授权</td>
+						<td width="5">&nbsp;</td>
+					</tr>
+					<tr>
+						<td width="5">&nbsp;</td>
+						<td colspan="3" width="95%" align="left" style="padding-bottom: 10px;border-bottom: 1px solid #ebebeb"><{$value.content}></td>
+						<td width="5">&nbsp;</td>
+					</tr>
+					<{foreachelse}>
+						<td width="5">&nbsp;</td>
+						<td colspan="3" align="center" style="padding-bottom: 10px">暂无标签</td>
+						<td width="5">&nbsp;</td> 
+					<{/foreach}>
+					<tr>
+						<td width="5">&nbsp;</td>
+						<td colspan="3" align="center" onclick="location.href='http://jiaolian.wisecareer.org/user/label_fillIn/type/zhuanti'">
+							<input type="button" value="增加"/>
+						</td>
+						<td width="5">&nbsp;</td>
+					</tr>
+				</table>
+			</li>
+		</ul>
+	</div>
+			</div>
+			</div>
+</div>
+	</div>
+<script>
+	$('.content .grade').toggle(function(){
+		$(this).next().slideDown();
+		$(this).css('background','#f4f4f4 url(http://jiaolian.wisecareer.org/public/img/icon/arrow-xia-xiao.png) no-repeat right center');
+
+	},function(){
+		$(this).next().slideUp();
+		$(this).css('background','#f4f4f4 url(http://jiaolian.wisecareer.org/public/img/icon/arrow-right-xiao.png) no-repeat right center');
+})
+</script>
+
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/user/label');
+	});
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/label',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/label',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

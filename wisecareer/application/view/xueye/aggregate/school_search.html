@@ -1,0 +1,264 @@
+
+{extend name="layout/layout" }
+{block name="link"}
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<link href="__XUEYE__/css/aggregate.css" type="text/css" rel="stylesheet" />
+<script src="__XUEYE__/js/city.js"></script>
+<script src="/static/public/js/layui.js"></script>
+<!-- home -->
+{/block}
+<!-- head -->
+{block name='head'}
+<div id="dHead" style="position: fixed;top: 0;left: 0;z-index: 300;">
+	<div class="head">
+		<h1 style="margin: 0">大学检索</h1>
+		<a href="/index/index" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+{/block}
+{block name="content"}
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent"> 
+		<div class="inner school">
+			<div class="cleardiv20"></div>
+			<form method="GET" action="/aggregate/school_list/" onsubmit="return search()">
+			<table width="100%">
+				<tr>
+					<td>大学名称</td>
+				</tr>
+				<tr>
+					<td>
+			<input type="text" placeholder="请输入学校名称关键字" autocomplete="off" id="guanjian" name="titlename" value=""/> 
+					</td>
+				</tr>
+				<tr>
+					<td style="line-height: 10px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td>所在省份</td>
+				</tr>
+                <tr>
+					<td>
+						<select name="scid" id="scid">
+                            <option value="0" >请选择</option>
+                            <option value="3">北京</option>
+                            <option value="26">上海</option>
+                            <option value="46">广东</option>
+                            <option value="68">江苏</option>
+                            <option value="82">浙江</option>
+                            <option value="95">山东</option>
+                            <option value="113">四川</option>
+                            <option value="135">天津</option>
+                            <option value="153">重庆</option>
+                            <option value="194">辽宁</option>
+                            <option value="209">云南</option>
+                            <option value="4">河南</option>
+                            <option value="240">河北</option>
+                            <option value="252">福建</option>
+                            <option value="262">安徽</option>
+                            <option value="280">湖北</option>
+                            <option value="297">黑龙江</option>
+                            <option value="311">江西</option>
+                            <option value="324">吉林</option>
+                            <option value="334">陕西</option>
+                            <option value="345">湖南</option>
+                            <option value="360">山西</option>
+                            <option value="372">甘肃</option>
+                            <option value="399">广西</option>
+                            <option value="387">内蒙古</option>
+                            <option value="414">贵州</option>
+                            <option value="424">新疆</option>
+                            <option value="439">海南</option>
+                            <option value="459">宁夏</option>
+                            <option value="465">西藏</option>
+                            <option value="473">青海</option>
+                            <option value="485">香港</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td style="line-height: 10px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td>大学类型</td>
+				</tr>
+				<tr>
+					<td>
+						<ul class="danxuan3 clear" id="taglx">
+							<li><a href="javascript:void(0);" stop="0" tag="15" style="display: block;padding:0;text-align: center" >本科</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+							<li><a href="javascript:void(0);" stop="1" tag="32" style="display: block;padding:0;text-align: center"  >专科</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+							<li><a href="javascript:void(0);" stop="1" tag="44" style="display: block;padding:0;text-align: center"  >高职</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td style="line-height: 10px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td id="cj_tittle">层级</td>
+				</tr>
+				<tr>
+					<td>
+						<ul class="duoxuan3 clear" id="schooltag">
+							<li><a href="javascript:void(0);" style="display: block;padding:0;text-align: center" tag="16" stop="0">985</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><div class="input_hidden"></div></li>
+							<li><a href="javascript:void(0);" style="display: block;padding:0;text-align: center" tag="17" stop="0">211</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><div class="input_hidden"></div></li>
+							<li><a href="javascript:void(0);" style="display: block;padding:0;text-align: center"  tag="18" stop="0">准211</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><div class="input_hidden"></div></li>
+							<li><a href="javascript:void(0);" style="display: block;padding:0;text-align: center"  tag="19" stop="0">独立院校</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><div class="input_hidden"></div></li>
+							<li><a href="javascript:void(0);" style="display: block;padding:0;text-align: center"  tag="39" stop="0">一流大学A类</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><div class="input_hidden"></div></li>
+							<li><a href="javascript:void(0);" style="display: block;padding:0;text-align: center"  tag="40" stop="0">一流大学B类</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><div class="input_hidden"></div></li>
+						</ul>
+					</td>
+				</tr>
+				<tr>
+					<td style="line-height: 10px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td><input  type="submit" value="搜索" class="btn_yes"/></td>
+				</tr>
+			</table>
+			</form>
+			<div class="cleardiv10"></div>
+		</div>
+	</div>
+</div>
+<script>
+    var num = 0 ;
+
+    $('#schooltag>li>a').live('click',function(){
+		if($(this).attr('stop')==0){
+			var attr1=$(this).next().attr('num');
+			$(this).next().val(attr1);
+			var tag = $(this).attr('tag');
+			$(this).next().next().html('<input name="schooltagid[]" type="hidden"  value='+tag+' />' );
+			num++;
+			$(this).addClass("this");
+			$(this).next().show();
+			$(this).attr('stop','1');
+		}else{
+			$(this).next().next().html('');
+			$(this).removeClass("this");
+			$(this).next().hide();
+			$(this).next().val(0);
+			$(this).attr('stop','0');
+		}
+    });
+
+    $('#taglx>li>a').live('click',function(){
+        var attr1=$(this).next().attr('num');
+        $(this).next().val(attr1);
+        var tag = $(this).attr('tag');
+        $("#taglx>li>input[type='hidden']").remove();
+        $(this).after('<input name="lx" type="hidden"  value='+tag+' />' )
+        num++;
+        $('#taglx>li>a').removeClass("this");
+        $(this).addClass("this");
+        $('#taglx>li>img').hide();
+        $(this).next().next().show();
+		if($(this).attr('stop')==1){
+			$('ul#schooltag,#cj_tittle').hide();
+			$('#schooltag>li>a').removeClass('this').attr('stop','0');
+			$('#schooltag>li>img').hide();
+			$('#schooltag>li>div.input_hidden').html('');
+		}else{
+			$('ul#schooltag,#cj_tittle').show();
+		}
+    });
+
+    function search(){
+        if($('#taglx>li>a').is('.this')){
+
+        }else{
+            layer.open({
+                content: '大学类型必须选择一项'
+                ,shadeClose: false
+                ,btn: '我知道了'
+            });
+            return false;
+        }
+    }
+
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/aggregate/school_search',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/aggregate/school_search',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+{/block}
+
+{block name='menu'}
+
+{/block}
+
+

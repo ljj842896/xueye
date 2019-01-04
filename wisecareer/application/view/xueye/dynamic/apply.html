@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link href="/static/xueye/css/user_info.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.danxuan>li, .duoxuan>li {
+			line-height: normal;
+			padding: 5px 2%;
+			height: 40px;
+		}
+	</style>
+</head>
+<body>
+
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">我的订阅</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+<!-- user-info  -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+			<h2 style="text-align: center;font-size: 16px;color: #666;padding: 15px 0">订阅科目：<span id="obj">{$liluntpname}</span></h2>
+		</div>
+		<div class="cleardiv5" style="background: #ebebeb"></div>
+		<div class="auth inner">
+			<div class="cleardiv5"></div>
+			<h3 class="title">订阅时间</h3>
+			<ul class="danxuan clear">
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" num="120" yue="12">12 月</a><img src="//www.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" num="60" yue="6">6 月</a><img src="//www.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" num="30" yue="3">3 月</a><img src="//www.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" num="10" yue="1">1 月</a><img src="//www.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<!--<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" num="0" class="other">其他金额</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>-->
+				<!--<li><input type="number" step="1" max="999" min="0" class="money_text" style="display: none"/></li>-->
+			</ul>
+			<div class="cleardiv10"></div>
+			<p style="color: #f00;padding-left: 5px">提示：年度会员（职拓粉儿）将获赠2个学科动态的订阅服务。节省80%，还可独享“我关注的数据”！</p>
+			<div class="cleardiv10"></div>
+			<!--<h5>到期时间 <span class="floatright"><span>{$mycaccount.xy_e_time|date_format:"Y-m-d"}</span></span></h5>-->
+			<h5>可用余额：<span style="font-weight: bold;">{$mycaccount.money}</span> 职拓币 <span class="floatright"><input type="button" value="充&nbsp;值" id="recharge"  onclick="location.href='/user/auth'"/></span>
+			</h5>
+			<h5>本次消费 <span class="floatright"><span class="font_red"><span id="money">0</span> </span> 职拓币</span></h5> 
+			<input type="button" value="确&nbsp;&nbsp;认" class="btn_yes recharge" style="margin: 20px auto"/>
+			<div class="cleardiv20"></div>
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+</div>
+<script>
+	var stop=false;
+	var money='';
+	var obj=document.getElementById('obj').innerHTML;
+	$('.danxuan>li>a').click(function(){
+		var num=$(this).attr('num');
+		money=$(this).attr('yue');
+//		$('.money_text').hide();
+		$('.danxuan>li>a').removeClass('this');
+		$('.danxuan>li>img').hide();
+		$(this).addClass("this");
+		$(this).next().show();
+		$('#money').html(num);
+		stop=true;
+	});
+	//	$('.danxuan>li>a.other').click(function(){
+	//		$('.money_text').show();
+	//	})
+	//	$('.money_text').bind('input propertychange', function() {
+	//		$('#money').html($(this).val());
+	//	});
+	$(".recharge").click(function(){
+		if(stop==false){
+			layer.open({
+				content: '请选择订阅时间'
+				,shadeClose: false
+				,btn: '我知道了'
+			});
+		}else{
+			layer.open({
+				content: '您确定订阅 '+money+' 个月的 '+obj+'动态 吗？'
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					var money= parseInt($('#money').html());
+					var did = getUrlParam("classid");
+					var uid= localStorage.CURRENT_USER_ID
+
+					$.ajax({
+						type:"POST",
+						url:WEB_API_URL+"dynamic/subjectadd?",
+						data:"token="+uid+"&money="+money+"&classid="+did,
+						cache:false, //不缓存此页面
+						success:function(data){
+							if(data.status==0){
+								layer.open({
+									content: data.msg
+									,shadeClose: false
+									,btn: '知道了',
+									yes:function(index){
+										location.href='/dynamic/index/'
+										layer.close(index);
+									}
+								});
+							}else{
+								layer.open({
+									content: '抱歉！你的职拓币余额不足，请先充值'
+									,btn: ['去充值', '取消']
+									,shadeClose: false
+									,yes: function(index){
+										window.location.href='/user/auth'
+										layer.close(index);
+									}
+								});
+//								layer.open({
+//									content: data.msg
+//									,shadeClose: false
+//									,btn: '我知道了'
+//								});
+							}
+						}
+					});
+					return false;
+				}
+			});
+		}
+
+
+	});
+</script>
+<!-- nav -->
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/dynamic/apply.html');
+	});
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/dynamic/apply',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/dynamic/apply',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

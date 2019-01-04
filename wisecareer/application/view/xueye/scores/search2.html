@@ -1,0 +1,218 @@
+{extend name="layout/layout" }
+	{block name="link"} 
+		<link href="__XUEYE__/css/aggregate.css" type="text/css" rel="stylesheet" />
+        <link rel="stylesheet" href="/static/public/css/layui.css"  media="all"> 
+	<script src="__XUEYE__/js/city.js"></script> 
+    <script src="/static/public/js/layui.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		p#shuoming{
+			border-top: 1px solid #ebebeb;
+			padding: 10px 5px;
+			font-size: 12px;
+			color: #666;
+			line-height: 20px;
+		}
+	</style>
+{/block}
+<!-- head -->
+{block name='head'}
+<div id="dHead" style="position: fixed;top: 0;left: 0;z-index: 300;">
+	<div class="head">
+		<h1 style="margin: 0">大学分数线</h1>
+		<a href="/scores/index" class="return"><i class="return-right"></i></a>
+		<a href="/index/index.html" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle;width: 25px"/></a>
+
+	</div>
+</div>
+{/block}
+<!-- home -->
+{block name='content'}
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+					<div class="inner school">
+						<form method="GET" action="/scores/result2.html" onsubmit="return search()">
+							<table width="100%">
+								<tr>
+									<td style="line-height:10px">&nbsp;</td>
+								</tr>
+								<tr>
+									<td>选择地区：</td>
+								</tr>
+								<tr>
+									<td>
+										<select name="city" id="city">
+											<option value="0" >请选择</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td style="line-height: 10px">&nbsp;</td>
+								</tr>
+								<tr>
+									<td>选择时间：</td>
+								</tr>
+								<tr>
+									<td>
+										<select name="year" id="year">
+											<option value="0" >请选择</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td style="line-height: 10px">&nbsp;</td>
+								</tr>
+								<tr>
+									<td>文/理：</td>
+								</tr>
+								<tr>
+									<td>
+										<ul class="danxuan clear" id="wl">
+											<li><a href="javascript:void(0);" tag="3" style="display: block;padding:0;text-align: center" >文科</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+											<li><a href="javascript:void(0);" tag="26" style="display: block;padding:0;text-align: center"  >理科</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td style="line-height:10px">&nbsp;</td>
+								</tr>
+								<tr>
+									<td>选大学：</td>
+								</tr>
+								<tr>
+									<td><input type="text" placeholder="请输入大学" class="fill_in" name="titlename" value=""/></td>
+								</tr>
+								<tr>
+									<td style="line-height: 10px">&nbsp;</td>
+								</tr>
+								<tr>
+									<td><input  type="submit" value="搜索" class="btn_yes"/></td>
+								</tr>
+								<tr>
+									<td ><p id="shuoming">特别说明：<br/>
+										＊  本模块为测试版（省控线除外）。<br/>
+										＊  本模块目前只为“山西”、“山东”、“福建”三地考生提供志愿填报服务，其它省份将陆续开放。</p></td>
+								</tr>
+							</table>
+							<div class="cleardiv20"></div>
+						</form>
+					</div>
+				</div>
+</div>
+
+
+<script>
+	$(function(){
+		isHaveLogin('/scores/search2');
+	});
+</script>
+ 
+<script>
+	$('#wl>li>a').click(function(){
+		var attr1=$(this).next().attr('num');
+		$(this).next().val(attr1);
+		var tag = $(this).attr('tag');
+		$("#wl>li>input[type='hidden']").remove();
+		$(this).after('<input name="lx" type="hidden"  value='+tag+' />' );
+		$('#wl>li>a').removeClass("this");
+		$(this).addClass("this");
+		$('#wl>li>img').hide();
+		$(this).next().next().show();
+	});
+	$.ajax({ url:WEB_API_URL + "classnamel/city?" , async: false,data:{scid:0}, success: function(json){
+		var str1='';
+		$.each(json.data, function (index, array) {
+			str1+='<option id="'+array['ar_id']+'" value="'+array['ar_id']+'">'+array['ar_name']+'</option>';
+		});
+		$('#city').append(str1);
+	}});
+
+	$.ajax({ url:WEB_API_URL + "classnamel/calsstype?" , async: false,data:{cid:16}, success: function(json){
+		var str1='';
+		$.each(json.data['16'], function (index, array) {
+			str1+='<option id="'+array['id']+'" value="'+array['id']+'">'+array['tpname']+'</option>';
+		});
+		$('#year').append(str1);
+	}});
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/scores/search2',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/scores/search2',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+ {/block} 
+  {block name='menu'}
+{/block}

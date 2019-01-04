@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//xueye.wisecareer.org/css/xueye/collection.css"/>
+	<link href="/static/xueye/css/user_info.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/public/js/jquery.mousewheel.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<link rel="stylesheet" href="/static/public/css/layui.css"  media="all">
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<body>
+<!-- head -->
+
+
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">关注高校</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+
+		<a href="/index/index.html" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle;width: 25px"/></a>
+	</div>
+
+<!-- home -->
+<div id="dBody" style="position: static;">
+	<div class="mycontent">
+		<div class="school_list">
+			<div class="cleardiv50" style="color: #ebebeb"></div>
+			<div id="content" style="background: #fff">
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="return_top"><img src="//xueye.wisecareer.org/images/xueye/return_top.png" alt="" /></div>
+
+
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/collection/index.html');
+	});
+</script>
+
+<script src="/static/public/js/layui.js"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+
+	var uid = localStorage.CURRENT_USER_ID;
+	Request = GetRequest();
+
+	var did = getUrlParam("did");
+	var titlename = decodeURI(GetQueryString("titlename"));
+
+	var vip=1;
+	//滚屏加载
+
+	//给窗口滚动事件绑定滚屏加载方法
+
+
+
+
+	function scrollLoad() {
+		var load_index =	layer.open({type: 2, shadeClose: false});
+
+
+
+		$.getJSON(WEB_API_URL + "school/schoolid_collection?"+Request, {token: uid}, function (json) {
+			layer.close(load_index);
+
+
+			var str1 = "";
+			if (json.data !='') {
+
+				$.each(json.data, function (index, array) {
+					str1 += "<table width=\"100%\" class=\"school\">";
+					str1 += "<tr><td width=\"20\"></td><td width=\"60\" rowspan=\"3\" align=\"center\" valign=\"middle\"><img src=\"http://pic.wisecareer.org/" + array['pic'] + "\" alt=\"\" width=\"100%\"/></td><td width=\"20\"></td>";
+					str1 += "<td style=\"font-size: 16px;line-height:24px;padding-bottom:5px\" onClick='goPermissionUrl(\"/jcyj/school_details.html?schoolid="+array['id']+"\");'>" + array['titlename'] + "</td></tr>";
+					str1 += "<tr><td width=\"20\"></td><td></td><td><span>" + array['scname'] + "</span>&nbsp;&nbsp;&nbsp;<span>" + array['sdname'] + "</span>";
+					str1 += "<span class='floatright close'> <a style='margin-top: 4px;display: block' class='this' id='"+array['id']+"' ><i class='icon-star'></i>&nbsp;&nbsp;&nbsp;&nbsp;</a></span></td></tr><tr><td width=\"20\"></td> <td></td> <td class=\"dxbq\">";
+
+					if(array['tagid']==''){
+
+					}else{
+						var arr1 = array['tagid'];
+						for (var n = 0; n < arr1.length; n++) {
+							str1 += "<span class='bianqian'>" + arr1[n] + "</span>";
+						}
+					}
+					str1 += "</td></tr></table>";
+
+				});
+
+			} else {
+				str1 += "<table width=\"100%\" style=\'padding: 10px 0;border: none\'><tr><td align=\'center\' style='border: none'>无关注高校</td></tr></table>";
+
+			}
+			$('#content').append(str1);
+		});
+
+	}
+
+
+	scrollLoad();
+
+
+	if(vip==0){
+	}else{
+
+		var winH = $(window).height(); //页面可视区域高度
+		$(window).scroll(function () {
+			var pageH = $(document).height();
+			var scrollT = $(window).scrollTop(); //滚动条top
+			var aa = (pageH - scrollT) ;
+			if (tab1_i == 0) {
+				return false;
+				$(window).scroll()
+			}
+
+			if (aa ==winH) {
+				scrollLoad();
+
+			}
+		});
+
+	}
+
+
+	var UA = window.navigator.userAgent;  //使用设备
+	var CLICK = "click";
+	if (/ipad|iphone|android/.test(UA)) {   //判断使用设备
+		CLICK = "tap";
+	}
+
+
+	var UA = window.navigator.userAgent;  //使用设备
+	var CLICK = "click";
+	if (/ipad|iphone|android/.test(UA)) {   //判断使用设备
+		CLICK = "tap";
+	}
+
+	$('.return_top').click(function(){
+		window.scrollTo(0,0);
+		$(this).hide();
+	})
+	$(document).mousewheel(function(event) {
+		if($(document).scrollTop()>600){
+			$('.return_top').show();
+		}else{
+			$('.return_top').hide();
+		}
+//		alert($(document).scrollTop());
+
+	});
+
+	$('.close>a').live('click',function(){
+
+		var uid = localStorage.CURRENT_USER_ID;
+		var schoolid = $(this).attr('id');
+		var majorid = $(this).attr('id');
+		var ma_id = $(this);
+
+			if(localStorage.CURRENT_USER_VIP==0){
+				UserVip2();
+			}else{
+				layer.open({
+					content: '你确定取消关注的高校吗？'
+					,btn: ['确定', '取消']
+					,shadeClose: false
+					,yes: function(index){
+						$.ajax({
+							type:"POST",
+							url:WEB_API_URL+"school/collection_add?",
+							data:"token="+uid+"&schoolid="+schoolid,
+							cache:false, //不缓存此页面
+							success:function(data){
+								if(data.status==0){
+									if(ma_id.is('.this')){
+										ma_id.attr('class','');
+										ma_id.parent().parent().parent().parent().parent().remove();
+									}
+								}
+							}
+						});
+						//return false;
+						layer.close(index);
+					}
+				});
+			}
+
+
+	})
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/collection/index',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/collection/index',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

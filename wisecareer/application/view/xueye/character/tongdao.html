@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		table.character tr td{
+			font-size: 14px;
+			padding: 5px 0;
+			color: #666;
+		}
+		#button{
+			width: 80px;
+			height: 36px;
+			text-align: center;
+			line-height: 36px;
+			border-radius: 5px;
+			color: #fff;
+			background: #00bb0c;
+			-webkit-appearance:none;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">性格测评</h1>
+		<a href="javascript:tishi()" class="return"><i class="return-right"></i></a>
+	</div>
+<link href="/static/xueye/css/message.css" type="text/css" rel="stylesheet" />
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+			<div class="message clear">
+				<ul>
+					<li>&nbsp;</li>
+					<li style="text-align: center"><input type="button" value="进入测评" onclick="location.href='reg.asp'"/></li>
+					<li>&nbsp;</li>
+					<li>&nbsp;</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="cleardiv50"></div>
+</div>
+
+<div id="dFoot">
+	<div class="body-nav">
+		<ul>
+			<li><a  onclick="location.href='/index/index/'"><i class="icon-nav-1"></i>首页</a></li>
+			<li><a onClick="goPermissionUrl('/message/index.html');"><i class="icon-nav-2"></i>消息</a></li>
+			<li><a onClick="goPermissionUrl('/user/index.html');"><i class="icon-nav-5"></i>个人中心</a></li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/character/tongdao');
+	});
+
+	$('ul.danxuan>li>a').click(function(){
+//		var attr1=$(this).next().attr('num');
+//		$(this).next().val(attr1);
+//		var tag = $(this).attr('tag');
+//		$("#taglx>li>input[type='hidden']").remove();
+//		$(this).after('<input name="lx" type="hidden"  value='+tag+' />' )
+//		num++;
+		$('ul.danxuan>li>a').removeClass("this");
+		$(this).addClass("this");
+		$('ul.danxuan>li>img').hide();
+		$(this).next().show();
+	});
+
+	function GetRequest() {
+		var url = location.search; //获取url中"?"符后的字串
+
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			return str;
+		}
+	}
+
+function tishi(){
+	layer.open({
+		content: '你的性格测评尚未完成。确定要退出吗？如选择退出，下次进入将从本次中断的地方继续。'
+		,btn: ['确定', '取消']
+		,yes: function(index){
+			window.location.href="/character/notice"
+		}
+	});
+}
+
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/character/tongdao',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/character/tongdao',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

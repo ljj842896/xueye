@@ -1,0 +1,215 @@
+{extend name="layout/layout" }
+	{block name="link"} 
+		<link href="__XUEYE__/css/aggregate.css" type="text/css" rel="stylesheet" />
+        <link rel="stylesheet" href="/static/public/css/layui.css"  media="all"> 
+	<script src="__XUEYE__/js/city.js"></script> 
+    <script src="/static/public/js/layui.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.major table td {
+			 border-bottom: none;
+			font-size: 16px;
+		}
+		p#shuoming{
+			padding: 0 5px;
+			font-size: 12px;
+			color: #00bb0c;
+			line-height: 20px;
+			text-indent: 24px;
+		}
+	</style>
+
+{/block}
+<!-- head -->
+{block name='head'}
+
+<div id="dHead" style="position: fixed;top: 0;left: 0;z-index: 300">
+	<div class="head">
+		<h1 style="margin: 0">志愿填报</h1>
+		<a href="/index/index" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+{/block}
+<!-- home -->
+{block name='content'}
+<div id="dBody">
+	<div class="cleardiv55"></div>
+	<div class="inner major">
+		<div class="cleardiv10"></div>
+		<div class="cleardiv5"></div>
+		<table width="100%">
+			<tr>
+				<td colspan="2">&nbsp;</td>
+			</tr>
+			
+			<tr>
+				<td width="50%" align="center" onclick="location.href='/scores/search1'"><img src="__XUEYE__/images/icon/zytb_icon1.png" alt=""/><br/>省控线<br/></td>
+				<td width="50%" align="center" onclick="location.href='/scores/search4'"><img src="__XUEYE__/images/icon/zytb_icon2.png" alt=""/><br/>大学分数线<br/></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="line-height: 40px">&nbsp;<br/></td>
+			</tr>
+			<tr>
+				<td align="center" onclick="location.href='/scores/search3'"><img src="__XUEYE__/images/icon/zytb_icon3.png" alt=""/><br/>知分选大学<br/></td>
+				<td align="center" onclick="location.href='/scores/search5'"><img src="__XUEYE__/images/icon/zytb_icon4.png" alt=""/><br/>知位选大学<br/></td>
+			</tr>
+			<tr>
+				<td colspan="2" style="line-height: 50px">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center" style="font-weight:bold;color:#00bb0c;line-height: 30px;background: url('__XUEYE__/images/shuomingbg.png') no-repeat center center">特别说明</td>
+			</tr>
+			<tr>
+				<td colspan="2" style="line-height: 10px">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<p id="shuoming">“知分选大学”和“知位选大学”目前只面向“北京”、“山西”、“山东”、“福建”、“海南”、“湖南”六省考生开放。其它省份将陆续开放。</p>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2" style="line-height: 30px">&nbsp;</td>
+			</tr>
+		</table>
+		<!--<h5 onclick="location.href='/scores/search1'">省控线</h5>-->
+		<!--<h5 onclick="location.href='/scores/search4'">大学分数线</h5>-->
+		<!--&lt;!&ndash;<h5 onclick="location.href='/scores/search2'">专业分数线</h5>&ndash;&gt;-->
+		<!--<h5 onclick="location.href='/scores/search3'">知分选大学</h5>-->
+		<!--<h5 onclick="location.href='/scores/search5'">知位选大学</h5>-->
+		<div class="cleardiv20"></div>
+	</div>
+</div>
+ 
+<script>
+	$(function(){
+		isHaveLogin('/scores/index');
+	});
+</script>
+
+<script src="//www.wisecareer.org/js/xueye/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+
+	layui.use('element', function(){
+		var $ = layui.jquery
+				,element = layui.element(); //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+		//触发事件
+		var active = {
+			tabAdd: function(){
+				//新增一个Tab项
+				element.tabAdd('demo', {
+					title: '新选项'+ (Math.random()*1000|0) //用于演示
+					,content: '内容'+ (Math.random()*1000|0)
+					,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+				})
+			}
+			,tabDelete: function(othis){
+				//删除指定Tab项
+				element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+				othis.addClass('layui-btn-disabled');
+			}
+			,tabChange: function(){
+				//切换到指定Tab项
+				element.tabChange('demo', '22'); //切换到：用户管理
+			}
+		};
+
+		$('.site-demo-active').on('click', function(){
+			var othis = $(this), type = othis.data('type');
+			active[type] ? active[type].call(this, othis) : '';
+		});
+
+		//Hash地址的定位
+		var layid = location.hash.replace(/^#test=/, '');
+		element.tabChange('test', layid);
+		element.on('tab(test)', function(elem){
+			location.hash = 'test='+ $(this).attr('lay-id');
+		});
+	});
+
+
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/scores/index',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/scores/index',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+{/block}
+{block name='menu'}
+
+{/block}

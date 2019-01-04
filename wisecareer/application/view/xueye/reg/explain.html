@@ -1,0 +1,248 @@
+
+	{extend name="layout/layout" }
+
+	{block name="link"}
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script>
+		$(document).ready(function(){
+			$("#phone").focus(function(){
+				$(this).next().html("");
+				$(this).next().hide();
+			});
+			$('#phone').bind('blur',function(){
+				var tel = $("#phone").val();
+
+				var parent = $(this).parent();
+				for(var i=0;i<11;i++){
+					var str= tel.substring(i,i+1);
+					if(isNaN(str)){
+						$(this).next().html("输入必须为数字");
+						$(this).next().show();
+					}
+				}
+				if(tel.length==0){
+					$(this).next().html("输入号码不能为空");
+					$(this).next().show();
+				}else if(tel.length>11||tel.length<11){
+					$(this).next().html("输入号码为11位");
+					$(this).next().show();
+				}
+
+			});
+
+			$("#mm").focus(function(){
+				$(this).next().html("");
+				$(this).next().hide();
+			})
+			$("#mm").blur(function(){
+				var psw = $("#mm").val();
+				if(psw==""){
+					$(this).next().html("不能为空");
+					$(this).next().show();
+					return;
+				}
+				if(psw.length<6||psw.length>16){
+					$(this).next().html("密码为6-16个字符");
+					$(this).next().show();
+					return;
+				}
+			})
+			$("#qrmm").focus(function(){
+				$(this).next().html("");
+				$(this).next().hide();
+			})
+			$("#qrmm").blur(function(){
+				var psw1 = $("#qrmm").val();
+				if(psw1!=$("#mm").val()){
+					$(this).next().html("必须与密码相同");
+					$(this).next().show();
+					return;
+				}
+				if(psw1==""){
+					$(this).next().html("不能为空");
+					$(this).next().show();
+					return;
+				}
+			})
+
+		})
+	</script>
+	<style>
+		.login_tishi{
+			right: 5px;
+		}
+		#myform>ul>li{
+			position: relative;
+		}
+		#gongyue p{font-size: 14px;color: #666;line-height: 20px;text-indent: 28px;}
+		#gongyue h3{font-size: 14px;line-height: 30px;font-weight: bold;color: #666;}
+		h3.title {
+			line-height: 40px;
+			font-size: 16px;
+		}
+	</style>
+	{/block}
+
+	{block name='head'}
+	<div id="dHead" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<div class="head">
+			<h1 style="margin: 0">选择账号类型</h1>
+			<a href="/login/index" class="return"><i class="return-right"></i></a>
+		</div>
+	</div>
+	{/block}
+
+<!-- home -->
+    {block name="content"}
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+			<div class="cleardiv10"></div>
+			<table width="100%" id="mfzc">
+				<tr>
+					<td colspan="2">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="50%" align="center" onclick="location.href='/reg/index'"><img src="__XUEYE__/images/icon/zc_icon1.png" alt=""/><br/>个人用户<br/></td>
+					<td width="50%" align="center" onclick="location.href='/reg/school'"><img src="__XUEYE__/images/icon/zc_icon2.png" alt=""/><br/>学校用户<br/></td>
+				</tr>
+
+
+				<!--<tr>-->
+					<!--<td colspan="2" style="line-height: 50px">&nbsp;</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td colspan="2" align="center" style="font-weight:bold;color:#00bb0c;line-height: 30px;background: url('__XUEYE__/images/shuomingbg.png') no-repeat center center">特别说明</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td colspan="2" style="line-height: 10px">&nbsp;</td>-->
+				<!--</tr>-->
+				<!--<tr>-->
+					<!--<td colspan="2">-->
+						<!--<p id="shuoming">“知分选大学”和“知位选大学”目前只面向“北京”、“山西”、“山东”、“福建”、“海南”、“湖南”六省考生开放。其它省份将陆续开放。</p>-->
+					<!--</td>-->
+				<!--</tr>-->
+
+
+				<tr>
+					<td colspan="2" style="line-height: 30px">&nbsp;</td>
+				</tr>
+			</table>
+
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+	var stop=false;
+	var id = getUrlParam("id");
+	var obj='';
+	$('.danxuan>li>a').click(function(){
+		stop=true;
+		obj=$(this).attr('obj');
+//		$('.money_text').hide();
+		$('.danxuan>li>a').removeClass('this');
+		$('.danxuan>li>img').hide();
+		$(this).addClass("this");
+		$(this).next().show();
+	});
+
+    function Verify() {
+		if(stop==true){
+			location.href = "/reg/index?obj="+obj;
+		}else{
+			layer.open({
+				content: '请选择账号类型！',
+				btn: '我知道了',
+				shadeClose: false
+			});
+		}
+	}
+
+
+
+</script>
+
+	<script>
+		wx.config({
+			debug: false,//关闭调试模式
+			appId: '{$signPackage["appId"]}',
+			timestamp: {$signPackage["timestamp"]},
+			nonceStr: '{$signPackage["nonceStr"]}',
+			signature: '{$signPackage["signature"]}',
+			/*appId: 'xxxxxx',
+			 timestamp: xxxxx,
+			 nonceStr: 'xxxxx',
+			 signature: 'xxxxx',*/
+
+			jsApiList: [
+				// 所有要调用的 API 都要加到这个列表中
+				'checkJsApi',
+				'onMenuShareTimeline',
+				'onMenuShareAppMessage',
+				'onMenuShareQQ'
+			]
+		});
+		wx.ready(function () {
+
+			// 2. 分享接口
+			// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+			wx.onMenuShareAppMessage({
+				title: '智能学业e站，您身边的生涯规划专家！',
+				desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+				link: 'http://xy.wisecareer.org/reg/explain',
+				imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+				trigger: function (res) {
+					// alert('用户点击发送给朋友');
+				},
+				success: function (res) {
+					//alert('已分享');
+					//   window.location.href = 'http://m.duolehuan.com/';
+				},
+				cancel: function (res) {
+					//alert('已取消');
+				},
+				fail: function (res) {
+					//alert(JSON.stringify(res));
+				}
+			});
+
+			// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+			wx.onMenuShareTimeline({
+				title: '快来学业e站吧！',
+				desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+				link: 'http://xy.wisecareer.org/reg/explain',
+				imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+				trigger: function (res) {
+					// alert('用户点击分享到朋友圈');
+				},
+				success: function (res) {
+					//alert('已分享');
+					//window.location.href = '';
+				},
+				cancel: function (res) {
+					//alert('已取消');
+				},
+				fail: function (res) {
+					//alert(JSON.stringify(res));
+				}
+			});
+		});
+
+		function hide(){
+			$('.show_hide').hide();
+		}
+
+		function show(){
+			$('.show_hide').show();
+		}
+	</script>
+    {/block}
+{block name="menu"}
+    {/block}

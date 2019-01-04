@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.character>p{
+			font-size: 14px;
+			padding-bottom: 5px;
+			color: #666;
+			text-indent: 28px;
+			background: url("__XUEYE__/images/icon/duanluo_icon.png") no-repeat left top;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">性格测评须知</h1>
+		<a href="/character/guide" class="return"><i class="return-right"></i></a>
+	</div>
+
+<link href="/static/xueye/css/message.css" type="text/css" rel="stylesheet" />
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner character">
+			<div class="cleardiv10"></div>
+			<table width="100%">
+				<tr>
+					<td align="center">
+						<img src="/static/xueye/images/ceping1.png" alt=""/>
+					</td>
+				</tr>
+			</table>
+			<div class="cleardiv20"></div>
+			<p>了解自己的思维和行为习惯，发现隐藏在内心的动力与热情；倾听自己的声音，跟随自己内心的呼唤，陪伴自己的学业和心灵成长。</p>
+			<p>每个人都与其他人不同。每个人都有自己看待事物、分析事物以及行动的独特方式。正是由于人们在思想、感情、行动诸多方面各具特色，存在着这样或那样的差别，这个世界才表现得如此多姿多彩，变化万千。</p>
+			<p>对自己和他人的行为、习惯、态度的逐步认识、理解和包容，是我们每个人开始走向社会、走向职业的起点。</p>
+			<p>每道测评题都无所谓对与错，好与坏，请根据你的直觉来进行判断。此外，答题过程需要一次完成，一旦中止必须重新开始。答题过程，不可后退，一旦提交不可修改。</p>
+			<p>你准备好了吗......</p>
+			<input type="button" value="开始测评" id="start" class="btn_yes" onclick="start()"/>
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/character/notice');
+	});
+	function GetRequest() {
+		var url = location.search; //获取url中"?"符后的字串
+
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			return str;
+		}
+
+	}
+
+
+
+	var uid = localStorage.CURRENT_USER_ID;
+	var Request = GetRequest();
+	var  fanhui= getUrlParam("return");
+	var cpid='';
+//	var load_index =layer.open({type: 2, shadeClose:	false ,content: '加载中'});
+
+
+	if(fanhui==2){
+		$('a.return').attr('href','javascript:history.go(-1)')
+	}
+
+	$.ajax({ url:WEB_API_URL + "character/transfer?",async: false, dataType: 'json',data:{token: uid}, success: function(json){
+		if(json.status==15012){
+			window.location.href='/character/see';
+		}else if(json.status==22001) {
+			$('#start').attr('onclick','UserVip2();');
+		}
+	}});
+
+
+	$.getJSON(WEB_API_URL + "user/xygetuser?", {'token': uid}, function (json) {
+		if(json.data.ots!=0){
+			window.location.href='/character/see/';
+		}
+	})
+
+
+	function start(){
+		$.ajax({ url:WEB_API_URL + "character/transfer?",async: false, dataType: 'json',data:{token: uid}, success: function(json){
+			 if(json.status== 22001 ){
+ 				 $('#start').attr('onclick','UserVip2();');
+ 			}else{
+				   window.location.href='/character/index';
+		 }
+		}});
+
+	}
+	
+	
+ 
+	
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/character/notice',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/character/notice',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

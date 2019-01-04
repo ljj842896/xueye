@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="http://www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="http://www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="http://www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="http://www.wisecareer.org/css/zhituo/layui.css"  media="all">
+	<link rel="stylesheet" href="http://www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script type="text/javascript" src="/static/zhituo/js/base.min.js"></script>
+	<script type="text/javascript" src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		h3.title{
+			line-height: 40px;
+			font-size: 16px;
+		}
+		div#box1 label span{
+			line-height: 28px;
+			font-size: 14px;
+			color: #666;
+		}
+		div#box1>h2{
+			font-size: 16px;
+			line-height: 30px;
+			padding: 15px 10px 0;
+			border-bottom: 1px solid #ebebeb;
+			margin-bottom: 5px;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">我的体验套餐</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+		<!--<a href="javascript:save()" id="screen_btn" style="position: fixed">保存</a>-->
+	</div>
+</div>
+
+<div id="dBody">
+	<div class="mycontent experience" style="height:100%;margin: 0">
+
+		<div class="cleardiv50"></div>
+		<div class="inner">
+			<div id="box1" class="clear"></div>
+			<div class="cleardiv20"></div>
+			<input type="button" class="tijiao" value="下一步"  onclick="next()"/>
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+</div>
+<script>
+	$(function(){
+		isHaveLogin('/experience/set2');
+	});
+</script>
+<script src="http://www.wisecareer.org/js/xueye/layui.js"></script>
+<script>
+
+	Request = GetRequest();
+	var eid = localStorage.CURRENT_USER_ID;
+	var tpid = getUrlParam("tpid");
+	var num = getUrlParam("num");
+	var count = 0;
+
+	$.ajax({ url:WEB_API_URL + "experience/aislelable?" + Request, async: false,data:{token: eid}, success: function(json){
+		var data=json.data;
+		var str1='<h2>请选择 '+num+' 个体验主题（行业/岗位/专题）</h2>';
+		var name='';
+		if(num==0){
+			$.each(data.hangye, function (index, array) {
+				if(array.language==2){name=array['tpname']+' (中/英)'}else{name=array['tpname']}
+				str1 +='<div style="padding-left:3%;width: 47%;float: left;"><label for="hy'+array['tpid']+'"><input type="checkbox"  id="hy'+array['tpid']+'" value="hangye_'+array['tpid']+'"  name="show_hide_1"/><span style="padding-left: 5%">'+name+'</span></label></div>';
+			});
+			str1 +='<div class="clear"></div>';
+			$.each(data.lx, function (index, array) {
+				if(array.language==2){name=array['tpname']+' (中/英)'}else{name=array['tpname']}
+				str1 +='<div style="padding-left:3%;width: 47%;float: left;"><label for="lx'+array['id']+'"><input type="checkbox"  id="lx'+array['id']+'" value="lx_'+array['id']+'"  name="show_hide_1"/><span style="padding-left: 5%">'+name+'</span></label></div>';
+			});
+			str1 +='<div class="clear"></div>';
+			$.each(data.zhuanti, function (index, array) {
+				if(array.language==2){name=array['tpname']+' (中/英)'}else{name=array['tpname']}
+				str1 +='<div style="padding-left:3%;width: 47%;float: left;"><label for="zt'+array['id']+'"><input type="checkbox"  id="zt'+array['id']+'" value="zhuanti_'+array['id']+'"  name="show_hide_1"/><span style="padding-left: 5%">'+name+'</span></label></div>';
+			});
+			count = 29;
+			window.location.href='/experience/set3?tpid='+tpid;
+		}else{
+			$.each(data.hangye, function (index, array) {
+				if(array['has']==0&&num!=0){
+					if(array.language==2){name=array['tpname']+' (中/英)'}else{name=array['tpname']}
+					str1 +='<div style="padding-left:3%;width: 47%;float: left;"><label for="hy'+array['tpid']+'"><input type="checkbox"  id="hy'+array['tpid']+'" value="hangye_'+array['tpid']+'"  name="show_hide_1"/><span style="padding-left: 5%">'+name+'</span></label></div>';
+				}else{
+					if(array.language==2){name=array['tpname']+' (中/英)'}else{name=array['tpname']}
+					str1 +='<div style="padding-left:3%;width: 47%;float: left;"><label for="hy'+array['tpid']+'"><input checked type="checkbox"  id="hy'+array['tpid']+'" value="hangye_'+array['tpid']+'"  name="show_hide_1"/><span style="padding-left: 5%">'+name+'</span></label></div>';
+					count ++;
+				}
+				});
+			str1 +='<div class="clear"></div>';
+			$.each(data.lx, function (index, array) {
+				if(array['has']==0&&num!=0){
+					if(array.language==2){name=array['tpname']+' (中/英)'}else{name=array['tpname']}
+					str1 +='<div style="padding-left:3%;width: 47%;float: left;"><label for="lx'+array['id']+'"><input type="checkbox"  id="lx'+array['id']+'" value="lx_'+array['id']+'"  name="show_hide_1"/><span style="padding-left: 5%">'+name+'</span></label></div>';
+				}else{
+					if(array.language==2){name=array['tpname']+' (中/英)'}else{name=array['tpname']}
+					str1 +='<div style="padding-left:3%;width: 47%;float: left;"><label for="lx'+array['id']+'"><input checked type="checkbox"  id="lx'+array['id']+'" value="lx_'+array['id']+'"  name="show_hide_1"/><span style="padding-left: 5%">'+name+'</span></label></div>';
+					count ++;
+				}
+				});
+			str1 +='<div class="clear"></div>';
+			$.each(data.zhuanti, function (index, array) {
+				if(array['has']==0&&num!=0){
+					if(array.language==2){name=array['tpname']+' (中/英)'}else{name=array['tpname']}
+					str1 +='<div style="padding-left:3%;width: 47%;float: left;"><label for="zt'+array['id']+'"><input type="checkbox"  id="zt'+array['id']+'" value="zhuanti_'+array['id']+'"  name="show_hide_1"/><span style="padding-left: 5%">'+name+'</span></label></div>';
+				}else{
+					if(array.language==2){name=array['tpname']+' (中/英)'}else{name=array['tpname']}
+					str1 +='<div style="padding-left:3%;width: 47%;float: left;"><label for="zt'+array['id']+'"><input checked type="checkbox"  id="zt'+array['id']+'" value="zhuanti_'+array['id']+'"  name="show_hide_1"/><span style="padding-left: 5%">'+name+'</span></label></div>';
+					count ++;
+				}
+				});
+		}
+		str1 +='<div class="clear"></div>';
+		$('div#box1').html(str1);
+		count = $("input[type='checkbox']:checked").length;
+		if(count-2>num){
+			$("input[type='checkbox']").attr('checked',false)
+		}
+	}})
+
+
+
+	function next(){
+
+		var obj = document.getElementsByName("show_hide_1");//选择所有name="interest"的对象，返回数组
+		var s='';//如果这样定义var s;变量s中会默认被赋个null值
+		for(var i=0;i<obj.length;i++){
+			if(obj[i].checked) //取到对象数组后，我们来循环检测它是不是被选中
+				s+=obj[i].value+',';   //如果选中，将value添加到变量s中
+		}
+		var aisle = s;
+		console.log(aisle);
+		if(count==0){
+			layer.open({
+				content: '选择体验通道'
+				,shadeClose: false
+				,btn: '我知道了'
+			});
+		}
+		else if(count<num){
+			layer.open({
+				content: '选择体验通道数未达到定制的'+num+'个'
+				,shadeClose: false
+				,btn: '我知道了'
+			});
+		}
+		else{
+			$.ajax({
+				url: WEB_API_URL+"experience/dopayzi",
+				type: 'POST',
+				dataType: 'json',
+				data: {token:eid,tpid:tpid,aisle:aisle},
+				async:false,
+				success: function (result){
+					if(result.status == 0) {
+						window.location.href='/experience/set3?tpid='+tpid;
+					}else{
+						layer.open({
+							content: result.msg
+							,shadeClose: false
+							,btn: '我知道了'
+						});
+					}
+				}
+			})
+		}
+	}
+
+
+
+	$('label').live('click',function(){
+		count = $("input[type='checkbox']:checked").length;
+		if(num==0){
+
+		}else if(count>num){
+			layer.open({
+				content: '你所选择的主题超过了'+num+'个，请重新选择。或回到前一页面更改体验主题数。'
+				,shadeClose: false
+				,btn: ['改主题数', '更改选择']
+				,yes: function(index){
+					window.location.href='/experience/set1?tpid='+tpid;
+					layer.close(index);
+				}
+			});
+			$(this).find("input[type='checkbox']").attr('checked',false)
+		}else{
+
+		}
+	})
+</script>
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>
+
+
+<script>
+
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/set2',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/set2',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>

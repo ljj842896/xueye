@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <script src="//xy.wisecareer.org/static/public/js/jquery-1.8.3.min.js"></script>
+    <script src="//xy.wisecareer.org/static/fx/js/com.min.js"></script>
+    <script src="//xy.wisecareer.org/static/fx/js/base.min.js"></script>
+    <script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+    <link rel="stylesheet" href="//xy.wisecareer.org/static/public/css/fx.css" id="ys"/>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <title></title>
+    <style>
+        h3{
+            font-size: 1.2rem;
+            line-height: 3rem;
+        }
+        ul#name_list>li{
+            font-size: 1rem;
+            line-height: 1.6rem;
+            text-indent: 2rem;
+        }
+        h4 {
+            text-indent: 2rem;
+        }
+        #name{
+            text-align: center;
+            font-size: 1.2rem;
+            line-height: 3rem;
+        }
+        #xy_content p{
+            font-size: 1rem;
+            text-indent: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="dHead">
+    <div class="head">
+        <h1 style="margin: 0">分销管理系统</h1>
+        <a href="javascript:history.go(-1)" class="return"><img src="http://www.wisecareer.org/images/zhituo/icon/return-right.png" alt="" style="width: 12px"/></a>
+    </div>
+</div>
+
+<div id="dBody">
+    <div class="cleardiv50"></div>
+    <div class="mycontent">
+        <div class="inner character">
+            <div class="cleardiv10"></div>
+            <table width="100%">
+                <tr>
+                    <td width="10" rowspan="2">&nbsp;</td>
+                    <td width="80" align="center" rowspan="2">
+                        <img src="//www.wisecareer.org/od/" id="pic" alt="" width="100" style="border: 2px solid #ebebeb;border-radius: 50%"/>
+                        <h3 id="name"></h3>
+                    </td>
+                    <td width="10" rowspan="2">&nbsp;</td>
+                </tr>
+            </table>
+            <div class="cleardiv5"></div>
+        </div>
+        <div class="cleardiv5"></div>
+        <div class="inner character">
+            <div class="cleardiv10"></div>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td>
+                        <h3 style="text-align: left;font-weight: normal;text-indent: 2rem;">只做职拓粉儿？不过瘾！</h3>
+                        <ul id="name_list">
+                            <li>为职拓代言，<div class="cleardiv5"></div></li>
+                            <li>大家一起“随时随地 职业体验”。<div class="cleardiv5"></div></li>
+                            <li>助人成长，助己成功！<div class="cleardiv5"></div></li>
+                        </ul>
+                        <div class="cleardiv5"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4>推广职拓E站（学业E站），只须分享自己的经销商二维码，就可以终身享受35%一级分销收益和15%的二级分销收益</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4 style="padding-top: 5px">你将成为第 <span style="color: red;font-size: 1.2rem" class="daiyan"></span> 位代言人！</h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-top: 10px">
+                        <div class="cleardiv10"></div>
+                        <h4><label for="xieyi"> <input type="checkbox" name="isagree" value="1" id="xieyi"/>&nbsp;&nbsp;经销商协议</label>&nbsp;&nbsp;<a onclick="gy_show()" style="text-decoration: underline">查看</a></h4>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 20px 0">
+                        <input type="button" value="我为职拓代言" class="btn_yes" onclick="checkForm();"/>
+                    </td>
+                </tr>
+            </table>
+            <div class="cleardiv20"></div>
+        </div>
+    </div>
+</div>
+
+
+<div class="show_hide" style="display: none">
+    <div class="class_content" style="background: none;padding: 0;overflow-y: scroll">
+        <div class="head" style="position: fixed;top: 0;left: 0;z-index: 1500">
+            <h1 id="gongyue_title" style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;"></h1>
+            <a href="javascript:gy_hide()" class="return"><i class="return-right"></i></a>
+        </div>
+        <div id="gongyue" style="margin:0 5px;background: #fff;overflow-y: scroll;min-height: 100%">
+            <div class="cleardiv55"></div>
+            <div id="xy_content" style="padding: 0 10px;"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var userid='{$userid}';
+    var uid = '{$token}';
+    var daiyan=0;
+    var sessiontype = '{$sessiontype}';
+
+    function scrollLoad(){
+        $.getJSON( WEB_API_URL +  "ajax/person?", {id:29}, function (json) {
+            var data=json.data;
+            var str1='';
+            str1+='<div class="cleardiv20"></div><p style="font-size: 1rem;text-indent: 2rem;line-height: 1.4rem">'+data['res']+'</p><div class="cleardiv20"></div><input type="button" class="btn_yes" id="xy_yes" value="确认" onclick="gy_yes();"/><div class="cleardiv20"></div><div class="cleardiv10"></div>';
+            $('#gongyue>div#xy_content').html(str1);
+            $('#gongyue_title').html(data['headlines']);
+        });
+    }
+    scrollLoad();
+
+    function gy_show(){
+        $('.show_hide').show();
+    }
+    function gy_hide(){
+        $('.show_hide').hide();
+    }
+    function gy_yes(){
+        $('.show_hide').hide();
+        $('#xieyi').attr('checked','checked');
+    }
+
+   function checkForm(){
+       if ($("input[name='isagree']").is(':checked')==false) {
+            layer.open({
+                content: '请先确认并勾选经销商协议。'
+                ,shadeClose: false
+                ,btn: '我知道了'
+            });
+            return false;/*阻止表单提交*/
+        }else {
+           layer.open({
+               content: '您确定要成为经销商吗？'
+               ,btn: ['确定', '取消']
+               ,shadeClose: false
+               ,yes: function(index){
+                   layer.close(index);
+                   $.ajax({
+                       url: "https://wapi.wisecareer.org/fenxiao/user_fx_become",
+                       type: 'POST',
+                       dataType: 'json',
+                       data: {token:uid,isagree:1 },
+                       async:false,
+                       success: function (result){
+                           if(result.status == 0) {
+                               layer.open({
+                                   content: '祝贺你成为第 '+parseInt(parseInt(result.data.sumcount)+parseInt(200))+' 位经销商！'
+                                   ,shadeClose: false
+                                   ,btn: '去我的主页'
+                                   ,yes: function(index){
+                                       window.location.href='http://fx.wisecareer.org/index/index.html';
+                                   }
+                               });
+                           }else{
+                               layer.open({
+                                   content: result.msg
+                                   ,shadeClose: false
+                                   ,btn: '我知道了'
+                               });
+                           }
+                       }
+                   })
+               }
+           });
+
+        }
+    }
+</script> 
+<script>
+    var userid='{$userid}';
+    var load_index =layer.open({type: 2, shadeClose: false});
+    var str1 = "";
+    $.ajax({ url:"https://wapi.wisecareer.org/fenxiao/myuserinfo?" , async: false,data:{token: uid}, success: function(json) {
+
+        var myuser=json.data.myuser;
+        var userretail=json.data.userretail;
+        var pic='';
+
+        if(myuser.userretailid==1){
+            window.location.href='http://fx.wisecareer.org/index/index.html';
+        }
+
+        if(myuser.pic==''){
+            pic='http://fx.wisecareer.org/static/fx/images/user-image.png';
+        }else{
+            pic='//www.wisecareer.org/od/'+myuser.pic;
+        }
+        
+        daiyan=parseInt(myuser.usertersum)+1;
+        $('span.daiyan').html(parseInt(myuser.usertersum)+1+200);
+        $('#name').html(myuser.user_name);
+        $('#pic').attr('src',pic);
+        layer.close(load_index);
+    }
+    });
+
+
+    var ys=document.getElementById("ys");
+    if(sessiontype==1){
+        ys.setAttribute("href","//xy.wisecareer.org/static/public/css/fx2.css");
+    }
+</script>
+
+
+<script>
+
+    wx.config({
+        debug: false,//关闭调试模式
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        /*appId: 'xxxxxx',
+         timestamp: xxxxx,
+         nonceStr: 'xxxxx',
+         signature: 'xxxxx',*/
+
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+    wx.ready(function () {
+
+        // 2. 分享接口
+        // 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+        wx.onMenuShareAppMessage({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://fx.wisecareer.org/index/distributor?userid='+userid,
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //   window.location.href = 'http://m.duolehuan.com/';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+
+        // 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://fx.wisecareer.org/index/distributor?userid='+userid,
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //window.location.href = '';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>分销管理系统</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="MobileOptimized" content="320"/>
+    <script src="//xy.wisecareer.org/static/public/js/jquery-1.8.3.min.js"></script>
+    <link rel="stylesheet" href="//xy.wisecareer.org/static/public/css/fx.css" id="ys"/>
+    <script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<style>
+    h3 {
+        font-weight: normal;
+    }
+</style>
+<body>
+
+<div id="dHead">
+    <div class="head">
+        <h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">申请提现</h1>
+        <a href="index.html" class="return"><img src="http://www.wisecareer.org/images/zhituo/icon/return-right.png" alt="" style="width: 12px"/></a>
+    </div>
+</div>
+
+
+<div id="dBody">
+    <div class="cleardiv50"></div>
+    <!--html5 nav-->
+    <div class="inner" style="padding: 5px">
+        <section class="m-component-user" id="m-user" style="background: none">
+            <table width="100%" style="height: 180px;">
+                <tr>
+                    <td colspan="4"><div class="cleardiv5"></div></td>
+                </tr>
+                <tr>
+                    <td width="10"></td>
+                    <td colspan="2" align="left"><div class="cleardiv5"></div><h3>可提现余额&nbsp;&nbsp;<span style="font-size: 2rem;color: red" id="money_num">{$usermoney}</span>&nbsp;元</h3><div class="cleardiv5"></div></td>
+                    <td width="10"></td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div class="cleardiv5"></div></td>
+                </tr>
+                <tr>
+                    <td width="10"></td>
+                    <td ><h3>请输入提现金额 </h3></td>
+                    <td style="font-size: 1.2rem;" align="right"> <input type="number" name="cash" min="100" id="tx_money" style="height: 24px;padding: 5px 5%;width: 70%;background: rgba(255,255,255,0.7);text-align: left"/>&nbsp;&nbsp;元</td>
+                    <td width="10"></td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div class="cleardiv20"></div></td>
+                </tr>
+
+                <tr>
+                    <td width="10"></td>
+                    <td colspan="2"><label for="weixin"><h4><img src="//www.wisecareer.org/images/xueye/icon/weixin_16.png" alt="" width="16" style="position: relative;top: 1px"/> &nbsp;&nbsp;&nbsp;微信 <span class="floatright"><input type="radio" name="txd" id="weixin" style="position: relative;top: 3px" checked/></span></h4></label></td>
+                    <td width="10"></td>
+                </tr>
+                <tr>
+                    <td colspan="4"><div class="cleardiv20"></div></td>
+                </tr>
+            </table>
+            <div class="cleardiv10"></div>
+            <table width="100%">
+                <tr>
+                    <td align="center">
+                        <input type="button" value="提&nbsp;&nbsp;现" class="btn_yes" onclick="tx()" style="margin: 0;display: inline-block"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="cash_list.html" style="display: inline-block;line-height: 2.4rem;font-size: 1rem;text-decoration: underline">&nbsp;提&nbsp;现&nbsp;明&nbsp;细&nbsp;</a>
+                        <div class="cleardiv5"></div>
+                    </td>
+                </tr>
+            </table>
+            <div class="cleardiv20"></div>
+            <div class="inner" style="border-top: 1px solid #f58020">
+               <h3 style="line-height: 36px;font-size: 1rem;">* 注意事项：</h3>
+                <ul id="tishi">
+                    <li>1、提现余额不足100元时不能提现，只能用于职拓e站或学业e站的充值。</li>
+                    <li>2、提现只能进入提现者的微信钱包。暂不支持提现至银行账户或支付宝等第三方平台。</li>
+                    <li>3、提现到账时间一般为   天。节假日或特殊原因可能造成一定延误。由于第三方技术平台的原因造成的延误本平台不承担责任。</li>
+                    <li>4、本人须承担微信平台的手续费。</li>
+                </ul>
+                <div class="cleardiv20"></div>
+            </div>
+        </section>
+    </div>
+</div>
+<script>
+    var uid = '{$token}';
+    var userid='{$userid}';
+    var sessiontype = '{$sessiontype}';
+
+    function tx(){
+        var tx_num= $('input#tx_money').val();
+        var money_num=parseInt($('span#money_num').html());
+        if(money_num<0){money_num=0}
+        console.log(money_num);
+        if(tx_num==''||tx_num==null){
+            layer.open({
+                content: '请输入提现金额！'
+                ,shadeClose: false
+                ,btn: '我知道了'
+            });
+        }else if(parseInt(tx_num)>parseInt(money_num)){
+            layer.open({
+                content: '提取金额不可以大于可提现余额。请重新输入'
+                ,shadeClose: false
+                ,btn: '我知道了'
+            });
+        }else if(parseInt(tx_num)<100){
+            layer.open({
+                content: '提示：可提现余额小于100元时暂不能提现。但可用于职拓币的支付。'
+                ,shadeClose: false
+                ,btn: '我知道了'
+            });
+        }else if(parseInt(tx_num)>5000){
+            layer.open({
+                content: '提示：可提现余额小于100元时暂不能提现。但可用于职拓币的支付。'
+                ,shadeClose: false
+                ,btn: '我知道了'
+            });
+        }else{
+            not_open();
+
+            
+//            layer.open({
+//                content: '您确定要提现吗？'
+//                ,btn: ['确定', '取消']
+//                ,shadeClose: false
+//                ,yes: function(index){
+//                    layer.close(index);
+//                    $.ajax({
+//                        url: "https://wapi.wisecareer.org/fenxiao/user_fx_cash",
+//                        type: 'POST',
+//                        dataType: 'json',
+//                        data: {token:uid,txd:tx_num },
+//                        async:false,
+//                        success: function (result){
+//                            if(result.status == 0) {
+//                                layer.open({
+//                                    content: '成功提现 '+tx_num+' 元'
+//                                    ,shadeClose: false
+//                                    ,btn: '我知道了'
+//                                    ,yes: function(index){
+//                                        window.location.href='http://fx.wisecareer.org/index/index.html';
+//                                    }
+//                                });
+//                            }else{
+//                                layer.open({
+//                                    content: result.msg
+//                                    ,shadeClose: false
+//                                    ,btn: '我知道了'
+//                                });
+//                            }
+//                        }
+//                    })
+//                }
+//            });
+
+
+        }
+    }
+
+    function not_open(){
+        layer.open({
+            content: '暂未开通'
+            ,shadeClose: false
+            ,btn: '我知道了'
+        });
+    }
+
+    var ys=document.getElementById("ys");
+    if(sessiontype==1){
+        ys.setAttribute("href","//xy.wisecareer.org/static/public/css/fx2.css");
+    }
+</script>
+
+
+<script>
+
+    wx.config({
+        debug: false,//关闭调试模式
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        /*appId: 'xxxxxx',
+         timestamp: xxxxx,
+         nonceStr: 'xxxxx',
+         signature: 'xxxxx',*/
+
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+    wx.ready(function () {
+
+        // 2. 分享接口
+        // 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+        wx.onMenuShareAppMessage({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://fx.wisecareer.org/index/distributor?userid='+userid,
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //   window.location.href = 'http://m.duolehuan.com/';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+
+        // 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://fx.wisecareer.org/index/distributor?userid='+userid,
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //window.location.href = '';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

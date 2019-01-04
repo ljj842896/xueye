@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="http://www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="http://www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="http://www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="http://www.wisecareer.org/css/zhituo/layui.css"  media="all">
+	<link rel="stylesheet" href="http://www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script type="text/javascript" src="/static/zhituo/js/base.min.js"></script>
+	<script type="text/javascript" src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		h3.title{
+			line-height: 40px;
+			font-size: 16px;
+		}
+		.danxuan2>li{
+			margin-bottom: 10px;
+			line-height: 36px;
+			height: 36px;
+		}
+		td{
+			line-height: 24px;
+		}
+		label{
+			display: block;
+			line-height: 24px;
+		}
+		#chongzhi{position: fixed;bottom: 0;left: 0;background: #fff}
+		#td_name{
+			width: 100%;height:40px;line-height:40px;overflow: hidden;text-align: right;white-space: nowrap;text-overflow: ellipsis;display: block;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">我的体验套餐</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+
+
+<div id="dBody">
+	<div class="mycontent experience" style="height:100%;margin: 0">
+
+		<div class="cleardiv50"></div>
+		<div class="inner">
+			<div class="cleardiv10"></div>
+			<h3 class="title" id="ztb" style="font-size: 14px">职拓币余额<span class="floatright">&nbsp;&nbsp;&nbsp;</span><span class="floatright"><span id="zt_money" style="color: red;font-weight: bold"></span></span></h3>
+			<div class="cleardiv10"></div>
+			<h3 class="title" id="zhuti_num" style="font-size: 14px">选择主题数<span class="floatright">&nbsp;&nbsp;&nbsp;<img src="http://www.wisecareer.org/images/zhituo/icon/arrow-right.png" alt="" height="12"/></span><span class="floatright"><span id="td_num"></span> </span></h3>
+			<div class="cleardiv10"></div>
+			<h3 class="title" id="zhuti_name" style="font-size: 14px">主题名称<span class="floatright">&nbsp;&nbsp;&nbsp;<img src="http://www.wisecareer.org/images/zhituo/icon/arrow-right.png" alt="" height="12"/></span><span class="floatright" style="width: 60%"><span id="td_name"></span> </span></h3>
+			<div class="cleardiv10"></div>
+			<div class="cleardiv5"></div>
+			<div class="cleardiv10" style="border-top: 1px solid #ebebeb"></div>
+			<h3 class="title">选择套餐周期</h3>
+			<ul class="danxuan2 clear" id="time">
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 15px;text-align: center" num="0"><table width="100%"><tr><td align="left" width="40%" style="font-size: 16px">3月</td><td align="center" width="50%" valign="middle" style="font-size: 16px;color: #666">&nbsp;<span class="font_red">270 职拓币<span style="font-size: 12px"></span></span></td><td width="10%" rowspan="2" valign="middle" align="center"><input type="radio" name="fangshi" id="fangshi2"  value="we" class="fangshi" style="float: right"/></td></tr></table></a></li>
+
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 15px;text-align: center" num="0"><table width="100%"><tr><td align="left" width="40%" style="font-size: 16px">6月</td><td align="center" width="50%" valign="middle" style="font-size: 16px;color: #666">&nbsp;<span class="font_red">450  职拓币<span style="font-size: 12px"></span></span></td><td width="10%" rowspan="2" valign="middle" align="center"><input type="radio" name="fangshi"  id="fangshi"  value="we"class="fangshi" style="float: right"/></td></tr></table></a></li>
+
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 15px;text-align: center" num="0"><table width="100%"><tr><td align="left" width="40%" style="font-size: 16px">1年</td><td align="center" width="50%" valign="middle" style="font-size: 16px;color: #666">&nbsp;<span class="font_red">540 职拓币<span style="font-size: 12px"></span></span></td><td width="10%" rowspan="2" valign="middle" align="center"><input type="radio" name="fangshi"  id="fangshi3"  value="we" class="fangshi" style="float: right"/></td></tr></table></a></li>
+			</ul>
+			<div class="cleardiv20"></div>
+			<h3 class="title">是否需要教练评价</h3>
+			<p style="font-size: 12px;color: #666;padding:5px;line-height: 18px;text-indent: 24px;background: #ebebeb">可以获得各行业教练的在线指导、评价，可以得到教案关注和推荐，还可以主动找教练哟......</p>
+			<div class="cleardiv10"></div>
+			<table width="100%">
+				<tr>
+					<td width="25%"><label for="pj_yes"><input type="radio" id="pj_yes" name="pj" checked/> 是</label></td>
+					<td width="25%"><label for="pj_no"><input type="radio" id="pj_no" name="pj"/> 否</label></td>
+					<td width="50%">&nbsp;</td>
+				</tr>
+			</table>
+			<div id="pj_selcet" style="display: none">
+				<div class="cleardiv10"></div>
+				<ul class="danxuan2 clear" id="pj_money">
+
+				</ul>
+			</div>
+			<div class="cleardiv20"></div>
+			<h3 class="title">是否开通英文案例体验 </h3>
+			<p style="font-size: 12px;color: #666;padding:5px;line-height: 18px;text-indent: 24px;background: #ebebeb">可以在部分主题中体验到英文案例的思路、国际化的职业思维。尤其是有机会得到海外教练的指导。特别推荐给希望就职于外资企业，或将来有留学意向的学员</p>
+			<div class="cleardiv10"></div>
+			<table width="100%" style="font-size: 16px">
+				<tr>
+					<td width="25%"><label class="ty" for="ty_yes"><input type="radio" id="ty_yes" name="ty"  checked en_money=0/> 是</label></td>
+					<td width="25%"><label class="ty" for="ty_no"><input type="radio" id="ty_no" name="ty"/> 否</label></td>
+					<td width="50%" class="font_red" align="center"><span id="anli_money"></span> 职拓币</td>
+				</tr>
+			</table>
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+</div>
+<div class="cleardiv50"></div>
+<table width="100%" id="chongzhi" style="border-top: 1px solid #ebebeb;padding: 5px 0">
+	<tr>
+		<td width="5%"></td>
+		<td width="55%">总计&nbsp;&nbsp;￥&nbsp;<span class="font_red"><span id="money">0</span>.00 元</span></td>
+		<td width="40%"><input type="button" value="去结算" class="btn_yes recharge" onclick="jiesuan()"  style="margin:0;width: 100%;height: 40px"/></td>
+	</tr>
+</table>
+
+<script>
+	$(function(){
+		isHaveLogin('/experience/set3');
+	});
+</script>
+<script src="http://www.wisecareer.org/js/xueye/layui.js"></script>
+<script>
+
+	Request = GetRequest();
+	var eid = localStorage.CURRENT_USER_ID;
+	var tpid = getUrlParam("tpid");
+	var num = '';
+	var hour='';
+	var coa_eval=0;
+	var en_case=0;
+	var all_money='';
+	var basics=0;
+	var pj_num=0;
+	var ty_num=0;
+	var time=0;
+	var pj_money=0;
+	var ty_money=0;
+	$('#pj_yes').live('click',function(){
+		$('#pj_selcet').show();
+		if( $('input:radio[name="pj_sel"]:checked').val()==null){
+			pj_money=0;
+		}else{
+			pj_money=$('ul#pj_money li a input:radio[name="pj_sel"]:checked').attr('num');
+		}
+		$('#money').html(parseInt(time)+parseInt(pj_money)+parseInt(ty_money));
+
+	});
+	$('#pj_no').live('click',function(){
+		$('#pj_selcet').hide();
+		$('#money').html(parseInt(time)+parseInt(ty_money));
+		coa_eval=0;
+		pj_money=0;
+	});
+	$('label.ty').live('click',function(){
+		if(document.getElementById("ty_yes").checked==true){
+			ty_money=$('#ty_yes').attr('en_money');
+			en_case=1;
+			$('#money').html(parseInt(time)+parseInt(pj_money)+parseInt(ty_money));
+			$('span#anli_money').html(parseInt($('#ty_yes').attr('en_money')));
+		}else{
+			ty_money=0;
+			en_case=0;
+			$('#money').html(parseInt(time)+parseInt(pj_money)+parseInt(ty_money));
+			$('span#anli_money').html(0);
+		}
+	})
+
+	$('#time>li>a').live('click',function(){
+		time=parseInt($(this).attr('num'));
+		hour=parseInt($(this).attr('id'));
+		$('.danxuan2>li>a').removeClass('this');
+		$('.danxuan2>li>img').hide();
+		$(this).addClass("this");
+		$(this).next().show();
+		$(this).find('.fangshi').attr('checked','true');
+		$('#ty_yes').attr('en_money',$(this).attr('en'));
+		if(document.getElementById("ty_yes").checked==true){
+			ty_money=$(this).attr('en');
+			$('span#anli_money').html(parseInt($('#ty_yes').attr('en_money')));
+		}else{
+			$('span#anli_money').html(0);
+		}
+
+		$('#money').html(parseInt(time)+parseInt(pj_money)+parseInt(ty_money));
+		console.log($('#ty_yes').attr('en_money'));
+	});
+
+	$('#pj_money>li>a').live('click',function(){
+		pj_money=parseInt($(this).attr('num'));
+		$('.danxuan2>li>a').removeClass('this');
+		$('.danxuan2>li>img').hide();
+		$(this).addClass("this");
+		$(this).next().show();
+		$(this).find('.fangshi').attr('checked','true');
+		$('#money').html(parseInt(time)+parseInt(pj_money)+parseInt(ty_money));
+		coa_eval=parseInt($(this).attr('pid'));
+	});
+
+	$.ajax({ url:WEB_API_URL + "experience/getztplan?" + Request, async: false,data:{token: eid,tpid:tpid}, success: function(json){
+		var data=json.data;
+		var str1='';
+		var str2='';
+		var month='';
+		var balance=data.balance;
+		if(balance==''||balance==null){balance='无'}else{balance=data.balance}
+		$('#zt_money').html(balance);
+		$.each(data.list, function (index, array) {
+			if(array['months']==12){month='1 年'}else{month=array['months']+' 月'}
+			if(array['has']==1){
+				str1 +='<li><a href="javascript:void(0);" class="this" style="display: block;padding: 10px 15px;text-align: center" id="'+array['id']+'" num="'+array['money']+'" en="'+array['en_case_mon']+'"><table width="100%"><tr><td align="left" width="40%" style="font-size: 16px">'+month+' </td><td align="center" width="50%" valign="middle" style="font-size: 16px;color: #666">&nbsp;<span class="font_red"> '+parseInt(array['money'])+' 职拓币<span style="font-size: 12px"></span></span></td><td width="10%" rowspan="2" valign="middle" align="center"><input checked type="radio" name="fangshi" id="fangshi2"  value="we" class="fangshi" style="float: right"/></td></tr></table></a></li>';
+				time=array['money'];
+				hour=array['id'];
+				$('#ty_yes').attr('en_money',array['en_case_mon']);
+			}else{
+				str1 +='<li><a href="javascript:void(0);" style="display: block;padding: 10px 15px;text-align: center" id="'+array['id']+'" num="'+array['money']+'" en="'+array['en_case_mon']+'"><table width="100%"><tr><td align="left" width="40%" style="font-size: 16px">'+month+' </td><td align="center" width="50%" valign="middle" style="font-size: 16px;color: #666">&nbsp;<span class="font_red"> '+parseInt(array['money'])+' 职拓币<span style="font-size: 12px"></span></span></td><td width="10%" rowspan="2" valign="middle" align="center"><input type="radio" name="fangshi" id="fangshi2"  value="we" class="fangshi" style="float: right"/></td></tr></table></a></li>';
+			}
+			});
+		num=data.aislenum;
+		$('ul#time').html(str1);
+
+		$.each(data.eval_list, function (index, array) {
+			if(array['has']==1){
+				str2 +='<li><a href="javascript:void(0);" class="this" style="display: block;padding: 10px 15px;text-align: center" pid="'+array['id']+'" num="'+array['money']+'"><table width="100%"><tr><td align="left" width="40%" style="font-size: 16px">'+array['strip']+' 条</td><td align="center" width="50%" valign="middle" style="font-size: 16px;color: #666">&nbsp;<span class="font_red"> '+parseInt(array['money'])+' 职拓币<span style="font-size: 12px"></span></span></td><td width="10%" rowspan="2" valign="middle" align="center"><input checked type="radio" name="pj_sel" id="pj"  value="we" num="'+array['money']+'" class="fangshi" style="float: right"/></td></tr></table></a></li>';
+				pj_money=array['money'];
+				coa_eval=array['id'];
+			}else{
+				str2 +='<li><a href="javascript:void(0);" style="display: block;padding: 10px 15px;text-align: center" pid="'+array['id']+'" num="'+array['money']+'"><table width="100%"><tr><td align="left" width="40%" style="font-size: 16px">'+array['strip']+' 条</td><td align="center" width="50%" valign="middle" style="font-size: 16px;color: #666">&nbsp;<span class="font_red"> '+parseInt(array['money'])+' 职拓币<span style="font-size: 12px"></span></span></td><td width="10%" rowspan="2" valign="middle" align="center"><input type="radio" name="pj_sel" id="pj"  value="we" num="'+array['money']+'" class="fangshi" style="float: right"/></td></tr></table></a></li>';
+			}
+		});
+		$('ul#pj_money').html(str2);
+
+
+		if(num==0){
+			$('span#td_name').html('全部通道');
+			$('span#td_num').html('全部通道');
+		}else{
+			$('span#td_name').html(data.aisle_list.join(','));
+			$('#zhuti_name').attr('onclick','location.href=\'/experience/set2?tpid='+tpid+'&num='+num+'\'');
+			$('span#td_num').html('<span style="color: red;font-weight: bold">'+num+'</span> 个通道');
+		}
+		$('#zhuti_num').attr('onclick','location.href=\'/experience/set1?tpid='+tpid+'\'');
+
+		if(data.coa_eval_has==0){
+			$('#pj_no').attr('checked','checked');
+		}else{
+			$('#pj_yes').attr('checked','checked');
+			$('#pj_selcet').show();
+		}
+		if(data.en_case_has==0){
+			$('#ty_no').attr('checked','checked');
+		}else{
+			$('#ty_yes').attr('checked','checked');
+			ty_money=$('#ty_yes').attr('en_money');
+			en_case=1;
+		}
+		$('#money').html(data.money);
+		$('span#anli_money').html(parseInt($('#ty_yes').attr('en_money')));
+	}
+	})
+
+
+	function jiesuan(){
+		var time_value=$('input:radio[name="fangshi"]:checked').val();
+		var pj_value=$('input:radio[name="pj"]:checked').val();
+		var pj_sel_value=$('input:radio[name="pj_sel"]:checked').val();
+		var ty_value=$('input:radio[name="ty"]:checked').val();
+		all_money=parseInt($('#money').html());
+		if(time_value==null){
+			layer.open({
+				content: '请选择开通时间'
+				,shadeClose: false
+				,btn: '我知道了'
+			});
+		}else if(pj_value==null){
+			layer.open({
+				content: '请选择是否开通教练评价'
+				,shadeClose: false
+				,btn: '我知道了'
+			});
+		}else if(ty_value==null){
+			layer.open({
+				content: '请选择是否开通英文体验'
+				,shadeClose: false
+				,btn: '我知道了'
+			});
+		}else{
+			if($('#pj_yes').attr("checked")){
+				if(pj_sel_value==null){
+					layer.open({
+						content: '请选择教练评价条数'
+						,shadeClose: false
+						,btn: '我知道了'
+					});
+				}else{
+
+							$.ajax({
+								url: WEB_API_URL+"experience/dosetmeal",
+								type: 'POST',
+								dataType: 'json',
+								data: {token:eid,tpid:tpid,hour:hour,coa_eval:coa_eval,en_case:en_case,money:all_money},
+								async:false,
+								success: function (result){
+									if(result.status == 0) {
+										window.location.href='/experience/payment?tpid='+tpid;
+									}else{
+										layer.open({
+											content: result.msg
+											,shadeClose: false
+											,btn: '我知道了'
+										});
+									}
+								}
+							})
+
+				}
+			}else{
+				$.ajax({
+					url: WEB_API_URL+"experience/dosetmeal",
+					type: 'POST',
+					dataType: 'json',
+					data: {token:eid,tpid:tpid,hour:hour,coa_eval:coa_eval,en_case:en_case,money:all_money},
+					async:false,
+					success: function (result){
+						if(result.status == 0) {
+							window.location.href='/experience/payment?tpid='+tpid;
+						}else{
+							layer.open({
+								content: result.msg
+								,shadeClose: false
+								,btn: '我知道了'
+							});
+						}
+					}
+				})
+			}
+
+		}
+	}
+</script>
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>
+
+
+<script>
+
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/set3',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/set3',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>

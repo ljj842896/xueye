@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="teyxt/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link href="//www.wisecareer.org/css/zhituo/user_info.css" type="text/css" rel="stylesheet" />
+	<link href="//www.wisecareer.org/css/zhituo/input.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript">
+
+
+
+	</script>
+	<style>
+		.danxuan>li, .duoxuan>li {
+			line-height: normal;
+			padding: 5px 2%;
+			height: 40px;
+		}
+		#chongzhi{position: fixed;bottom: 0;left: 0;background: #fff}
+		#chongzhi td{font-size: 16px}
+		.danxuan2>li, .duoxuan2>li{
+			height: auto;
+			width: 98%;
+		}
+		.danxuan2>li>a, .duoxuan2>li>a{}
+		.danxuan2>li>a>table td{
+			line-height: 20px;
+		}
+		.auth h6{
+			line-height: 50px;
+			border: none;
+			font-size: 14px;
+			padding: 0 10px 0 35px;
+			background: url(//xueye.wisecareer.org/images/xueye/icon/weixin_16.png) no-repeat 10px center;
+		}
+		.auth h6:active{
+			background: #ebebeb url(//xueye.wisecareer.org/images/xueye/icon/weixin_16.png) no-repeat 10px center;
+		}
+		.auth h6#card {
+			background: url(//xueye.wisecareer.org/images/xueye/icon/card.png) no-repeat 10px center;
+		}
+		.auth h6#card:active{
+			background: #ebebeb url(//xueye.wisecareer.org/images/xueye/icon/card.png) no-repeat 10px center;
+		}
+		.auth h6#ztb {
+			background: url(//xueye.wisecareer.org/images/xueye/icon/ztb.png) no-repeat 10px center;
+		}
+		.auth h6#ztb:active{
+			background: #ebebeb url(//xueye.wisecareer.org/images/xueye/icon/ztb.png) no-repeat 10px center;
+		}
+		#password_list span{
+			width: 20%;
+			line-height: 30px;
+			text-align: left;
+			display: inline-block;
+			font-size: 16px;
+			color: #666;
+		}
+		#password_list input[type=text], #password_list input[type=password], #password_list input[type=number]{
+			width: 72%;
+			height: 14px;
+			line-height: 14px;
+			font-size: 14px;
+			padding: 10px 0 10px 5%;
+			color: #737475;
+		}
+		table.fl tr>td{
+			padding-bottom: 10px;
+			color: #666;
+			font-size: 12px;
+		}
+		#vipxy{
+			position: relative;
+			top: 2px;
+			width: 17px;
+			height: 17px;
+		}
+		h5.vip{
+			cursor: pointer;
+			line-height: 40px;
+			font-size: 14px;
+			color: #666666;
+			padding-left: 15px;
+			background-color: #fff;
+			background-image: url(//xueye.wisecareer.org/images/xueye/icon/arrow-right-xiao.png);
+			background-repeat: no-repeat;
+			background-position: right center;
+			margin-bottom: 5px;
+		}
+		.auth h3.title {
+			line-height: 40px;
+			font-size: 16px;
+		}
+		#dq table td{
+			font-size: 14px;
+			line-height: 26px;
+			color: #666;
+		}
+	</style>
+</head>
+<body>
+
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">账户延期</h1>
+		<a href="javascript:window.history.back(-1)" class="return" style="top: 5px"><i class="return-right"></i></a>
+		<a href="/index/index.html" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle"/></a>
+	</div>
+</div>
+<!-- user-info  -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="auth mycontent">
+		<div class="inner">
+			<div class="cleardiv10"></div>
+			<h3 class="title">选择VIP会员服务期</h3>
+			<ul class="danxuan2 clear">
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 15px;text-align: center" num="270"><table width="100%"><tr><td align="left" width="40%" style="font-size: 16px">一年</td><td align="center" width="50%" valign="middle" style="font-size: 16px;color: #666">&nbsp;<span class="font_red">270 职拓币<span style="font-size: 12px">（ 9 折 ）</span></span></td><td width="10%" rowspan="2" valign="middle" align="center"><input type="radio" name="fangshi" id="fangshi2"  value="we" class="fangshi" style="float: right"/></td></tr></table></a></li>
+
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 15px;text-align: center" num="450"><table width="100%"><tr><td align="left" width="40%" style="font-size: 16px">二年</td><td align="center" width="50%" valign="middle" style="font-size: 16px;color: #666">&nbsp;<span class="font_red">450  职拓币<span style="font-size: 12px">（ 75折 ）</span></span></td><td width="10%" rowspan="2" valign="middle" align="center"><input type="radio" name="fangshi"  id="fangshi"  value="we"class="fangshi" style="float: right"/></td></tr></table></a></li>
+
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 15px;text-align: center" num="540"><table width="100%"><tr><td align="left" width="40%" style="font-size: 16px">三年</td><td align="center" width="50%" valign="middle" style="font-size: 16px;color: #666">&nbsp;<span class="font_red">540 职拓币<span style="font-size: 12px">（ 6 折 ）</span></span></td><td width="10%" rowspan="2" valign="middle" align="center"><input type="radio" name="fangshi"  id="fangshi3"  value="we" class="fangshi" style="float: right"/></td></tr></table></a></li>
+			</ul>
+			<div class="cleardiv10"></div>
+		</div>
+
+		<div class="cleardiv5" style="background: #ebebeb"></div>
+		<div id="dq" class="inner" style="border-bottom: 5px solid #ebebeb;padding: 10px;display: none">
+			<table width="100%">
+				<tr>
+					<td>当前职拓币余额为&nbsp;&nbsp;<span id="shengyu" style="color:#f00"></span></td>
+				</tr>
+				<tr>
+					<td><label for="money3"><input type="checkbox"  value="yu" name="money" id="money3" checked/>&nbsp;&nbsp;优先使用职拓币支付，支付&nbsp;&nbsp;<span id="cha_money" style="color:#f00">0</span>&nbsp;&nbsp;职拓币</label></td>
+				</tr>
+			</table>
+		</div>
+		<div id="zf" class="inner" style="border-bottom: 5px solid #ebebeb;display: none">
+			<h3 class="title" style="padding-top: 10px">选择支付方式</h3>
+			<!--<table width="100%">-->
+			<!--<tr></tr>-->
+			<!--</table>-->
+
+			<h6 style="line-height: 50px"><label for="money1" style="display: block">微信支付 <span class="floatright"><input type="radio" name="money"   value="we" id="money1"/>&nbsp;&nbsp;</span></label></h6>
+			<h6 id="card" style="line-height: 50px"><label for="money2" style="display: block">职拓卡支付 <span class="floatright"><input type="radio" name="money" value="ka"  id="money2"/>&nbsp;&nbsp;</span></label></h6>
+			<ul id="password_list" style="display: none;padding-bottom: 10px">
+				<li><span>卡号：</span><input type="number" max="9999999999" id="kahao" class="appearance shuru" name="kahao" style="border: solid 1px rgba(0,0,0,0.3)"/></li>
+				<li><span>密码：</span><input name="password" type="number" class="appearance shuru" id="password" style="border: solid 1px rgba(0,0,0,0.3)" maxlength="8"/></li>
+			</ul>
+			<div class="cleardiv20"></div>
+		</div>
+		<table width="100%" id="chongzhi" style="border-top: 1px solid #ebebeb;padding-top: 5px;display: none">
+			<tr>
+				<td width="5%"></td>
+				<td width="55%">总计&nbsp;&nbsp;￥&nbsp;<span class="font_red"><span id="money">270</span>.00 元</span></td>
+				<td width="40%"><input type="button" value="确认支付" class="btn_yes recharge" style="margin:0;width: 100%;height: 40px"/></td>
+			</tr>
+		</table>
+		<h5 class="vip" onclick="location.href='/user/label'">查看VIP福利</h5>
+		<!--<h5 class="vip" id="sure" onclick="sure();">查看我的VIP有效期</h5>-->
+		<div class="cleardiv50" style="background: #ebebeb"> </div>
+	</div>
+</div>
+<script>
+	var token =localStorage.CURRENT_USER_ID;
+
+	var daoqi='';
+	var cha_moneys='';
+	var shengyu='';
+	var stop=false;
+	var num='';
+
+	var did = getUrlParam("id");
+	if(did==1){$('a.return').attr('href','/user/wallet')}else{}
+
+
+	$('.danxuan2>li>a').click(function(){
+		stop=true;
+		num=$(this).attr('num');
+//		$('.money_text').hide();
+
+		if(parseInt(num)>parseInt(shengyu)){
+			$('#zf').show();
+			$('#chongzhi').show();
+			$('#cha_money').html(parseInt(shengyu));
+			$('#money').html(parseInt(num)-parseInt(shengyu));
+			$('#zf').show();
+		}else{
+			$('#chongzhi').show();
+			$('#cha_money').html(parseInt(num));
+			$('#money').html(0);
+			$('#zf').hide();
+		}
+
+
+		if(num=='450'){
+			$('#fangshi').attr('checked','checked');
+		}else if(num=='540'){
+			$('#fangshi3').attr('checked','checked');
+		}else{
+			$('#fangshi2').attr('checked','checked');
+		}
+
+		$('#dq').show();
+		$('.danxuan2>li>a').removeClass('this');
+		$('.danxuan2>li>img').hide();
+		$(this).addClass("this");
+		$(this).next().show();
+	});
+
+	$('#money3').live('click',function(){
+		$('#zf').show();
+		if( $("#money3").is(":checked")){
+			if(parseInt(num)>parseInt(shengyu)){
+				$('#money').html(parseInt(num)-parseInt(shengyu));
+				$('#zf').show();
+			}else{
+				$('#money').html(0);
+				$('#zf').hide();
+			}
+		}else{
+			$('#money').html(num);
+		}
+	})
+
+	var action = '';
+	var shengyus =0
+
+	$(".recharge").click(function(){
+		var moneys = num;
+		if( $("#money3").is(":checked")==false&&$("#money2").is(":checked")==false&&$("#money1").is(":checked")==false){
+			layer.open({
+				content: '请选择支付方式'
+				,shadeClose: false
+				,btn: '我知道了'
+			});
+		}else{
+			if($("#money3").is(":checked")==true){
+				shengyus = parseInt(shengyu)
+				action ='yu'
+			}
+			layer.open({
+				content: '您确定支付吗？'
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					if($('#money2').attr('checked')=='checked'){
+						action = 'ka'
+						var num = parseInt($('#money').html()) + shengyus;
+						var url ="/pay.php";
+						var kahao= $('#kahao').val();
+						var password= $('#password').val();
+						MakeForm1(action,num,kahao,password,url);
+					}else if( parseInt($('#money').html()) > 0 ){
+						var num = $('#money').html();
+						var url =WEB_API_URL+"Wx/wxpay";
+						WxMakeForm(num,moneys,url);
+					}else{
+						var num = $('#cha_money').html() ; ;
+						var url ="/pay.php"
+						MakeForm(action,num,url);
+					}
+					layer.close(index);
+				}
+			});
+		}
+
+
+	});
+
+	function MakeForm1(action,money,kahao,mima,url){
+		$.ajax({
+			url: WEB_API_URL+"payment/defrayal",
+			type: "Post",
+			data: {"token":token,"kahao":kahao,"mima":mima,'action':action,'money':money},
+			dataType:'json',
+			async:false,
+			success: function (result){
+				if(result.status ==0){
+					layer.open({
+						content: 'VIP升级成功！'
+						,shadeClose: false
+						,btn: '我知道了'
+						,yes:function () {
+							window.location.href="/user/wallet"
+						}
+					});
+				}else{
+					layer.open({
+						content: result.msg
+						,shadeClose: false
+						,btn: '我知道了'
+						,yes:function () {
+							window.location.reload()
+						}
+					});
+				}
+
+
+			}
+		})
+	}
+	function WxMakeForm(money,moneythom,url){
+		// 创建一个 form
+		var form1 = document.createElement("form");
+		form1.id = "form1";
+		form1.name = "form1";
+		// 添加到 body 中
+		document.body.appendChild(form1);
+		// 创建一个输入
+		var input = document.createElement("input");
+		var input1 = document.createElement("input");
+		var input2 = document.createElement("input");
+		var input3 = document.createElement("input");
+
+		// 设置相应参数
+		input.type = "hidden";
+		input.name = "money";
+		input.value = money;
+
+		input1.type = "hidden";
+		input1.name = "token";
+		input1.value = token;
+
+		input2.type = "hidden";
+		input2.name = "action";
+		input2.value = 'we';
+
+		input3.type = "hidden";
+		input3.name = "moneythom";
+		input3.value = moneythom;
+
+
+		// 将该输入框插入到 form 中
+		form1.appendChild(input);
+		form1.appendChild(input1);
+		form1.appendChild(input2);
+		form1.appendChild(input3);
+
+		// form 的提交方式
+		form1.method = "POST";
+		// form 提交路径
+		form1.action = url;
+		// 对该 form 执行提交
+		form1.submit();
+		// 删除该 form
+		document.body.removeChild(form1);
+	}
+
+	function MakeForm(action,money,url){
+		$.ajax({
+			url: WEB_API_URL+"payment/defrayal",
+			type: "Post",
+			data: {"token":token,'action':action,'money':money},
+			dataType:'json',
+			async:false,
+			success: function (result){
+				if(result.status==0){
+					layer.open({
+						content: result.msg
+						,shadeClose: false
+						,btn: '我知道了'
+						,yes:function () {
+							window.location.href='/user/wallet/'
+						}
+					});
+				}else{
+					layer.open({
+						content: result.msg
+						,shadeClose: false
+						,btn: '我知道了'
+						,yes:function () {
+							window.location.reload()
+						}
+					});
+				}
+
+
+
+			}
+		})
+	}
+
+	function tishi(){
+		layer.open({
+			content: '职拓币，是你在智能学业E站内购买服务时间和服务项目的代币。职拓币也可用于“职拓E站”的模拟职业体验，以及“签约导师”服务。'
+			,btn: '我知道了'
+		});
+	}
+	$('h6').live('click',function(){
+		$('ul#password_list').hide();
+	});
+	$('h6#card').live('click',function(){
+		$('ul#password_list').show();
+	});
+	$.getJSON(WEB_API_URL + "user/wallet?"+Request, {'token': token}, function (json) {
+		if(json.status ==0){
+			var data = json.data;
+			if(data.viptype ==1){
+				daoqi= 'VIP会员到期时间：'+data.jsdate
+
+			}else{
+				daoqi= '尚未开通VIP会员！';
+			}
+			$('#sure').attr('onclick','sure()');
+			shengyu=data.money;
+			$('#shengyu').html(shengyu);
+
+		}
+	})
+	function sure(){
+		layer.open({
+			content: daoqi
+			,btn: '我知道了'
+		});
+	}
+	function wkt(){
+		layer.open({
+			content: '尚未开通'
+			,btn: '我知道了'
+		});
+	}
+</script>
+
+
+
+<!-- nav -->
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/user/vip.html');
+	});
+
+
+	function gy_show(){
+		$('.show_hide').show();
+		$('body').css('overflow-y','hidden');
+	}
+	function gy_hide(){
+		$('.show_hide').hide();
+		$('body').css('overflow-y','scroll');
+	}
+	function gy_yes(){
+		$('.show_hide').hide();
+		$('body').css('overflow-y','scroll');
+		$('#vipxy').attr('checked','checked');
+	}
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/vip',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/vip',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/experience.css"/>
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/layui.css"  media="all">
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		h5{
+			cursor: pointer;
+			line-height: 36px;
+			font-size: 14px;
+			color: #666666;
+			padding-left: 20px;
+			background-color: #f4f4f4;
+			background-image: url(http://xueye.wisecareer.org/images/xueye/icon/arrow-right-xiao.png);
+			background-repeat: no-repeat;
+			background-position: right center;
+			margin-bottom: 10px;
+		}
+		p{
+			font-size: 14px;
+			color: #666666;
+			padding:0 20px;
+		}
+		p#p_hy{
+			margin-bottom: 20px;
+		}
+		p#tishi{
+			border-top: solid 1px #ebebeb;
+			padding-top: 5px;
+		}
+		div#box1 h2{
+			font-size: 16px;
+			line-height: 30px;
+			padding: 15px 5% 0;
+			border-bottom: 1px solid #ebebeb;
+			margin-bottom: 5px;
+		}
+		label{display: block}
+	</style>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">新建学习计划</h1>
+		<a href="/experience/index/" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<div id="dBody">
+	<div class="mycontent experience" style="height:100%;margin: 0">
+
+		<div class="cleardiv50"></div>
+		<div class="inner">
+			<div class="cleardiv10"></div>
+			<h4>第一步：选择体验的行业、岗位</h4>
+			<div class="cleardiv5"></div>
+			<h5 id="hangye">选择相关主题</h5>
+			<p id="p_hy"><span id="zhuti" style="color:#f58020"></span></p>
+			<!--<p id="tishi"></p>-->
+			<div class="cleardiv10"></div>
+			<input type="button" value="下一步" class="btn_yes" onclick="check('show_hide_1')"/>
+			<div class="cleardiv10"></div>
+		</div>
+
+	</div>
+</div>
+
+
+<div class="show_hide" style="display: none">
+	<div class="class_bg"></div>
+	<div class="class_content" style="padding: 0;overflow-y: scroll">
+		<div id="box1_tittle">
+			<div class="head">
+				<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">职业体验主题</h1>
+				<a href="javascript:hide()" class="box1_return"><i class="return-right"></i></a>
+				<a href="javascript:void(0)" name="submit" style="" id="screen_btn"><input type="submit" value="提交" style="line-height: 50px;" class="tijiao" id="btn1"/></a>
+			</div>
+		</div>
+
+		<div id="box1" style="padding-top: 45px" class="clear">
+		</div>
+		<div class="clear"></div>
+		<div style="width: 100%;text-align: center;display: block"></div>
+		<div class="cleardiv5 "></div>
+	</div>
+</div>
+<script>
+	$(function(){
+		isHaveLogin('/experience/write_plan');
+	});
+</script>
+<script>
+	var obox1 = document.getElementById("box1");
+	var cboList1 = obox1.getElementsByTagName("input");
+	var hangye = document.getElementById("hangye");
+	var oP1 = document.getElementById("p_hy");
+	var zhuti = document.getElementById("zhuti");
+	document.getElementById("btn1").onclick = function(e){
+		var values1 = [];
+		var values2 = [];
+		for(var i=0;i<cboList1.length;i++){
+			if(cboList1[i].checked){
+				values1.push(cboList1[i].nextSibling.innerHTML);
+				values2.push(cboList1[i].value);
+			}
+		}
+		zhuti.innerHTML = values1.join("、");
+		$('#p_hy').prepend('你的选择为：');
+		$('.show_hide').hide();
+//		oValue1.value = values2.join(",");
+	}
+	$('#hangye').live('click',function(){
+		$('.show_hide').show();
+	})
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	Request = GetRequest();
+	var eid = localStorage.CURRENT_USER_ID;
+	var id = getUrlParam("id");
+
+	function check(obj){
+		var check_num=0;
+		for(i=0;i<document.all(obj).length;i++){
+			if(document.all(obj)[i].checked){
+				check_num++;
+			}
+		}
+		if(check_num<3){
+			layer.open({
+				content: '职业体验的目的是扩大视野、融会贯通。所以学习计划中至少要包含3个体验主题。请再补充一下吧。'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else if(check_num>5){
+			layer.open({
+				content: '为了保证你的体验学习的效率，建议每个学习计划中的体验主题数不超过5个。'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else{
+			layer.open({
+				content: '体验主题一旦确定不能修改哟。你确定了吗？   '
+				,btn: ['下决心了', '再回去看看']
+				,shadeClose: false
+				,yes: function(index){
+					var type =$('#box1 input[type=checkbox]:checked');
+
+					var types =[];
+					for(var n=0; n< type.length;n++){
+
+						var sss  = type[n].getAttribute('value');
+						types[n]=sss
+
+					}
+					var token = localStorage.CURRENT_USER_ID;
+
+					$.ajax({
+						url: WEB_API_URL+"experience/write_plan",
+						type: 'POST',
+						dataType: 'json',
+						data: {token:token,type:types},
+						async:false,
+						success: function (result){
+							if(result.status == '0') {
+								window.location.href='/experience/write_plan2/';
+							}else if(result.status =="130007"){
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+									,yes: function(index){
+										window.location.href='/user/userinfo';
+									}
+								});
+							}else if(result.status =="50012"){
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+									,yes: function(index){
+										window.location.href='/user/userinfo';
+									}
+								});
+							}else{
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+								});
+							}
+						}
+
+					})
+
+
+				}
+//				,no:function(index){
+//					layer.open({
+//						content: '回去看看。'
+//						,btn: '我知道了'
+//						,shadeClose: false
+//					});
+//				}
+			});
+		}
+	}
+
+
+
+	$.ajax({ url:WEB_API_URL + "experience/lable?" + Request, async: false,data:{token: eid}, success: function(json){
+		var data=json.data;
+		var lan='';
+		var lan_china='';
+		if(data==''){
+			layer.open({
+				content: '你没有购买案例体验套餐'
+				,shadeClose: false
+				,btn: ['确定', '取消']
+				,yes: function(index){
+					window.location.href='/experience/set1/';
+				}
+				,no: function(index){
+					window.location.href='/index/index/';
+				}
+			});
+		} else{
+			var str1='<h2>行业体验</h2>';
+			if(data.hangye==''||data.hangye==null){
+				str1+='<div class="cleardiv5"></div><h4 style="line-height: 30px;font-size: 14px;color: #666;text-align: center">未开通行业体验通道</h4><div class="cleardiv10"></div>';
+			}else{
+				$.each(data.hangye, function (index, array) {
+					if(array.language==3){lan=3;lan_china=' (中|英)'}else if(array.language==2){lan=2;lan_china=' (英)'}else{lan=1;lan_china=''}
+					str1 +='<div style="padding-left:5%;width: 45%;float: left;"><label for="hy'+array['tpid']+'"><input type="checkbox" lan="'+lan+'"  id="hy'+array['tpid']+'" value="hangye_'+array['tpid']+'_'+array['language']+'"  name="show_hide_1"/><span style="padding-left: 5%">'+array['tpname']+lan_china+' </span></label></div>';
+				});
+			}
+
+
+			str1 +='<div class="clear"></div><h2>职能岗位</h2>';
+			if(data.lx==''||data.lx==null){
+				str1+='<div class="cleardiv5"></div><h4 style="line-height: 30px;font-size: 14px;color: #666;text-align: center">未开通职能岗位通道</h4><div class="cleardiv10"></div>';
+			}else{
+				$.each(data.lx, function (index, array) {
+					if(array.language==3){lan=3;lan_china=' (中|英)'}else if(array.language==2){lan=2;lan_china=' (英)'}else{lan=1;lan_china=''}
+					str1 +='<div style="padding-left:5%;width: 45%;float: left;"><label for="lx'+array['id']+'"><input type="checkbox" lan="'+lan+'"  id="lx'+array['id']+'" value="lx_'+array['id']+'_'+array['language']+'"  name="show_hide_1"/><span style="padding-left: 5%">'+array['tpname']+lan_china+' </span></label></div>';
+				});
+			}
+
+
+			str1 +='<div class="clear"></div><h2>专题体验</h2>';
+			if(data.zhuanti==''||data.zhuanti==null){
+				str1+='<div class="cleardiv5"></div><h4 style="line-height: 30px;font-size: 14px;color: #666;text-align: center">未开通专题体验通道</h4><div class="cleardiv10"></div>';
+			}else{
+				$.each(data.zhuanti, function (index, array) {
+					if(array.language==3){lan=3;lan_china=' (中|英)'}else if(array.language==2){lan=2;lan_china=' (英)'}else{lan=1;lan_china=''}
+					str1 +='<div style="padding-left:5%;width: 45%;float: left;"><label for="zt'+array['id']+'"><input type="checkbox" lan="'+lan+'"  id="zt'+array['id']+'" value="zhuanti_'+array['id']+'_'+array['language']+'"  name="show_hide_1"/><span style="padding-left: 5%">'+array['tpname']+lan_china+' </span></label></div>';
+				});
+			}
+
+
+			str1 +='<div class="clear"></div><div class="cleardiv20"></div>';
+			$('div#box1').html(str1);
+		}
+
+	}})
+</script>
+
+
+<script src="//www.wisecareer.org/js/xueye/layui.js"></script>
+<script>
+	layui.use('element', function(){
+		var $ = layui.jquery
+				,element = layui.element(); //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+		//触发事件
+		var active = {
+			setPercent: function(){
+				//设置50%进度
+				element.progress('demo', '50%')
+			}
+			,loading: function(othis){
+				var DISABLED = 'layui-btn-disabled';
+				if(othis.hasClass(DISABLED)) return;
+
+				//模拟loading
+				var n = 0, timer = setInterval(function(){
+					n = n + Math.random()*10|0;
+					if(n>100){
+						n = 100;
+						clearInterval(timer);
+						othis.removeClass(DISABLED);
+					}
+					layui.element().progress('demo', n+'%');
+				}, 300+Math.random()*1000);
+
+				othis.addClass(DISABLED);
+			}
+		};
+
+		$('.site-demo-active').on('click', function(){
+			var othis = $(this), type = $(this).data('type');
+			active[type] ? active[type].call(this, othis) : '';
+		});
+	});
+</script>
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>
+
+
+<script>
+
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/write_plan',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/write_plan',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>

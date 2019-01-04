@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="/static/xueye/css/policy_decision.css"/>
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		a.details{
+			color: #fff;
+		}
+		#tree>ul>li>a{
+			color: #fff;
+		}
+	</style>
+</head>
+<body>
+<div id="dHead">
+	<div class="head">
+		<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">学业决策模型</h1>
+		<a href="/jcyj/index" class="return"><i class="return-right"></i></a>
+		<a href="/index/index" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle;width: 25px"/></a>
+	</div>
+</div>
+<div id="dBody" style=" overflow:hidden;table-layout: fixed;word-wrap:break-word;word-break:break-all;height: 100%">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<!--<img src="//xueye.wisecareer.org/images/xueye/jc_tree.png" alt="" width="100%"/>-->
+		<div class="inner details" style="height: 100%;display: block">
+			<div class="cleardiv10"></div>
+			<div id="tree">
+				<img src="//xueye.wisecareer.org/images/xueye/tree.png"  alt="" width="100%"/>
+				<ul>
+					<li id="branch1"><a href="/jcyj/option1?action=edit"><img src="/static/xueye/images/icon/write.png" alt="" height="12"/>&nbsp;&nbsp;学业目标：<span></span></a></li>
+					<li id="branch2"><a href="/jcyj/option2?action=edit"><img src="/static/xueye/images/icon/write.png" alt="" height="12"/>&nbsp;&nbsp;学科优势：<span></span></a><span id="b2"></span></li>
+					<li id="branch3"><a href="/jcyj/option3?action=edit"><img src="/static/xueye/images/icon/write.png" alt="" height="12"/>&nbsp;&nbsp;学科漏斗（排除）：<span></span></a><span id="b3"></span></li>
+					<li id="branch4"><a href="/jcyj/option4?action=edit"><img src="/static/xueye/images/icon/write.png" alt="" height="12"/>&nbsp;&nbsp;兴趣漏斗（排除）：<span></span></a><span id="b4"></span><span id="b6"></span></li>
+					<li id="branch5"><a href="/jcyj/option5?action=edit"><img src="/static/xueye/images/icon/write.png" alt="" height="12"/>&nbsp;&nbsp;行业漏斗（排除）：<span></span></a><span id="b5"></span></li>
+
+					<!--<li id="branch6">本校教学优势科目：<span></span></li>-->
+					<li id="branch6"><a href="/jcyj/option6?action=edit"><img src="/static/xueye/images/icon/write.png" alt="" height="12"/>&nbsp;&nbsp;本校教学优势科目：<span></span></a></li>
+
+						<!--<li id="branch7">本校教学弱势科目：<span></span></li>-->
+
+					<li id="branch7"><a href="/jcyj/option7?action=edit"><img src="/static/xueye/images/icon/write.png" alt="" height="12"/>&nbsp;&nbsp;本校教学弱势科目：<span></span></a></li>
+
+				</ul>
+	  </div>
+			<table width="100%" id="table1">
+ 
+		<tr><td colspan="5" style="line-height: 5px">&nbsp;</td></tr>
+		<!--<tr>-->
+			<!--<td width="15">&nbsp;</td>-->
+			<!--<td colspan="3"><div id="btn_1" class="tuijian"><span onclick="location.href='/jcyj/recommend?type=2'">推荐专业（<span id="tj_num"></span> 个）</span></div></td>-->
+			<!--<td width="15">&nbsp;</td>-->
+		<!--</tr>-->
+		<tr><td colspan="5" style="line-height: 1px">&nbsp;</td></tr>
+				<!--<tr>-->
+					<!--<td width="15">&nbsp;</td>-->
+					<!--<td colspan="3"><div id="btn_4"><a href="/jcyj/combination" class="details" style="">我的选科方案 <span id="tj_subject"></span></a>&nbsp;&nbsp;&nbsp;<span id="subjectno"></span></div></td>-->
+					<!--<td width="15">&nbsp;</td>-->
+				<!--</tr>-->
+				<tr><td colspan="5" style="line-height: 10px">&nbsp;</td></tr>
+				<tr><td colspan="5" style="line-height: 30px">&nbsp;</td></tr>
+				<!--<tr>-->
+					<!--<td><div id="btn_3">决策模型预警 <span id="tj_prompt"></span></div></td>-->
+				<!--</tr>-->
+			</table>
+			<div class="cleardiv20"></div>
+			<div class="cleardiv10"></div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	var load_index =layer.open({type: 2, shadeClose: false});
+	$(function(){
+		isHaveLogin('/jcyj/details');
+	});
+	
+	var uid = localStorage.CURRENT_USER_ID;
+	Request = GetRequest();
+	var did = getUrlParam("did");
+	var titlename = decodeURI(GetQueryString("titlename"));
+	var subjectnomsg='';
+	var advantagepromptmsg='';
+	var disciplinepromptmsg='';
+	var advantagepromptmsg1='';
+	var disciplinepromptmsg1='';
+	var targetpromptmsg='';
+	var interestptmsg='';
+	var industryptmsg='';
+
+	$.getJSON(WEB_API_URL + "navigation/planning?"+Request, {token: uid}, function (json) {
+		var data=json.data; 
+		
+		if(json.data.strong_feeble==1){
+			$("#branch6>a").attr('href','javascript:void(0);');
+			$("#branch7>a").attr('href','javascript:void(0);');
+			$("#branch6>a").html('本校教学优势科目：<span></span>');
+			$("#branch7>a").html('本校教学弱势科目：<span></span>');
+		}else{
+			$("#branch6>a").attr('href','/jcyj/option6?action=edit');
+			$("#branch7>a").attr('href','/jcyj/option7?action=edit');
+		}
+
+
+		if (json.status == 0) {
+		var arrfuhe=json.data['arrfuhe'];
+		var discipline ='';
+		var interest ='';
+		var industry ='';
+		for(var b1=0;b1<json['data']['discipline'];b1++){
+			discipline += json['data']['discipline'][b1]+',';
+		}
+
+
+		$('#branch1>a>span').html(data['target']);
+		$('#branch2>a>span').html(data['advantage']);
+		if(data['discipline'] != "" && data['discipline'] != undefined && data['discipline'] != null){
+			$('#branch3>a>span').html(data['discipline'].join(','));
+		}
+		if(data['interest'] != "" && data['interest'] != undefined && data['interest'] != null){
+			$('#branch4>a>span').html( data['interest'].join(','));
+		}
+
+		if(data['industry'] != "" && data['industry'] != undefined && data['industry'] != null){
+			$('#branch5>a>span').html( data['industry'].join(','));
+		}
+
+			if(data['scadvantage'] != "" && data['scadvantage'] != undefined && data['scadvantage'] != null) {
+				$('#branch6 span').html(data['scadvantage'].join(','));
+			}
+
+			if(data['scweak'] != "" && data['scweak'] != undefined && data['scweak'] != null) {
+				$('#branch7 span').html(data['scweak'].join(','));
+			}else{
+				$('#branch7 span').html('');
+			}
+
+		$('#tj_num').html(parseInt(data['accordnum'])+parseInt(data['recommendnum']));
+
+		if(arrfuhe != "" && arrfuhe != undefined && arrfuhe != null){
+			$('#xk_num').html(arrfuhe['bluenum']);
+				$('#yx2_num').html(arrfuhe['rednum']);
+		}
+
+
+		$('#tj_subject').html("("+data['subject']+")");
+
+
+		if(data['subjectno'] == 1){
+			$('#subjectno').html("<span class='prompt' onclick='click1()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+			subjectnomsg= data['subjectnomsg'];
+		}
+		if(data['advantageprompt'] == 1){
+			$('#b2').append("<span class='prompt' onclick='click2()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+			advantagepromptmsg= data['advantagepromptmsg'];
+		}
+			if(data['advantageprompt1'] == 1){
+				$('#b2').append("<span class='prompt' onclick='click2_1()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+				advantagepromptmsg1= data['advantagepromptmsg1'];
+			}
+		if(data['disciplineprompt'] == 1){
+			$('#b3').append("<span class='prompt' onclick='click3()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+			disciplinepromptmsg= data['disciplinepromptmsg'];
+		}
+
+		if(data['disciplineprompt1'] == 1){
+			$('#b3').append("<span class='prompt' onclick='click3_1()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+			disciplinepromptmsg1= data['disciplinepromptmsg1'];
+		}
+
+		if(data['targetprompt'] == 1){
+			$('#b4').html("<span class='prompt' onclick='click4()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+			targetpromptmsg= data['targetpromptmsg'];
+		}
+
+		if(data['interestprompt'] == 1){
+			$('#b6').html("<span class='prompt' onclick='click5()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+			interestptmsg= data['interestptmsg'];
+		}
+			if(data['industryprompt'] == 1){
+				$('#b5').html("<span class='prompt' onclick='click6()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+				industryptmsg= data['industryptmsg'];
+			} 
+		}else{
+				layer.open({
+					content: '你好！学业决策的第一步是建立自己的学业决策模型。接下来我们将和你一起寻找自己的学业决策关键参数......'
+					,shadeClose: false
+					,btn: '我知道了'
+					,yes: function(index){
+						window.location.href="/jcyj/option1";
+					}
+				}); 
+
+		}
+
+		layer.close(load_index);
+	});
+
+
+
+
+	function click1(){
+		layer.open({
+			content: subjectnomsg
+			,shadeClose: false
+,btn: '我知道了'
+		});
+	}
+	function click2(){
+		layer.open({
+			content: advantagepromptmsg
+			,shadeClose: false
+,btn: '我知道了'
+		});
+	}
+
+	function click2_1(){
+		layer.open({
+			content: advantagepromptmsg1
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+
+	function click3(){
+		layer.open({
+			content: disciplinepromptmsg
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+	function click3_1(){
+		layer.open({
+			content: disciplinepromptmsg1
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+	function click4(){
+		layer.open({
+			content: targetpromptmsg
+			,shadeClose: false
+,btn: '我知道了'
+		});
+	}
+	function click5(){
+		layer.open({
+			content: interestptmsg
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+	function click6(){
+		layer.open({
+			content: industryptmsg
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/jcyj/details',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/jcyj/details',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

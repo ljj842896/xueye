@@ -1,0 +1,170 @@
+
+{extend name="layout/layout" }
+{block name="link"}
+<link href="__XUEYE__/css/user_info.css" type="text/css" rel="stylesheet" />
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<style>
+	#dBody .inner h3,#dBody .inner h5{line-height: 40px;font-size: 16px;color: #666}
+	#dBody .inner h5>input#random{padding:12px 5%;width: 89%;font-size: 16px;line-height: 16px;height: 16px;-webkit-appearance:none;}
+	.btn_yes{margin: 0 auto;}
+	#skip{background:rgba(0,0,0,0);color: #00bb0c;font-size: 14px;font-weight: 400}
+	p.zhushi{
+		padding-top: 5px;font-size: 14px;color: #666;
+	}
+
+</style>
+{/block}
+{block name="content"}
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<form class="inner" id="myform" name="myform">
+			<div class="cleardiv10"></div>
+			<h3>身份验证码：</h3>
+			<h5><input type="text" id="random" name="random" placeholder="请输入所在学校身份验证码"/></h5>
+			<p class="zhushi">注：若不清楚本校学生身份验证码，请联系本校负责老师。</p>
+			<div class="cleardiv20"></div>
+			<div class="cleardiv20"></div>
+			<input type="button" value="确&nbsp;认" class="btn_yes" onclick="sub();"/>
+			<div class="cleardiv20"></div>
+			<div class="cleardiv20"></div>
+		</form>
+	</div>
+	<div class="cleardiv50"></div>
+</div>
+{/block}
+{block name="foot"}
+<script type="text/javascript">
+
+    function sub(){
+        var random = document.myform.random; //在这里我认为： name 代表的name 为 txtUser 的文本框
+        var randomnum = random.value
+        var token =localStorage.CURRENT_USER_ID
+
+
+        if(random.value.length==0){
+            layer.open({
+                content: '身份验证码不能为空！'
+                ,shadeClose: false
+                ,btn: '我知道了'
+            });
+            random.focus();
+            return false;
+        }else{
+            $.ajax({
+                url: WEB_API_URL+ "/user/shcoolVerification",
+                type: "Post",
+                data: { 'token':token,"ver_code":randomnum},
+                dataType:'json',
+                async:false,
+                success: function (result){
+                    if(result.status == '50004') {
+                        layer.open({
+                            content: result.msg
+                            ,shadeClose: false
+                            ,btn: '我知道了'
+                            ,yes:function(index){
+                                window.location.href="/user/userinfo"
+                                layer.close(index);
+                            }
+                        });
+
+                    }else{
+                        layer.open({
+                            content: result.msg
+                            ,shadeClose: false
+                            ,btn: '我知道了'
+                            ,yes:function(index){
+                                location.reload()
+                            }
+                        });
+                    }
+                }
+
+            })
+            return true;
+        }
+
+    }
+</script>
+
+<script>
+    wx.config({
+        debug: false,//关闭调试模式
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        /*appId: 'xxxxxx',
+         timestamp: xxxxx,
+         nonceStr: 'xxxxx',
+         signature: 'xxxxx',*/
+
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+    wx.ready(function () {
+
+        // 2. 分享接口
+        // 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+        wx.onMenuShareAppMessage({
+            title: '智能学业e站，您身边的生涯规划专家！',
+            desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+            link: 'http://xy.wisecareer.org/user/verification',
+            imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //   window.location.href = 'http://m.duolehuan.com/';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+
+        // 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+            title: '快来学业e站吧！',
+            desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+            link: 'http://xy.wisecareer.org/user/verification',
+            imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //window.location.href = '';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+    });
+
+    function hide(){
+        $('.show_hide').hide();
+    }
+
+    function show(){
+        $('.show_hide').show();
+    }
+</script>
+{/block}
+{block name='menu'}
+
+{/block}

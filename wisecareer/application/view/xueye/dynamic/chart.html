@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<body>
+<!-- head --> 
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">竞争数据</h1>
+		<a href="/index/index/" class="return"><i class="return-right"></i></a>
+		</div> 
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="cleardiv5"></div>
+		<table width="100%" id="shuju_list" border="0" cellpadding="0" cellspacing="0">
+			<tr class="content" onclick="location.href='/dynamic/data/?action=advantage'">
+				<td width="120" height="120" align="center"><img src="/static/xueye/images/icon/shuju_icon1.png" alt=""/></td>
+				<td class="word" style="color: #70da84">与我学科优势相同的人</td>
+				<td width="30" height="120" align="left" valign="middle"><img src="/static/xueye/images/icon/shuju_right1.png" alt="" height="16" class="right_icon"/></td>
+			</tr>
+			<tr>
+				<td colspan="3" style="height: 5px;background: #ebebeb"></td>
+			</tr>
+			<tr class="content" onclick="location.href='/dynamic/data/?action=selection'">
+				<td width="120" height="120" align="center"><img src="/static/xueye/images/icon/shuju_icon2.png" alt=""/></td>
+				<td class="word" style="color: #6adad9">与我选科组合相同的人</td>
+				<td width="30" height="120" align="left" valign="middle"><img src="/static/xueye/images/icon/shuju_right2.png" alt="" height="16" class="right_icon"/></td>
+			</tr>
+			<tr>
+				<td colspan="3" style="height: 5px;background: #ebebeb"></td>
+			</tr>
+			<tr class="content" onclick="location.href='/dynamic/data/?action=major'">
+				<td width="120" height="120" align="center"><img src="/static/xueye/images/icon/shuju_icon3.png" alt=""/></td>
+				<td class="word" style="color: #ff7374">与我关注专业相同的人</td>
+				<td width="30" height="120" align="left" valign="middle"><img src="/static/xueye/images/icon/shuju_right3.png" alt="" height="16" class="right_icon"/></td>
+			</tr>
+			<tr>
+		<td colspan="3" style="height: 5px;background: #ebebeb"></td>
+			</tr>
+			<tr class="content" onclick="location.href='/dynamic/data/?action=character'">
+				<td width="120" height="120" align="center"><img src="/static/xueye/images/icon/shuju_icon4.png" alt=""/></td>
+				<td class="word" style="color: #ffba7c">与我性格类型相同的人</td>
+				<td width="30" height="120" align="left" valign="middle"><img src="/static/xueye/images/icon/shuju_right4.png" alt="" height="16" class="right_icon"/></td>
+			</tr>
+		</table>
+	</div>
+</div>
+
+<script>
+	$(function(){
+		isHaveLogin('/dynamic/chart');
+	});
+</script>
+<script src="//www.wisecareer.org/left_and_right_slide/js/idangerous.swiper-2.0.min.js"></script>
+
+<script>
+	var uid = localStorage.CURRENT_USER_ID;
+
+    if(localStorage.CURRENT_USER_VIP==0){
+        $('ul#chart>li').attr('onclick','UserVip2();')
+    }
+
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/dynamic/chart',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/dynamic/chart',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

@@ -1,0 +1,302 @@
+{extend name="layout/layout" }
+	{block name="link"} 
+    			<link href="__XUEYE__/css/aggregate.css" type="text/css" rel="stylesheet" />
+        <link rel="stylesheet" href="/static/public/css/layui.css"  media="all"> 
+	<script src="__XUEYE__/js/city.js"></script> 
+    <script src="/static/public/js/layui.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		#fswc>li{
+			background: none;
+			padding:0;
+			width: 50%;
+		}
+		#fswc>li>a{
+			border:none;
+			font-size: 16px;
+		}
+		#fswcli>a.this{
+			background: #fff;
+			border:none;
+			color: #00bb0c;
+		}
+		table.school tr>th{color: #666;font-size: 16px;padding: 10px 0;}
+		table.school {
+			padding:0 0 20px 0;
+			 border-bottom:none;
+		}
+		table.school tr>td {
+			font-size: 14px;
+			line-height: 16px;
+			padding: 10px 0;
+			color: #666;
+		}
+		p#shuoming{
+			padding: 0 5px;
+			font-size: 12px;
+			color: #00bb0c;
+			line-height: 20px;
+			text-indent: 24px;
+		}
+	</style>
+{/block}
+<!-- head -->
+{block name='head'}
+<div id="dHead" style="position: fixed;top: 0;left: 0;z-index: 300">
+	<div class="head">
+		<h1 style="margin: 0">知位选大学</h1>
+		<a href="/scores/index" class="return"><i class="return-right"></i></a>
+		<a href="/index/index.html" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle;width: 25px"/></a>
+
+	</div>
+</div>
+{/block}
+<!-- home -->
+{block name='content'}
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<!--<ul class="danxuan clear" id="fswc">-->
+			<!--<li><a href="javascript:fs();" tag="1" style="display: block;padding:0;text-align: center" class="this">分数</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt="" style="display: block"/></li>-->
+			<!--<li><a href="javascript:wc();" tag="2" style="display: block;padding:0;text-align: center">位次</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>-->
+		<!--</ul>-->
+		<div class="inner school">
+						<form method="GET" action="/scores/result5.html" onsubmit="return search()">
+
+							<table width="100%">
+								<tr>
+									<td style="line-height: 20px">&nbsp;</td>
+								</tr>
+								<tr>
+									<td>&nbsp;考生所在地</td>
+								</tr>
+								<tr>
+									<td>
+										<select name="stu_city" id="stu_city">
+											<option value="0" >请选择</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" style="line-height: 10px">&nbsp;</td>
+								</tr>
+								<tr>
+									<td>&nbsp;文&nbsp;/&nbsp;理</td>
+								</tr>
+								<tr>
+									<td>
+										<ul class="danxuan clear" id="wl">
+											<li><a href="javascript:void(0);" tag="1" style="display: block;padding:0;text-align: center" >文科</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+											<li><a href="javascript:void(0);" tag="2" style="display: block;padding:0;text-align: center"  >理科</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+										</ul>
+									</td>
+								</tr>
+
+								<tr>
+									<td style="line-height: 10px">&nbsp;</td>
+								</tr>
+								<tr>
+									<td>&nbsp;院校所在地</td>
+								</tr>
+								<tr>
+									<td>
+										<select name="sch_city" id="sch_city">
+											<option value="0" >请选择</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td style="line-height: 10px">&nbsp;</td>
+								</tr>
+								<tr>
+									<td>&nbsp;省位次</td>
+								</tr>
+								<tr class="tr_fswc">
+									<td><input type="text" placeholder="请输入位次" id="guanjian" name="rank" value=""/></td>
+								</tr>
+								<tr>
+									<td ><input  type="submit" value="搜索" class="btn_yes"/></td>
+								</tr>
+								<tr>
+									<td colspan="2" align="center" style="font-weight:bold;color:#00bb0c;line-height: 30px;background: url('__XUEYE__/images/shuomingbg.png') no-repeat center center">特别说明</td>
+								</tr>
+								<tr>
+									<td colspan="2" style="line-height: 10px">&nbsp;</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<p id="shuoming">“知分选大学”和“知位选大学”目前只面向“北京”、“山西”、“山东”、“福建”、“海南”、“湖南”六省考生开放。其它省份将陆续开放。</p>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2" style="line-height: 20px">&nbsp;</td>
+								</tr>
+							</table>
+							<div class="cleardiv20"></div>
+						</form>
+					</div>
+	</div>
+
+</div>
+<script>
+	$(function(){
+		isHaveLogin('/scores/search5');
+	});
+</script>
+ 
+<script>
+//	function fs(){
+//		var str1='<td width="90" valign="top" align="right">输入分数：</td><td><input type="text" placeholder="请输入分数" id="guanjian" name="fs" value=""/></td>'
+//		$('.tr_fswc').html(str1);
+//	}
+//	function wc(){
+//		var str1='<td width="90" valign="top" align="right">输入位次：</td><td><input type="text" placeholder="请输入位次" id="guanjian" name="wc" value=""/></td>'
+//		$('.tr_fswc').html(str1);
+//	}
+	$('#fswc>li>a').click(function(){
+		var attr1=$(this).next().attr('num');
+		$(this).next().val(attr1);
+		var tag = $(this).attr('tag');
+		$("#fswc>li>input[type='hidden']").remove();
+		$(this).after('<input name="lx" type="hidden"  value='+tag+' />' );
+		$('#fswc>li>a').removeClass("this");
+		$(this).addClass("this");
+		$('#fswc>li>img').hide();
+		$(this).next().next().show();
+	});
+	$('#wl>li>a').click(function(){
+		var attr1=$(this).next().attr('num');
+		$(this).next().val(attr1);
+		var tag = $(this).attr('tag');
+		$("#wl>li>input[type='hidden']").remove();
+		$(this).after('<input name="lx" type="hidden"  value='+tag+' />' );
+		$('#wl>li>a').removeClass("this");
+		$(this).addClass("this");
+		$('#wl>li>img').hide();
+		$(this).next().next().show();
+	});
+
+var uid = localStorage.CURRENT_USER_ID;
+$.ajax({ url:WEB_API_URL + "user/city?" , async: false,data:{scid:0,token:uid}, success: function(json){
+	var str1='';
+	var str2='';
+	$.each(json.data, function (index, array) {
+		if(array['has']=='1'){
+			str1+='<option id="'+array['ar_id']+'" value="'+array['ar_id']+'" selected="selected">'+array['ar_name']+'</option>';
+		}else{
+			str1+='<option id="'+array['ar_id']+'" value="'+array['ar_id']+'">'+array['ar_name']+'</option>';
+		}
+		str2+='<option id="'+array['ar_id']+'" value="'+array['ar_id']+'">'+array['ar_name']+'</option>';
+	});
+	$('#stu_city').append(str1);
+	$('#sch_city').append(str2);
+}});
+
+function search(){
+	if($('#stu_city').val()==0){
+		layer.open({
+			content: '请选择考生所在地'
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+		return false;
+	}else if($('.danxuan>li>a').is('.this')==false){
+		layer.open({
+			content: '请选择文理科'
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+		return false;
+	}else if($('#guanjian').val()==''){
+		layer.open({
+			content: '请输入预测的省位次'
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+		return false;
+	}else{
+
+	}
+}
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/scores/search5',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/scores/search5',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+{/block}
+ {block name='menu'}
+{/block}
+ 

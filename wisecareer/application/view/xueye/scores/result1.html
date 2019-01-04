@@ -1,0 +1,189 @@
+{extend name="layout/layout" }
+{block name="link"} 
+		<link href="__XUEYE__/css/aggregate.css" type="text/css" rel="stylesheet" />
+        <link rel="stylesheet" href="/static/public/css/layui.css"  media="all"> 
+	<script src="__XUEYE__/js/city.js"></script> 
+    <script src="/static/public/js/layui.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		table.school tr>th{
+			color: #666;
+			line-height: 36px;
+			font-size: 16px;
+			background: #f2f2f2;
+		}
+		table.school tr>td{
+			color: #666;
+			line-height: 36px;
+			font-size: 14px;
+		}
+		table.school tr>td{
+			color: #666;
+			line-height: 36px;
+			font-size: 14px;
+		}
+		table.school tr:nth-child(even)>td{
+
+			 }
+		table.school tr:nth-child(odd)>td{
+			background: #f2f2f2;
+		}
+	</style>
+ {/block}
+<!-- head -->
+{block name='head'}  
+<div id="dHead" style="position: fixed;top: 0;left: 0;z-index: 300">
+	<div class="head">
+		<h1 style="margin: 0">省控线</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+		<a href="/index/index.html" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle;width: 25px"/></a>
+	</div>
+</div>
+{/block}
+{block name='content'}
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+			<table width="100%" style="background: #ffffff;padding:20px 0;" class="school">
+
+			</table>
+	</div>
+</div>
+ 
+
+<script>
+
+	$(function () {
+		var isPageHide = false;
+		window.addEventListener('pageshow', function () {
+			if (isPageHide) {
+				window.location.reload();
+			}
+		});
+		window.addEventListener('pagehide', function () {
+			isPageHide = true;
+		});
+	});
+	var lx = getUrlParam('lx');
+	var year = getUrlParam('year');
+	var stu_city = getUrlParam('stu_city');
+	var uid = localStorage.CURRENT_USER_ID;
+	var vip=1;
+	$(function(){
+		isHaveLogin('/scores/result1');
+	});
+
+		if(localStorage.CURRENT_USER_VIP==0){
+			UserVip1();
+			vip=0;
+		}
+
+	$.ajax({ url:WEB_API_URL + "scores/get_province?" , async: false,data:{token:uid,lx:lx,year:year,stu_city:stu_city}, success: function(json){
+		var str1='';
+		var str2=json.data['sctpname']+'省控线';
+		var score='';
+		var wl='';
+		if(lx=='1'){wl='文科'}else if(lx=='2'){wl='理科'}
+		if(json.data.list!=''){
+			if(vip==0){
+				str1+='<tr><td colspan="4"><img src="//www.wisecareer.org/images/xueye/skx.png" alt="" width="100%"/></td></tr>'
+			}else{
+				str1+='<tr><th width="20%" align="center">年份</th><th width="20%" align="center">文/理</th><th width="40%" align="center">录取批次</th><th width="20%" align="center">分数</th></tr>';
+				$.each(json.data.list, function (index, array) {
+					if(array['province_score']=='0'){score='--'}else{score=array['province_score']}
+					str1+='<tr><td width="20%" align="center" class="'+array['year']+'">'+array['yearname']+'</td><td width="20%" align="center">'+wl+'</td><td width="40%" align="center">'+array['batchname']+'</td><td width="20%" align="center">'+score+'</td></tr>';
+				});
+			}
+
+		}else{
+			str1+='<tr><td align="center" colspan="3">&nbsp;</td></tr><tr><td align="center" colspan="3">暂无数据，敬请期待。</td></tr>';
+		}
+
+		$('table.school').append(str1);
+		$('.head>h1').html(str2);
+	}});
+
+
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/scores/result1?stu_city='+stu_city+'&lx='+lx+'&year='+year,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/scores/result1?stu_city='+stu_city+'&lx='+lx+'&year='+year,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+ {/block}
+{block name='menu'}
+
+{/block}

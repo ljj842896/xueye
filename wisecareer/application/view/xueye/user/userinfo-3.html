@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//xueye.wisecareer.org/css/xueye/yuan.css"/>
+	<link href="/static/xueye/css/user_info.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" type="text/css" href="//www.wisecareer.org/LCalendar/css/LCalendar.css" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.my-date>ul>li>a{
+			position: relative;
+			font-size: 16px;
+		}
+		.my-date>ul>li>a>.right{
+			cursor: pointer;
+			position: absolute;
+			top: 0;
+			left: 40%;
+			height: 50px;
+			line-height: 50px;
+			overflow: hidden;
+			font-size: 16px;
+		}
+		.yanzheng{
+			font-size: 12px;
+			border-radius: 2px;
+		}
+		table#aa{width: 100%}
+		table#aa td{
+			color: #666;
+			font-size: 14px;
+			line-height: 36px;
+			height: 36px;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">个人资料</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+<div class="tanchu">
+		<div class="head" style="position: fixed;top: 0;z-index: 1000">
+			<h1 style="margin: 0" id="head_tittle">个人中心12</h1>
+			<a href="javascript:hide()" class="return"><i class="return-right"></i></a>
+		</div>
+
+			<div class="tanchu_content">
+			<div class="cleardiv20"></div>
+				<div id="zsxm">
+					<input type="text" value="{$myinfo.user_name}" width="100%" name="user_name" placeholder="请输入真实姓名" class="text" id="user_name"/>
+					<input type="button" value="提交" class="btn_yes" onclick="submit(this);"/>
+				</div>
+			<div id="nc">
+				<input type="text" value="{$myinfo.nickname}" width="100%" name="nickname" placeholder="请输入昵称" class="text" id="nicheng"/>
+				<input type="button" value="提交" class="btn_yes" onclick="submit(this);"/>
+			</div>
+				<div id="sex">
+					<select name="sex" class="select">
+						<option value="">请选择</option>
+						<option value="男"  {if $myinfo.sex=="男"}selected="selected" {/if}男</option>
+						<option value="女"   {if $myinfo.sex=="女"}selected="selected" {/if}女</option>
+					</select>
+					<input type="button" value="提交" class="btn_yes" onclick="submit2(this);"/>
+					<h4 style="display: none">*选择性别确定后不可修改</h4>
+				</div>
+				<div id="birth" class="select_start_date">
+					<input type="text" value="{$myinfo.birthday}"  width="100%" name="birthday" id="start_date" class="text" placeholder="选择出生日期" readonly />
+					<input type="button" value="提交" class="btn_yes" onclick="submit(this);"/>
+				</div>
+			<div id="email">
+				<input type="text" value="{$myinfo.email}"  width="100%" name="email" placeholder="请输入电子邮件" class="text" id=""/>
+				<input type="button" value="提交" class="btn_yes" onclick="submit(this);"/>
+			</div>
+			<div id="shenfen">
+				<select name="ol_type" class="select">
+					<option value="0" >请选择</option>
+					<option value="2"  {if $myinfo.ol_type==2}selected="selected" {/if}在校</option>
+					<option value="1"   {if $myinfo.ol_type==1}selected="selected" {/if}离校</option>
+				</select>
+				<input type="button" value="提交" class="btn_yes" onclick="submit2(this);"/>
+			</div>
+			<div id="diqu">
+				<select name="scid" class="select">
+					<option value="0" >请选择</option>
+					<option value="3"  {if $myinfo.scid==3}selected="selected" {/if} >北京</option>
+					<option value="26"  {if $myinfo.scid==26}selected="selected" {/if}上海</option>
+					<option value="46" {if $myinfo.scid==46}selected="selected" {/if}广东</option>
+					<option value="68"  {if $myinfo.scid==68}selected="selected" {/if}江苏</option>
+					<option value="82"  {if $myinfo.scid==82}selected="selected" {/if}浙江</option>
+					<option value="95"  {if $myinfo.scid==95}selected="selected" {/if}山东</option>
+					<option value="113"  {if $myinfo.scid==113}selected="selected" {/if}四川</option>
+					<option value="135" {if $myinfo.scid==135}selected="selected" {/if}天津</option>
+					<option value="153"  {if $myinfo.scid==153}selected="selected" {/if}重庆</option>
+					<option value="194"  {if $myinfo.scid==194}selected="selected" {/if}辽宁</option>
+					<option value="209" {if $myinfo.scid==209}selected="selected" {/if}>云南</option>
+					<option value="4"  {if $myinfo.scid==4}selected="selected" {/if}>河南</option>
+					<option value="240" {if $myinfo.scid==240}selected="selected" {/if}>河北</option>
+					<option value="252" {if $myinfo.scid==252}selected="selected" {/if}>福建</option>
+					<option value="262" {if $myinfo.scid==262}selected="selected" {/if}>安徽</option>
+					<option value="280" {if $myinfo.scid==280}selected="selected" {/if}>湖北</option>
+					<option value="297" {if $myinfo.scid==297}selected="selected" {/if}>黑龙江</option>
+					<option value="311" {if $myinfo.scid==311}selected="selected" {/if}>江西</option>
+					<option value="324" {if $myinfo.scid==324}selected="selected" {/if}>吉林</option>
+					<option value="334" {if $myinfo.scid==334}selected="selected" {/if}>陕西</option>
+					<option value="345" {if $myinfo.scid==345}selected="selected" {/if}>湖南</option>
+					<option value="360" {if $myinfo.scid==360}selected="selected" {/if}>山西</option>
+					<option value="372" {if $myinfo.scid==372}selected="selected" {/if}>甘肃</option>
+					<option value="399" {if $myinfo.scid==399}selected="selected" {/if}>广西</option>
+					<option value="387" {if $myinfo.scid==387}selected="selected" {/if}>内蒙古</option>
+					<option value="414" {if $myinfo.scid==414}selected="selected" {/if}>贵州</option>
+					<option value="424" {if $myinfo.scid==424}selected="selected" {/if}>新疆</option>
+					<option value="439" {if $myinfo.scid==439}selected="selected" {/if}>海南</option>
+					<option value="459" {if $myinfo.scid==459}selected="selected" {/if}>宁夏</option>
+					<option value="465" {if $myinfo.scid==465}selected="selected" {/if}>西藏</option>
+					<option value="473" {if $myinfo.scid==473}selected="selected" {/if}>青海</option>
+					<option value="485" {if $myinfo.scid==485}selected="selected" {/if}>香港</option>
+				</select>
+				<input type="button" value="提交" class="btn_yes" onclick="submit2(this);"/>
+			</div>
+			<div id="leixing">
+				<select name="closslx" class="select">
+					<option value="1">请选择</option>
+					<option value="3" {if $myinfo.closslx==3}selected="selected" {/if}>中学</option>
+					<option value="9" {if $myinfo.closslx==9}selected="selected" {/if}>职高</option>
+				</select>
+				<input type="button" value="提交" class="btn_yes" onclick="submit2(this);"/>
+			</div>
+			<div id="school_name">  
+             <input id="txt_search" type="text"  placeholder="请输入学校名称" value="{$schoolname}" name="schoolname" class="text" />
+              <div id="searchresult" style="display: none;">
+              </div>
+              <script type="text/javascript">
+  $(function () {
+   $("#txt_search").keyup(function (evt) {
+    ChangeCoords(); //控制查询结果div坐标
+    var k = window.event ? evt.keyCode : evt.which;
+	var uid = localStorage.CURRENT_USER_ID;
+    //输入框的id为txt_search，这里监听输入框的keyup事件
+    //不为空 && 不为上箭头或下箭头或回车
+    if ($("#txt_search").val() != "" && k != 38 && k != 40 && k != 13) {
+     $.ajax({
+      type: 'Post', 
+      //async: false, //同步执行，不然会有问题
+      dataType: "json",
+      url: "/search.php?&term="+$("#txt_search").val(), //提交的页面/方法名
+      contentType: "json", 
+      success: function (data) {  
+
+       var objData = data.data
+       if (objData.length > 0) {
+        var layer = "";
+        layer = "<table id='aa'>";
+        $.each(objData, function (idx, item) {
+         layer += "<tr class='line'><td class='std'>" + item['value'] + "</td></tr>";
+        });
+        layer += "</table>";
+			//将结果添加到div中
+        $("#searchresult").empty();
+        $("#searchresult").append(layer);
+        $(".line:first").addClass("hover");
+        $("#searchresult").css("display", "");
+        //鼠标移动事件
+        $(".line").hover(function () {
+         $(".line").removeClass("hover");
+         $(this).addClass("hover");
+        }, function () {
+         $(this).removeClass("hover");
+         //$("#searchresult").css("display", "none");
+        });
+        //鼠标点击事件
+        $(".line").click(function () {
+         $("#txt_search").val($(this).text());
+         $("#searchresult").css("display", "none");
+        });
+       } else {
+        $("#searchresult").empty();
+        $("#searchresult").css("display", "none");
+       }
+      }
+     });
+    }
+    else if (k == 38) {//上箭头
+     $('#aa tr.hover').prev().addClass("hover");
+     $('#aa tr.hover').next().removeClass("hover");
+     $('#txt_search').val($('#aa tr.hover').text());
+    } else if (k == 40) {//下箭头
+     $('#aa tr.hover').next().addClass("hover");
+     $('#aa tr.hover').prev().removeClass("hover");
+     $('#txt_search').val($('#aa tr.hover').text());
+    }
+    else if (k == 13) {//回车
+     $('#txt_search').val($('#aa tr.hover').text());
+     $("#searchresult").empty();
+     $("#searchresult").css("display", "none");
+    }
+    else {
+     $("#searchresult").empty();
+     $("#searchresult").css("display", "none");
+    }
+   });
+   $("#searchresult").bind("mouseleave", function () {
+    $("#searchresult").empty();
+    $("#searchresult").css("display", "none");
+   });
+  });
+  //设置查询结果div坐标
+  function ChangeCoords() {
+   // var left = $("#txt_search")[0].offsetLeft; //获取距离最左端的距离，像素，整型
+   // var top = $("#txt_search")[0].offsetTop + 26; //获取距离最顶端的距离，像素，整型（20为搜索输入框的高度）
+   var left = $("#txt_search").position().left; //获取距离最左端的距离，像素，整型
+   var top = $("#txt_search").position().top + 20; ; //获取距离最顶端的距离，像素，整型（20为搜索输入框的高度）
+   $("#searchresult").css("left", left + "px"); //重新定义CSS属性
+   $("#searchresult").css("top", top + "px"); //同上
+  }
+</script>
+	<script>
+        $('ul.fuzzy_search li').click(function(){
+            var li_content=$(this).html();
+            $('#birds').val(li_content);
+        })
+    </script>
+			<input type="button" value="提交" class="btn_yes" onclick="submit5('txt_search');"/>
+		</div>
+			<div id="banji">
+				<select name="classname" id="grade">
+					<option value="">请选择年级</option>
+				{foreach $nanjis as $vlaue}
+					<option value="{$vlaue.class_id}">{$vlaue.class_name}</option>
+				{/foreach}
+				</select>
+				<select name="classroom" id="class">
+					<option value="">请选择班级</option>
+					{foreach $banjis as $vlaue}
+					<option value="{$vlaue.class_id}">{$vlaue.class_name}</option>
+				{/foreach}
+				</select>
+				<input type="button" value="提交" class="btn_yes" onclick="submit3(this);"/>
+			</div>
+		</div>
+</div>
+<!-- user-info  -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+	<div class="my-date">
+		<div class="cleardiv20"></div>
+		<ul class="clear" style="margin-top:0;">
+			<li style="border-top: none;height: 60px;line-height: 60px">
+				<a href="javascript:void(0);" style="background: none">
+					头像
+					<div class="right">
+						<div class="head_pic_man head_pic" onClick="goPermissionUrl('/user/picture.html');" style="width: 50px;height: 50px">
+							<img src="{$userpic}" alt=""/>
+						</div>
+					</div>
+				</a>
+			</li>
+			<!--<li>-->
+				<!--<a href="javascript:void(0);" style="background: none">-->
+					<!--登录名-->
+					<!--<div class="right">{$myinfo.username}</div></a>-->
+			<!--</li>-->
+			<li>
+				<a href="javascript:void(0);" class="zsxm_show">
+					真实姓名 <span>*</span>
+					<div class="right zsxm">{$myinfo.user_name}</div></a>
+			</li>
+			<li>
+				<a  href="javascript:void(0);" class="nc_show" >
+					昵称
+					<div class="right nc">{$myinfo.nickname}</div></a>
+			</li>
+            {if $myinfo.sex =="" }
+			<li>
+				<a href="javascript:void(0);" class="sex_show">
+					性别 <span>*</span>
+					<div class="right sex">{$myinfo.sex}</div></a>
+			</li>
+            {else}
+           <li>
+				<a class="sex">
+					性别 <span>*</span>
+					<div class="right sex">{$myinfo.sex}</div></a>
+			</li>
+            {/if}
+			<li>
+				<a  {if $myinfo.birthday ==''} href="javascript:void(0);" class="birth_show" {else}style="background: none" {/if}>
+					出生日期 <span>*</span>
+					<div class="right birth">{$myinfo.birthday}</div></a>
+			</li>
+			<li>
+				<a href="javascript:void(0);" style="background: none">
+					手机号 <span>*</span>
+					<div class="right">{$myinfo.dianhua}</div></a>
+			</li>
+			<li>
+				<a  href="javascript:void(0);" class="email_show" >
+					电子邮件
+					<div class="right email">{$myinfo.email}</div></a>
+			</li>
+			<li>
+				<a  {if !$myinfo.viptype} href="javascript:void(0);" class="shenfen_show" "{else}style="background: none"{/if}>
+					身份类别 <span>*</span>
+					<div class="right shenfen">{if $myinfo.ol_type==2}在校{elseif  $myinfo.ol_type==1}离校{else}{/if}</div></a>
+			</li>
+			<li>
+				<a href="javascript:void(0);" class="diqu_show">
+					所在地区 <span>*</span>
+					<div class="right diqu">{$diqu}</div></a>
+			</li>
+
+			{if $myinfo.ol_type==2}
+			<li>
+				<a href="javascript:void(0);" class="leixing_show">
+					学校类型 <span>*</span>
+					<div class="right leixing">{if $myinfo.closslx==3}中学{else}职高{/if}</div></a>
+			</li>
+			<li>
+				<a 	{if !$myinfo.viptype} href="javascript:void(0);" class="school_name_show"  {/if}>
+					学校名称 <span>*</span>
+					<div class="right school_name">{$schoolname}</div>
+					{if $myinfo.viptype}<img src="//www.wisecareer.org/images/xueye/icon/verification.png" height="16" alt="" style="position: absolute;right: 5px;top: 50%;margin-top: -7px"/>{/if}
+				</a>
+			</li>
+			<li>
+				<a href="javascript:void(0);" class="banji_show" >
+					教学班级 <span>*</span>
+					<div class="right banji">{$nabanji}</div>
+				</a>
+			</li>
+			{/if}
+		</ul>
+		<div class="clear cleardiv10"></div>
+	</div>
+		 </div>
+</div>
+	<div class="cleardiv55"></div>
+ 		</div>
+{ if $login == 1}
+<div id="not_loggedin">
+	<span style="padding-left: 20px;">请先完善你的个人信息。</span>
+	<span class="floatright" id="close" style="width: 60px;text-align: center">x</span>
+</div>
+<script>
+	$('#close').click(function(){
+		$('#not_loggedin').hide();
+	})
+</script> 
+{/if}
+<div id="dFoot">
+	<div class="body-nav">
+		<ul>
+			<li><a  onclick="location.href='/index/index/'"><i class="icon-nav-1"></i>首页</a></li>
+			<li><a onClick="goPermissionUrl('/message/index.html');"><i class="icon-nav-2"></i>消息</a></li>
+			<li class="in"><a onClick="goPermissionUrl('/user/index.html');"><i class="icon-nav-5"></i>个人中心</a></li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	function hide(){
+		$('.tanchu').hide();
+		$('.tanchu_content input,.tanchu_content select,.tanchu_content h4').hide();
+		$('table#aa').hide();
+	}
+	$('.zsxm_show').click(function() {
+
+
+		$('h1#head_tittle').html('真实姓名');
+		$('.tanchu').show();
+		$('#zsxm input').css('display','block');
+	});
+
+	
+	$('.nc_show').click(function() {
+		$('h1#head_tittle').html('昵称');
+		$('.tanchu').show();
+		$('#nc input').css('display','block');
+	})
+	$('.sex_show').click(function() {
+		$('h1#head_tittle').html('性别');
+		$('.tanchu').show();
+		$('#sex select.select').css('display','block');
+		$('#sex input').css('display','block');
+		$('#sex h4').css('display','block');
+	})
+
+	$('.birth_show').click(function() {
+		$('h1#head_tittle').html('出生日期');
+		$('.tanchu').show();
+		$('#birth select.select').css('display','block');
+		$('#birth input').css('display','block');
+		$('#birth h4').css('display','block');
+	})
+	$('.email_show').click(function() {
+			$('h1#head_tittle').html('电子邮件');
+		$('.tanchu').show();
+		$('#email input').css('display','block');
+	})
+
+	$('.shenfen_show').click(function() {
+		$('h1#head_tittle').html('身份类别');
+		$('.tanchu').show();
+		$('#shenfen select.select').css('display','block');
+		$('#shenfen input').css('display','block');
+	})
+
+	$('.diqu_show').click(function() {
+			$('h1#head_tittle').html('所在地区');
+		$('.tanchu').show();
+		$('#diqu select.select').show();
+		$('#diqu input').css('display','block');
+	})
+
+	$('.leixing_show').click(function() {
+		$('h1#head_tittle').html('学校类型');
+		$('.tanchu').show();
+		$('#leixing select.select').show();
+		$('#leixing input').css('display','block');
+	})
+
+	$('.school_name_show').click(function() {
+		$('h1#head_tittle').html('学校名称');
+		$('.tanchu').show();
+		$('#school_name input').css('display','block');
+	})
+
+	$('.banji_show').click(function() {
+		$('h1#head_tittle').html('教学班级');
+		$('.tanchu').show();
+		$('#banji>select#grade,#banji>select#class').show();
+		$('#banji input').css('display','block');
+	})
+
+
+	function midfy(name,val,name1='',val1=''){
+ 
+		var token =localStorage.CURRENT_USER_ID
+	   	$.ajax({
+	        url: WEB_API_URL+"user/midfy_userinfo",
+	        type: "Post",
+	        data: "token="+token+"&"+name+"="+val+"&"+name1+'='+val1,
+	        dataType:'json',
+	        async:false,
+	        success: function (result){
+	        	if(result.status == '0') {
+	        		if(result.data ==1){
+	        			window.location.href="/user/verification"
+	        		}else{
+	        			window.location.href=window.location.href
+	        		}
+					
+                }else if(result.status == '2000') {
+                		layer.open({
+						content: result.msg
+						,shadeClose: false
+						,btn: '我知道了'
+					});
+                }else{
+					layer.open({
+						content: result.msg
+						,shadeClose: false
+						,btn: '我知道了'
+					});
+                }
+	        }
+	         
+	  	})
+	}
+
+	function submit(a){
+		$('.tanchu').hide();
+		$('.tanchu_content input[type="text"],.tanchu_content select,.tanchu_content input[type="button"]').hide();
+	
+		var val= $(a).prev().attr("value");
+		var name= $(a).prev().attr("name");
+	
+		midfy(name,val)
+	}
+	
+	function submit4(a){
+		$('.tanchu').hide();
+		$('.tanchu_content input[type="text"],.tanchu_content select,.tanchu_content input[type="button"]').hide();
+	
+		var val= $("#"+a+"").val() ;
+		var name = $("#"+a+"").attr('name');
+		midfy(name,val)
+	}
+	function submit5(a){
+		$('.tanchu').hide();
+		$('.tanchu_content input[type="text"],.tanchu_content select,.tanchu_content input[type="button"]').hide();
+
+		var val= $("#"+a+"").val() ;
+		var name = $("#"+a+"").attr('name');
+		midfy(name,val)
+		
+		
+	}
+	function submit2(a) {
+		$('.tanchu').hide();
+		$('.tanchu_content input[type="text"],.tanchu_content select,.tanchu_content input[type="button"]').hide();
+ 
+	
+		var val = $(a).prev().find("option:selected").val();
+		var name = $(a).prev('select').attr('name');
+		midfy(name,val)
+
+	}
+
+	function submit3(a) {
+		$('.tanchu').hide();
+		$('.tanchu_content input[type="text"],.tanchu_content select,.tanchu_content input[type="button"]').hide();
+
+		var str1 = $(a).prev().find("option:selected").val();
+		var name1 = $(a).prev('select').attr('name');
+		var str2 = $(a).prev().prev().find("option:selected").val();
+		var name2 = $(a).prev().prev("select").attr('name');
+		midfy(name1,str1,name2,str2)
+
+	}
+	$(function(){
+		isHaveLogin('/user/userinfo.html');
+	});
+</script>
+<script src="//www.wisecareer.org/LCalendar/js/LCalendar.js" type="text/javascript"></script>
+<script type="text/javascript">
+	var calendar = new LCalendar();
+	calendar.init({
+		'trigger': '#start_date', //标签id
+		'type': 'date', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择,
+		'minDate': (new Date().getFullYear()-65) + '-' + 1 + '-' + 1, //最小日期
+		'maxDate': (new Date().getFullYear()) + '-' + 12 + '-' + 31 //最大日期
+	});
+	//		var calendar = new LCalendar();
+	//		calendar.init({
+	//			'trigger': '#end_date', //标签id
+	//			'type': 'date', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择,
+	//			'minDate': (new Date().getFullYear()-100) + '-' + 1 + '-' + 1, //最小日期
+	//			'maxDate': (new Date().getFullYear()+100) + '-' + 12 + '-' + 31 //最大日期
+	//		});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

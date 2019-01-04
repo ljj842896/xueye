@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/experience.css"/>
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/layui.css"  media="all">
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		ul#content>li{
+			background: #fff;
+			padding: 0 10px;
+			margin-bottom: 5px;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">计划日志</h1>
+		<a href="/experience/index/" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+<!--<h4>计划周期：</h4>-->
+<!--<h4>体验主题包括：</h4><div class="cleardiv5"></div>-->
+<!--<h3>学习量： 10 题</h3>-->
+<!--<h3>学习模式：10个案例/次</h3>-->
+<!--<h3>你的学习进度：100%</h3>-->
+<!--<h3>体验状态：完成</h3>-->
+<!--<div class="cleardiv10"></div>-->
+<div id="dBody">
+	<div class="mycontent experience" style="height:100%;margin: 0">
+		<div class="cleardiv50"></div>
+		<div id="content"></div>
+	</div>
+</div>
+
+<script>
+	$(function(){
+		isHaveLogin('/experience/plan_log');
+	});
+	Request = GetRequest();
+	var eid = localStorage.CURRENT_USER_ID;
+	var back = getUrlParam("back");
+	if(back==1){
+		$('a.return').attr('href','/index/index');
+	}
+	$(function() {
+		//滚屏加载
+		var tab1_i = 1; //设置当前页数
+		var winH = $(window).height(); //页面可视区域高度
+		$(window).scroll(function () {
+			var pageH = $(document).height();
+			var scrollT = $(window).scrollTop(); //滚动条top
+			var aa = (pageH - scrollT) ;
+			if (tab1_i == 0) {
+				return false;
+				$(window).scroll()
+			}
+
+			if (aa ==winH) {
+				scrollLoad();
+
+			}
+		});
+		function scrollLoad(){
+
+			if (tab1_i == 0) {
+				return false;
+			}
+
+			$.ajax({ url:WEB_API_URL + "experience/planlog?" + Request, async: false,data:{token: eid, page: tab1_i}, success: function(json){
+				var str1 = '';
+				var data=json.data;
+				if(data!=''){
+					$.each(data,function(index,array){
+						str1 +='<table width="100%" style="background: #fff;padding: 10px 0;line-height: 24px;margin-bottom: 5px">';
+						str1 +='<tr><td width="10">&nbsp;</td><td width="100" align="left" style="font-weight: bold">计划周期</td><td width="10" valign="top">：</td><td align="left">'+array['starttime']+'&nbsp;——&nbsp;'+array['endtime']+'</td><td width="10">&nbsp;</td></tr>';
+						str1 +='<tr><td width="10">&nbsp;</td><td width="100" align="left" style="font-weight: bold" valign="top">体验主题包括</td><td width="10" valign="top">：</td><td align="left">'+array['tpname']+'</td><td width="10">&nbsp;</td></tr>';
+						str1 +='<tr><td width="10">&nbsp;</td><td width="100" align="left" style="font-weight: bold">学习量</td><td width="10" valign="top">：</td><td align="left">'+array['nums']+'次</td><td width="10">&nbsp;</td></tr>';
+						str1 +='<tr><td width="10">&nbsp;</td><td width="100" align="left" style="font-weight: bold">学习模式</td><td width="10" valign="top">：</td><td align="left">'+array['every']+'个案例/次</td><td width="10">&nbsp;</td></tr>';
+						str1 +='<tr><td width="10">&nbsp;</td><td width="100" align="left" style="font-weight: bold">学习进度</td><td width="10" valign="top">：</td><td align="left">'+array['pro']+'%</td><td width="10">&nbsp;</td></tr>';
+						str1 +='<tr><td width="10">&nbsp;</td><td width="100" align="left" style="font-weight: bold">计划状态</td><td width="10" valign="top">：</td><td align="left">'+array['comp']+'</td><td width="10">&nbsp;</td></tr></table>';
+					});
+					$("div#content").append(str1);
+					tab1_i++;
+				}else{
+					tab1_i = 0;//设置数据已全部加载
+					str1 = '<p style="text-align: center;color: #666;background: #fff;line-height: 40px;font-size: 16px;padding: 20px 0">暂无数据</p>';
+					$("div#content").append(str1);
+				}
+			}});
+
+		}
+
+		//给窗口滚动事件绑定滚屏加载方法
+
+
+		//加载完成后初始化内容，并设置tab为1
+		scrollLoad();//初始化tab1内容
+
+
+		var UA=window.navigator.userAgent;  //使用设备
+		var CLICK="click";
+		if(/ipad|iphone|android/.test(UA)){   //判断使用设备
+			CLICK="tap";
+		}
+		$(".tab a").each(function(j) {
+			var num = j + 1;
+
+			$(this).click(function() {
+				$('html, body').animate({
+					scrollTop: 0,
+					scrollLeft: 0
+				});
+				$(".tab a").attr("class", "");
+				$(this).attr("class", "on");
+				for (var i = 1; i <= 2; i++) {
+					$("#tab_kc" + i).css("display", "none");
+				}
+				$("#tab_kc" + num).css("display", "block");
+			});
+		});
+		$("#top").click(function(event) {
+			$("body,html").animate({
+				scrollTop: 0
+			}, 500)
+		});
+		var gonav_btn=$("#gonav_btn");
+		var gonav_box=$("#gonav_box");
+		gonav_box.hide();
+		gonav_btn[CLICK](function(){
+			event.preventDefault();
+			gonav_box.slideToggle("slow");
+		});
+	});
+</script>
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>
+
+
+<script>
+
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/plan_log',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/plan_log',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>

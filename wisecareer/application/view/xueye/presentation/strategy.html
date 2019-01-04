@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		table#content tr>td{
+			background: #fff;
+		}
+		input{
+			background: #00bb0c;
+			width: 100%;
+			height: 36px;
+			border: none;
+			color: #fff;
+			font-size: 14px;
+			font-weight: bold;
+			-webkit-appearance: none;
+			text-align: center;
+		}
+		h3{
+			text-align: center;
+			font-size: 16px;
+			line-height: 30px;
+			color: #666;
+			font-weight: bold;
+			padding-bottom: 5px;
+		}
+		p{
+			color: #666;
+			font-size: 12px;
+			padding: 2px 0;
+		}
+		td{font-size: 14px;color: #666;line-height: 30px}
+	</style>
+</head>
+<body>
+<div id="dHead">
+	<div class="head">
+		<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">3+3选科策略</h1>
+		<a href="javascript:history.go(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<div id="dBody" style="position: static;overflow-x:hidden;table-layout: fixed;word-wrap:break-word;word-break:break-all;">
+	<div class="mycontent">
+		<div class="major">
+			<div class="cleardiv10"></div>
+			<div class="cleardiv20"></div>
+			<div class="cleardiv20" style="background: #ebebeb"></div>
+			<div class="inner">
+				<div class="cleardiv10"></div>
+				<table width="100%" id="content">
+					<tr>
+						<td colspan="3" align="center"><h3 id="titlename"></h3></td>
+					</tr>
+				</table>
+				<div class="cleardiv20" style="border-bottom: 1px solid #ebebeb"></div>
+				<div class="cleardiv10"></div>
+				<p>
+					说明：
+				</p>
+				<p>
+					1.当前考区设置为 “ <span id="city" style="color: #f00"></span> ”
+				</p>
+				<p>
+					2.此比例是根据本系统中开设该专业的院校对此专业的高考选考要求计算得出。仅做参考。
+				</p>
+				<div class="cleardiv20"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+
+	function hrefurl(){
+
+		var lxs =[]
+		var objectscid = $(".shaixuan_content>li[class='this']");
+		for( i=0;i<objectscid.length;i++){
+			lxs[lxs.length]=objectscid[i].getAttribute('id');
+		}
+
+		var url = window.location.href ;
+		if(url.indexOf('?')>0){
+			var newur = url.replace(/\?.*/g, '?cid='+lxs.join(","));
+		} else {
+			var newur =url +'?cid='+lxs.join(",")
+		}
+		
+		
+		window.location.href = newur
+	}
+</script>
+<script type="text/javascript">
+
+	var load_index =layer.open({type: 2, shadeClose: false});
+
+	$(function(){
+		isHaveLogin('/presentation/strategy.html');
+	});
+	var nums='';
+	var uid = localStorage.CURRENT_USER_ID;
+	Request = GetRequest();
+
+	var did = getUrlParam("majorid");
+	var cid = getUrlParam('cid');
+	var arr_form=cid.split(",");
+	var titlename = decodeURI(GetQueryString("titlename"));
+
+	//滚屏加载
+
+	//给窗口滚动事件绑定滚屏加载方法
+	 
+	scrollLoad();  
+	
+	
+	function scrollLoad() {
+
+
+		
+		
+
+		$.getJSON(WEB_API_URL + "school/aggregate?"+Request, {token: uid}, function (json) {
+
+			var str1 = "";
+			var data =json.data;
+
+			if (data !='') {
+				$.each(data.ation, function (index, array) {
+					str1 += "<tr><td width=\"25%\" align=\"left\">选科组合</td>";
+					str1 += "<td width=\"50%\" align=\"left\">"+array['lilun']+"</td>";
+					str1 += "<td width=\"25%\" align=\"right\"><span style='color: #f00'>"+array['targe']+"%</span></td></tr>";
+				})
+			} else {
+				str1 = ""
+			}
+			$('h3#titlename').html(data['titlename']);
+			$('span#city').html(data['addr']);
+			$('table#content').append(str1);
+			layer.close(load_index);
+		});
+
+	}
+
+
+$('.close>a').live('click',function(){
+	
+	var uid = localStorage.CURRENT_USER_ID; 
+  
+   var majorid = $(this).attr('id');
+ 		var ma_id = $(this) 
+   layer.open({
+			content: '你确定取消收藏此专业吗？'
+			,btn: ['确定', '取消']
+			,shadeClose: false
+,yes: function(index){
+
+	 $.ajax({
+      type:"POST",
+      url:WEB_API_URL+"school/collection_major_add?",
+      data:"token="+uid+"&majorid="+majorid,
+      cache:false, //不缓存此页面
+      success:function(data){
+      if(data.status==0){
+				if(ma_id.is('.this')){ 
+					ma_id.attr('class','');
+					ma_id.parent().parent().parent().parent().parent().remove();
+					nums--;
+					$('#tittle_num').html(nums);
+				}
+     	}else{
+			layer.open({
+				content: data.msg
+				,btn: '我知道了'
+				});
+			}
+      }
+    });
+    //return false;  
+				layer.close(index);
+			}
+		}); 
+	
+})
+
+
+	function pipei(a) {
+		$('.show_hide').show();
+//		$('#dBody').css({'height':'100%','overflow-y':'hidden'});
+		$.getJSON(WEB_API_URL + "major/major_policy?"+Request, {token: uid, eduscid: a}, function (json) {
+//			http://api.wisecareer.org/major/major_policy?eduscid=680&token=bkj0ngu7ovkmijinp4f3ehbor2
+			var data=json.data;
+			var str2='';
+			var src='//www.wisecareer.org/images/xueye/';
+			var targethas='';
+			var targethasimg='';
+			var advantagehasnum='';
+			var advantagehasimg='';
+			var disciplinehasnum='';
+			var disciplinehasimg='';
+			var interesthasnum='';
+			var interesthasimg='';
+			var industryhasnum='';
+			var industryhasimg='';
+			var discipline='';
+			var interest='';
+			var industry='';
+			if(data['discipline']==''){discipline='';}else{discipline=data['discipline'].join("、");}
+			if(data['interest']==''){interest='';}else{interest=data['interest'].join("、");}
+			if(data['interest']==''){interest='';}else{industry=data['interest'].join("、");}
+
+			if(data['targethas']==1){targethas='匹配';targethasimg=src+'yes.png' }else{targethas='不匹配';targethasimg=src+'no.png'}
+			if(data['advantagehasnum']==1){advantagehasnum='匹配';advantagehasimg=src+'yes.png'}else{ advantagehasnum='不匹配';advantagehasimg=src+'no.png'}
+			if(data['disciplinehasnum']==1){disciplinehasnum='匹配';disciplinehasimg=src+'yes.png'}else{ disciplinehasnum='不匹配';disciplinehasimg=src+'no.png'}
+			if(data['interesthasnum']==1){interesthasnum='匹配';interesthasimg=src+'yes.png'}else{ interesthasnum='不匹配';interesthasimg=src+'no.png'}
+			if(data['industryhasnum']==1){industryhasnum='匹配';industryhasimg=src+'yes.png'}else{ industryhasnum='不匹配';industryhasimg=src+'no.png'}
+			str2+='<div class="class_bg" style="z-index: 100;background: rgba(0,0,0,0.7);">&nbsp;</div>';
+			str2+='<table class="matching" width="90%"><tr><td colspan="3" id="name" align="center"> <span class="font_green">'+data['titlename']+' </span>专业与学业决策匹配</td>';
+			str2+='</tr><tr><td width="70" valign="top">学业目标：</td><td class="font_green" id="xueye" valign="top">'+data['target']+'</td><td width="30" valign="top"><img src="'+targethasimg+'" alt="" height="24"/></td>';
+			str2+='</tr><tr><td valign="top">优势学科：</td><td class="font_green" id="ysxk" valign="top">'+data['advantage']+'</td><td valign="top"><img src="'+advantagehasimg+'" alt="" height="24"/></td>';
+			str2+='</tr><tr><td valign="top">学科漏斗：</td><td id="xkld" valign="top">排除 <span class="font_green">'+discipline+'</span></td><td valign="top"><img src="'+disciplinehasimg+'" alt="" height="24"/></td>';
+			str2+='</tr><tr><td valign="top">兴趣漏斗：</td><td id="xqld" valign="top">排除 <span class="font_green">'+interest+'</span></td><td valign="top"><img src="'+interesthasimg+'" alt="" height="24"/></td>';
+			str2+='</tr><tr><td valign="top">行业漏斗：</td><td id="hyld" valign="top">排除 <span class="font_green">'+industry+'</span></td><td valign="top"><img src="'+industryhasimg+'" alt="" height="24"/></td>';
+			str2+='</tr><tr><td colspan="3" id="shuoming">说明：此处按现有学业规划决策参数进行的分项比对。</td></tr>';
+			str2+='<tr><td colspan="3" id="btn"><input type="button" value="我知道了" class="btn_yes" onclick="hide()"/></td></tr></table>';
+			$('.show_hide').html(str2);
+
+		})
+	}
+	function show(){
+		$('.show_hide').show();
+	}
+	function hide(){
+		$('.show_hide').hide();
+		$('.show_hide').html('');
+//		$('#dBody').css({'height':'auto','overflow-y':'scroll'});
+	}
+
+
+
+
+	$('#screen_btn').live('click',function(){
+		$(this).addClass('close_sx');
+		$('#shaixuan').slideDown(500);
+		if(arr_form==''){
+
+		}else{
+			for(var n=0;n<arr_form.length;n++){
+				var name_id=arr_form[n];
+				$('#'+name_id).addClass('this');
+				$('#'+name_id+'>img').show();
+			}
+		}
+
+	});
+
+	$('.shaixuan_content>li').live('click',function(){
+		$(this).addClass('this');
+		$(this).children().show();
+	});
+	$('.shaixuan_content>li.this').live('click',function(){
+		$(this).removeClass('this');
+		$(this).children().hide();
+	});
+
+	function shaixuan_hide(){
+		$('#shaixuan').hide();
+	}
+	$('.close_sx').click(function(){
+		$('#screen_btn').removeClass('close_sx');
+		$('#shaixuan').hide();
+	});
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/presentation/strategy',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/presentation/strategy',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

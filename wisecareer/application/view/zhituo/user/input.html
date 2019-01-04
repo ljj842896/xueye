@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>职拓e站</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="MobileOptimized" content="320"/>
+    <link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+    <link href="//www.wisecareer.org/css/zhituo/input.css" type="text/css" rel="stylesheet" />
+    <link href="//www.wisecareer.org/css/zhituo/Password.css" type="text/css" rel="stylesheet" />
+    <script src="/static/public/js/jquery-1.8.3.min.js"></script>
+    <script src="/static/lib/layer/mobile/layer.js"></script>
+    <link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+    <script src="//xueye.wisecareer.org/js/xueye/input.js"></script>
+    <script src="/static/zhituo/js/base.min.js"></script>
+    <script src="/static/zhituo/js/com.min.js"></script>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <style>
+        .content_inner span{
+            width: 20%;
+        }
+        .content_inner input[type=text], .content_inner input[type=password], .content_inner input[type=number]{
+            width: 72%;
+        }
+    </style>
+</head>
+<body>
+<div id="dHead">
+    <div class="head">
+        <h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;"></h1>
+        <a href="/user/wallet" class="return" style="top: 5px"><i class="return-right"></i></a>
+        <a href="/index/index.html" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle"/></a>
+    </div>
+</div>
+
+
+<!-- user-info  -->
+<div id="dBody">
+    <div class="cleardiv50"></div>
+    <div class="mycontent">
+        <div class="inner" style="background: #fff;position: fixed;top: 50px;left: 0;width: 100%;z-index: 1000;text-align: center;padding: 15px 0;">
+            <table width="80%" style="margin: 0 auto;" id="tab" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td align="center" width="33%" onclick="location.href='/user/auth'">微信充值</td>
+                    <td align="center" width="33%" class="this" onclick="location.href='/user/input?type=0'" id="zt" >职拓卡充值</td>
+                    <td align="center" width="33%" onclick="location.href='/user/input?type=1'"  id="dj">代金券充值</td>
+                </tr>
+            </table>
+        </div>
+        <div class="cleardiv50" style="height:63px"></div>
+        <div class="inner">
+            <div class="content1 clear">
+                <div class="cleardiv20"></div>
+                <div class="content_inner">
+                    <ul id="password_list">
+                        <li><span>卡号：</span><input type="number" max="9999999999" id="kahao" class="appearance shuru" name="kahao" style="border: solid 1px rgba(0,0,0,0.3)"/><a href="javascript:void(0);" class="close">x</a></li>
+                        <li><span>密码：</span><input name="password" type="number" class="appearance shuru" id="password" style="border: solid 1px rgba(0,0,0,0.3)" maxlength="8"/><a href="javascript:void(0);" class="close">x</a></li>
+                        <li><input type="button" value="确认充值" class="btn_yes"/></li>
+                    </ul>
+                    <div class="clear"></div>
+                    <div class="cleardiv10"></div>
+                    <p style="border-top: 1px solid #ebebeb;padding-top: 10px;color: #666;font-size: 14px">注：如需购买职拓卡，请拨打全国客服电话400-074-0520</p>
+                    <div class="cleardiv20"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="cleardiv55"></div>
+</div>
+<script>
+    var token = localStorage.CURRENT_USER_ID;
+    var type = getUrlParam("type");
+    if(type==0){
+        $('table#tab tr>td').removeClass('this');
+        $('table#tab tr>td#zt').addClass('this');
+        $('.head>h1').html('职拓卡充值');
+    }else{
+        $('table#tab tr>td').removeClass('this');
+        $('table#tab tr>td#dj').addClass('this');
+        $('.head>h1').html('代金券充值');
+    }
+    $(".btn_yes").click(function(){
+
+        var kahao = document.getElementById('kahao').value;
+        var password = document.getElementById('password').value;
+        $.ajax({
+            type:"POST",
+            url:WEB_API_URL+"Payment/recharge?",
+            data:"token="+token+"&kahao="+kahao+"&password="+password,
+            cache:false, //不缓存此页面
+            success:function(data){
+                if(data.status==0){
+                    layer.open({
+                        content: '充值成功'
+                        ,shadeClose: false
+                        ,btn: '我知道了'
+                        ,shadeClose: false
+                        ,yes: function(index){
+                            location.href = "/user/wallet/";
+                            layer.close(index);
+                        }
+                    });
+
+                }else{
+                    layer.open({
+                        content: data.msg
+                        ,shadeClose: false
+                        ,btn: '我知道了'
+                    });
+                    return;
+                }
+            }
+        });
+        return false;
+    });
+</script>
+
+<script>
+    wx.config({
+        debug: false,//关闭调试模式
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        /*appId: 'xxxxxx',
+         timestamp: xxxxx,
+         nonceStr: 'xxxxx',
+         signature: 'xxxxx',*/
+
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+    wx.ready(function () {
+
+        // 2. 分享接口
+        // 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+        wx.onMenuShareAppMessage({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://zt.wisecareer.org/user/input',
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //   window.location.href = 'http://m.duolehuan.com/';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+
+        // 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://zt.wisecareer.org/user/input',
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //window.location.href = '';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+    });
+
+    function hide(){
+        $('.show_hide').hide();
+    }
+
+    function show(){
+        $('.show_hide').show();
+    }
+</script>
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

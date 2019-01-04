@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link href="//www.wisecareer.org/css/zhituo/user_1.css" type="text/css" rel="stylesheet" />
+	<!--[if IE]>
+	<script src="//www.wisecareer.org/js/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<link rel="stylesheet" type="text/css" href="//www.wisecareer.org/css/zhituo/layui.css" />
+	<style>
+		table#dafen tr>td{
+			font-size: 16px;
+			color: #666;
+			line-height: 48px;
+		}
+		table#dafen tr>td input.dafen_btn{
+			width: 100px;
+			height: 40px;
+			line-height: 40px;
+			font-size: 16px;
+			font-weight: 600;
+			border-radius: 8px;
+			border: none;
+			color: #fff;
+			background: #f58020;
+		}
+		h3.overal{
+			font-size: 16px;
+			font-weight: bold;
+			line-height: 48px;
+			color: #666;
+		}
+		h3.overal>span#span_num{
+			color: #f58020;
+			font-size: 24px;
+		}
+		#comment{
+			width: 100%;
+			min-height: 50px;
+		}
+		p.tishi{
+			padding: 0;
+			margin: 0;
+			color: #666;
+		}
+	</style>
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">自我评价</h1>
+	</div>
+</div>
+
+<link href="//www.wisecareer.org/css/zhituo/bootstrap.min.css" rel="stylesheet">
+<link href="//www.wisecareer.org/css/zhituo/bootstrap-slider.min.css" rel="stylesheet">
+<link href="//www.wisecareer.org/css/zhituo/demo1.css" type="text/css" rel="stylesheet" />
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent experience" style="height:100%;margin: 0">
+	<div class="inner">
+		<div class="cleardiv5"></div>
+		<div class="cleardiv20"></div>
+		<table width="100%" id="dafen">
+			<tr>
+				<td colspan="3" style="line-height: 10px">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="3" align="center"><input type="button" value="保  存" class="dafen_btn" onclick="submit();"/>&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="放弃评价" class="dafen_btn" onclick="fangqi()"/></td>
+			</tr>
+			<tr>
+				<td colspan="3" style="line-height: 30px">&nbsp;</td>
+			</tr>
+		</table>
+		<p style="padding-top: 10px;border-top: 1px #ebebeb solid" class="tishi">认识自己，是最容易，也是最难的事！</p>
+		<p class="tishi">你可以对自己打个分，让别人更加了解你。</p>
+	</div>
+	</div>
+	<div class="cleardiv5"></div>
+</div>
+
+<div id="dFoot">
+	<div class="body-nav">
+		<ul style="margin-bottom: 0">
+			<li class="in"><a onclick="close1();"><i class="icon-nav-1"></i>首页</a></li>
+			<li><a onClick="close2();"><i class="icon-nav-2"></i>消息</a></li>
+			<li><a onClick="close3();"><i class="icon-nav-5"></i>个人中心</a></li>
+		</ul>
+	</div>
+</div>
+<script>
+	$(function(){
+		isHaveLogin('/experience/mark');
+	});
+</script>
+<script src="http://www.wisecareer.org/js/zhituo/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+	layui.use('element', function(){
+		var $ = layui.jquery
+				,element = layui.element; //Tab���л����ܣ��л��¼������ȣ���Ҫ����elementģ��
+
+		//�����¼�
+		var active = {
+			setPercent: function(){
+				//����50%����
+				element.progress('demo', '50%')
+			}
+			,loading: function(othis){
+				var DISABLED = 'layui-btn-disabled';
+				if(othis.hasClass(DISABLED)) return;
+
+				//ģ��loading
+				var n = 0, timer = setInterval(function(){
+					n = n + Math.random()*10|0;
+					if(n>100){
+						n = 100;
+						clearInterval(timer);
+						othis.removeClass(DISABLED);
+					}
+					element.progress('demo', n+'%');
+				}, 300+Math.random()*1000);
+
+				othis.addClass(DISABLED);
+			}
+		};
+
+		$('.site-demo-active').on('click', function(){
+			var othis = $(this), type = $(this).data('type');
+			active[type] ? active[type].call(this, othis) : '';
+		});
+	});
+
+</script>
+<script type='text/javascript' src="//www.wisecareer.org/js/zhituo/jquery.min.js"></script>
+<script type='text/javascript' src="//www.wisecareer.org/js/zhituo/bootstrap-slider.min.js"></script>
+<script type='text/javascript'>
+	//原数组
+	var strAll='';
+	Request = GetRequest();
+	var types=new Array();
+	var nub=new Array();
+	var eid = localStorage.CURRENT_USER_ID;
+	var tid = getUrlParam("tid");
+	var skip=1;
+	$.ajax({ url:WEB_API_URL + "problem/marknub?" + Request , async: false,data:{token: eid, num: 3}, success: function(json) {
+		var str1='';
+		var z=0;
+		skip=json.data.skip;
+		$.each(json.data.list, function (index, array) {
+			nub[z]='nub'+index;
+			z++;
+			str1 += '<tr><td width="90" align="left">'+array+'</td><td> ';
+			str1 += '<div class=\'slider-example\'><input id="ex'+z+'"  name="'+index+'"  data-slider-id=\'ex1Slider\' type="text" data-slider-min="0" data-slider-max="10" data-slider-step="1" data-slider-value="5"/></div> </td>';
+			str1 += '<td width="50" align="right"><b id="b'+z+'">5</b>分</td></tr>';
+		});
+		$('table#dafen').prepend(str1);
+	}});
+var b1='';
+var b2='';
+var b3='';
+
+	var  nubAll = {};
+	$(document).ready(function() {
+		/* Example 1 */
+		$('#ex1').slider({
+			formatter: function(value) {
+				return 'Current value: ' + value;
+			}
+		});
+
+		/* Example 2 */
+		$("#ex2").slider({});
+		$("#ex3").slider({});
+
+		b1=document.getElementById('b1');
+		b2=document.getElementById('b2');
+		b3=document.getElementById('b3');
+
+
+		var ex1=document.getElementById('ex1');
+		var ex2=document.getElementById('ex2');
+		var ex3=document.getElementById('ex3');
+
+		var SpanNum=document.getElementById("span_num");
+		var pingfen=document.getElementById("pingfen");
+		setInterval(function(){
+			b1.innerHTML=ex1.value;
+			b2.innerHTML=ex2.value;
+			b3.innerHTML=ex3.value;
+			types[0]=ex1.value;
+			types[1]=ex2.value;
+			types[2]=ex3.value;
+
+			nubAll[nub[0]] = types[0];
+			nubAll[nub[1]] = types[1];
+			nubAll[nub[2]] = types[2];
+		},10);
+
+
+
+//			SpanNum.innerHTML=Math.ceil(((parseInt(ex4.value)+parseInt(ex2.value)+parseInt(ex3.value)+parseInt(ex5.value))/5)*7)/10 ;
+//		console.log(nubAll);
+	});
+</script>
+<script>
+	function close1(){
+		layer.open({
+			content: '您确定要退出此页面吗？'
+			,btn: ['确定', '取消']
+			,yes: function(index){
+				window.location.href='/experience/recommend?tid='+tid;
+				layer.close(index);
+			}
+		});
+	}
+	function close2(){
+		layer.open({
+			content: '您确定要退出此页面吗？'
+			,btn: ['确定', '取消']
+			,yes: function(index){
+				goPermissionUrl('/experience/recommend?tid='+tid);
+				layer.close(index);
+			}
+		});
+	}
+	function close3(){
+		layer.open({
+			content: '您确定要退出此页面吗？'
+			,btn: ['确定', '取消']
+			,yes: function(index){
+				goPermissionUrl('/experience/recommend?tid='+tid);
+				layer.close(index);
+			}
+		});
+	}
+	Request = GetRequest();
+	var tid = getUrlParam("tid");
+	var uid = localStorage.CURRENT_USER_ID;
+
+	function submit(){
+
+		layer.open({
+			content: '你要保存自我评价的结果吗？ '
+			,btn: ['确定', '取消']
+			,yes: function(index){
+				layer.close(index);
+				console.log(nubAll);
+
+					$.ajax({
+					url: WEB_API_URL+"problem/mark",
+					type: 'POST',
+					dataType: 'json',
+					data: {token:eid,tid:tid,nubAll},
+					async:false,
+					success: function (result){
+						if(skip==0){
+							if(result.status == 0) {
+								window.location.href='/experience/presentation?tid='+tid;
+							}else{
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+									,yes: function(index){
+										window.location.href='/experience/presentation?tid='+tid;
+									}
+								});
+							}
+						}else{
+							if(result.status == 0) {
+								window.location.href='/experience/recommend?tid='+tid;
+							}else{
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+									,yes: function(index){
+										window.location.href='/experience/recommend?tid='+tid;
+									}
+								});
+							}
+						}
+					}
+				})
+			}
+		});
+	}
+
+	function fangqi(){
+		layer.open({
+			content: '您确定放弃自我评价吗？'
+			,btn: ['确定', '取消']
+			,yes: function(index){
+				layer.close(index);
+				if(skip==0){
+					window.location.href='/experience/presentation?tid='+tid;
+				}else{
+					window.location.href='/experience/recommend?tid='+tid;
+				}
+			}
+		});
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>
+
+
+<script>
+
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/mark',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/mark',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>

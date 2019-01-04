@@ -1,0 +1,147 @@
+{extend name="layout/layout" }
+	{block name="link"} 
+		<link href="__XUEYE__/css/aggregate.css" type="text/css" rel="stylesheet" />
+        <link rel="stylesheet" href="/static/public/css/layui.css"  media="all"> 
+	<script src="__XUEYE__/js/city.js"></script> 
+    <script src="/static/public/js/layui.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		table.school tr>td{
+			color: #666;
+			line-height: 30px;
+			font-size: 16px;
+		}
+	</style>
+{/block}
+<!-- head -->
+{block name='head'}  
+<div id="dHead" style="position: fixed;top: 0;left: 0;z-index: 300">
+	<div class="head">
+		<h1 style="margin: 0">分数查询</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+		<a href="/index/index.html" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle;width: 25px"/></a>
+
+	</div>
+</div>
+{/block}
+{block name='content'}
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+			<table width="100%" style="background: #ffffff;padding:10px 0;" class="school">
+				<tr>
+					<td width="35%" align="center">录取批次</td>
+					<td width="30%" align="center">平均分</td>
+					<td width="35%" align="center">平均位次</td>
+				</tr>
+				<tr>
+					<td width="35%" align="center">本科一批</td>
+					<td width="30%" align="center">664</td>
+					<td width="35%" align="center">1050</td>
+				</tr>
+				<tr>
+					<td width="35%" align="center">本科一批</td>
+					<td width="30%" align="center">650</td>
+					<td width="35%" align="center">1560</td>
+				</tr>
+			</table>
+	</div>
+	<div class="cleardiv55"></div>
+</div> 
+<script>
+	$(function () {
+		var isPageHide = false;
+		window.addEventListener('pageshow', function () {
+			if (isPageHide) {
+				window.location.reload();
+			}
+		});
+		window.addEventListener('pagehide', function () {
+			isPageHide = true;
+		});
+	});
+	$(function(){
+		isHaveLogin('/scores/result2');
+	});
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/scores/result2?stu_city='+stu_city+'&lx='+lx+'&year='+year,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/scores/result2?stu_city='+stu_city+'&lx='+lx+'&year='+year,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+ {/block}
+{block name='menu'}
+
+{/block}

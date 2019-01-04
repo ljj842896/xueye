@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		table.character tr td{
+			font-size: 14px;
+			padding: 5px 0;
+			color: #666;
+		}
+		#button{
+			width: 80px;
+			height: 36px;
+			text-align: center;
+			line-height: 36px;
+			border-radius: 5px;
+			color: #fff;
+			background: #00bb0c;
+			-webkit-appearance:none;
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">性格测评</h1>
+		<a href="javascript:tishi()" class="return"><i class="return-right"></i></a>
+	</div>
+<link href="/static/xueye/css/message.css" type="text/css" rel="stylesheet" />
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+			<div class="cleardiv10"></div>
+            <form name="Form1" method="post" action="/TestIntro_SAVE.php" language="javascript" onSubmit="javascript:return checkRadio();" id="Form1"> 
+            <input type="hidden" value="{$Think.get.cpid}" name="cpid">
+<script type="text/javascript"> 
+<!--
+var theForm = document.forms['Form1'];
+if (!theForm) {
+theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+theForm.__EVENTTARGET.value = eventTarget;
+theForm.__EVENTARGUMENT.value = eventArgument;
+theForm.submit();
+}
+}
+// -->
+</script>
+ 
+ 
+<script type="text/javascript"> 
+<!--
+function WebForm_OnSubmit() {
+if (typeof(ValidatorOnSubmit) == "function" && ValidatorOnSubmit() == false) return false;
+return true;
+}
+// -->
+</script>
+<table id="_ctl0_dlView" cellspacing="0" cellpadding="0" align="center" border="0" class="character" width="100%" style="border-collapse:collapse;">
+{foreach $rows as $one=>$row}
+{foreach $arrsto.$one as $two=>$arr}
+<tr>
+<td>
+<table class="tishi_01" cellSpacing="0" cellPadding="0" width="100%" border="0" bgcolor="#FFFFFF" style="font-size:14px;">
+<tr> 
+<td  width="69%">
+<span id="_ctl0_dlView__ctl0_Title" style="font-weight:600;">{$row['listorder']}．{$arr['tpname']}</span>
+</td> 
+</tr>
+<tr>
+<td style="line-height:22px;">
+<input id="cptid{$row['listorder']}" value="{$arr['id']}" name="cptid{$row['listorder']}" type="hidden">
+<span id="_ctl0_dlView__ctl0_NowQuestion">
+<input id="name{$row['listorder']}_{$arr['daa']}" alt="请选择第{$row['listorder']}题" type="radio" name="name{$row['listorder']}" value="{$arr['daa']}" />
+<label for="name{$row['listorder']}_{$arr['daa']}">&nbsp;&nbsp;A．&nbsp;{$arr['leta']}</label><br>
+<input id="name{$row['listorder']}_{$arr['dab']}" type="radio" name="name{$row['listorder']}" value="{$arr['dab']}" alt="请选择第{$row['listorder']}题" />
+<label for="name{$row['listorder']}_{$arr['dab']}">&nbsp;&nbsp;B．&nbsp;{$arr['letb']}</label><br>
+</span>
+</td>
+</tr>
+{/foreach}
+ 
+</table>
+</td>
+</tr>   
+{/foreach}
+ 
+<tr>
+<td align="center"  valign="middle" style="padding-right:20px; font-size:14px;line-height: 40px">
+    <table width="100%">
+        <tr>
+            <td align="center" width="60%">&nbsp; 第&nbsp;{$page}&nbsp;页&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;共&nbsp;11&nbsp;页&nbsp;</td>
+            <td align="right" width="40%"><input type="hidden" name="uid" value="{$uid}">
+                <input type="hidden" name="page" value="{$page}">
+                {if $page==11}<input type="submit" name="button" id="button" class="anniucp"  value="完成" style="float: right">{else} <input type="submit" name="button" id="button" class="anniucp"  value="下一页" style="float: right">{/if}
+            </td>
+        </tr>
+    </table>
+</td>
+</tr>
+</table>
+<script type="text/javascript">
+	$('input#button').live('click',function(){
+		layer.open({type: 2, shadeClose: false ,content: '加载中'});
+	})
+function checkRadio()
+{ 
+    var inputs = document.getElementsByTagName("input");
+    var radios = [];
+    for(var i=0,l=inputs.length;i<l;i++)
+    {
+        if(inputs[i].type=="radio" && inputs[i].alt)
+            radios.push(inputs[i]);
+    }
+    var hash= {};
+    for(var i=0,l=radios.length;i<l;i++)
+{
+    if(!hash[radios[i].alt])
+            hash[radios[i].alt] = [radios[i]]
+else
+            hash[radios[i].alt].push(radios[i]);
+    }
+    for(var i in hash)
+    {
+        var iFlag = false;
+        for(var j=0,l=hash[i].length;j<l;j++)
+        {
+            if(hash[i][j].checked)
+            {
+               iFlag = true;
+               break;
+            }
+        }
+        if(!iFlag)
+        {
+        
+			layer.open({
+			content: i
+			,shadeClose: false
+,btn: '我知道了'
+		}); 
+            return false;
+        }
+    }
+
+    return true;
+}
+</script>
+
+<script type="text/javascript"> 
+<!--
+
+var Page_ValidationActive = false;
+if (typeof(ValidatorOnLoad) == "function") {
+ValidatorOnLoad();
+}
+
+function ValidatorOnSubmit() {
+if (Page_ValidationActive) {
+return ValidatorCommonOnSubmit();
+}
+else {
+return true;
+}
+}
+// -->
+</script>
+ </form>
+		</div>
+	</div>
+	<div class="cleardiv50"></div>
+</div>
+
+<div id="dFoot">
+	<div class="body-nav">
+		<ul>
+			<li><a  onclick="location.href='/index/index/'"><i class="icon-nav-1"></i>首页</a></li>
+			<li><a onClick="goPermissionUrl('/message/index.html');"><i class="icon-nav-2"></i>消息</a></li>
+			<li><a onClick="goPermissionUrl('/user/index.html');"><i class="icon-nav-5"></i>个人中心</a></li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/character/index');
+	});
+
+	$('ul.danxuan>li>a').click(function(){
+//		var attr1=$(this).next().attr('num');
+//		$(this).next().val(attr1);
+//		var tag = $(this).attr('tag');
+//		$("#taglx>li>input[type='hidden']").remove();
+//		$(this).after('<input name="lx" type="hidden"  value='+tag+' />' )
+//		num++;
+		$('ul.danxuan>li>a').removeClass("this");
+		$(this).addClass("this");
+		$('ul.danxuan>li>img').hide();
+		$(this).next().show();
+	});
+
+	function GetRequest() {
+		var url = location.search; //获取url中"?"符后的字串
+
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			return str;
+		}
+	}
+
+function tishi(){
+	layer.open({
+		content: '你的性格测评尚未完成。确定要退出吗？如选择退出，下次进入将从本次中断的地方继续。'
+		,btn: ['确定', '取消']
+		,yes: function(index){
+			window.location.href="/character/notice"
+		}
+	});
+}
+
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/character/index-3',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/character/index-3',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

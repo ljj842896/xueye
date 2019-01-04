@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="http://xueye.wisecareer.org/css/xueye/style.css" type="text/css" rel="stylesheet" />
+	<link href="http://xueye.wisecareer.org/css/xueye/user_info.css" type="text/css" rel="stylesheet" />
+	<script src="http://xueye.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="http://xueye.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="http://xueye.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="http://xueye.wisecareer.org/js/zhituo/base.min.js"></script>
+	<script src="http://xueye.wisecareer.org/js/zhituo/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		input{color: #666;}
+		select{
+			border:none;
+			color: #666;
+			font-size: 14px;
+			height: 22px;
+			line-height: 22px;
+			text-align: right;
+			width: 140px;
+		}
+		select.tjzy{
+			width: 100%;
+			padding: 0 20px;
+			border: solid 1px rgba(0,0,0,0.3);
+			height: 30px;
+			line-height: 30px;
+		}
+		select>option{
+			color: #666;
+			font-weight: 500;
+			line-height: 40px;
+		}
+		.my-date table tr>td{
+			font-size: 16px;
+			border-bottom: 1px solid #ebebeb;
+		}
+		.my-date h2{
+			font-size: 16px;
+			font-weight: bold;
+		}
+		.my-date input{
+			font-family:Arial,"微软雅黑", Helvetica, sans-serif;
+			font-size: 14px;
+			border:none;
+			text-align:left;
+		}
+		.my-date textarea{
+			font-family:Arial,"微软雅黑", Helvetica, sans-serif;
+			font-size: 14px;
+			border:none;
+		}
+		table#box4_table td{
+			font-size: 14px;
+			color: #666;
+			line-height: 40px;
+		}
+		table#box4_table td>input[type='text']{
+			width: 100%;
+			height: 30px;
+			line-height: 30px;
+			text-indent: 20px;
+			font-size: 14px;
+			-webkit-appearance:none;
+		}
+		table#box4_table td>textarea{
+			width: 100%;
+			min-height: 60px;
+			font-size: 14px;
+			text-indent: 20px;
+			line-height: 24px;
+			-webkit-appearance:none;
+		}
+	</style>
+</head>
+<body>
+
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">个人中心</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<!-- user-info  -->
+<a href="javascript:void(0)" name="submit" onclick="check()" style="" id="screen_btn">保存</a>
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+		<form  action="/user/dojingli" method="post" class="inner" id="myform" name="myform">
+	<div class="my-date">
+		<div class="cleardiv20"></div>
+		<input type='hidden' name="id" value="<{$result.id}>">
+		<table width="100%" style="color: #666666; line-height:40px;" border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<td align="right" width="100%">
+                <span style="float:left; width:30%; text-align:left;">所属机构:</span>
+			    <input name="company" type="text" value="<{$result.company}>" style="line-height:30px;width: 70%;"/></td>
+			</tr>
+			<tr>
+				<td align="right" width="100%"  onclick="location.href='http://jiaolian.wisecareer.org/user/picturelog'" style="padding-top: 5px">
+					<span style="float:left; width:50%; text-align:left;">所属机构logo:</span><span style="float:left; width:50%;text-align: left"><img src="http://jiaolian.wisecareer.org/public/img/zanwu.png" alt="" height="60"/></span>
+					<input type="hidden" name="logo" value="<{$logo}>">
+				</td>
+			</tr>
+			<tr>
+				<td align="right"><select name="timelong" id="work_time" style="height: 40px;">
+						<option value="1" <{if $result.timelong == 1}>selected="selected" <{/if}> >1年</option>
+						<option value="1.5" <{if $result.timelong == 1.5}>selected="selected" <{/if}>>1.5年</option>
+						<option value="2" <{if $result.timelong == 2}>selected="selected" <{/if}>>2年</option>
+						<option value="2.5" <{if $result.timelong == 2.5}>selected="selected" <{/if}>>2.5年</option>
+						<option value="3" <{if $result.timelong == 3}>selected="selected" <{/if}>>3年</option>
+						<option value="3.5" <{if $result.timelong == 3.5}>selected="selected" <{/if}>>3.5年</option>
+						<option value="4" <{if $result.timelong == 4}>selected="selected" <{/if}>>4年</option>
+						<option value="4.5" <{if $result.timelong == 4.5}>selected="selected" <{/if}>>4.5年</option>
+						<option value="5" <{if $result.timelong == 5}>selected="selected" <{/if}>>5年</option>
+						<option value="5.5" <{if $result.timelong == 5.5}>selected="selected" <{/if}>>5.5年</option>
+						<option value="6" <{if $result.timelong == 6}>selected="selected" <{/if}>>6年</option>
+						<option value="6.5" <{if $result.timelong == 6.5}>selected="selected" <{/if}>>6.5年</option>
+						<option value="7" <{if $result.timelong == 7}>selected="selected" <{/if}>>7年</option>
+						<option value="7.5" <{if $result.timelong == 7.5}>selected="selected" <{/if}>>7.5年</option>
+						<option value="8" <{if $result.timelong == 8}>selected="selected" <{/if}>>8年</option>
+						<option value="8.5" <{if $result.timelong == 8.5}>selected="selected" <{/if}>>8.5年</option>
+						<option value="9" <{if $result.timelong == 9}>selected="selected" <{/if}>>9年</option>
+						<option value="9.5" <{if $result.timelong == 9.5}>selected="selected" <{/if}>>9.5年</option>
+						<option value="10" <{if $result.timelong == 10}>selected="selected" <{/if}>>10年</option>
+						<option value="11" <{if $result.timelong == 11}>selected="selected" <{/if}>>10年以上</option>
+					</select>
+                    <span style="float:left;">工作时长:</span></td>
+			</tr>
+			<tr>
+				<td style="background: url('http://jiaolian.wisecareer.org/public/img/icon/arrow-right-xiao.png') no-repeat scroll right center">
+					<span style="float:left; text-align:left;width: 35%">行业:</span>
+					<span style="float:right; text-align:left;width: 140px;line-height: 24px;min-height:24px;font-size: 14px;padding: 8px 0 0 0;display: inline-block" class="hangye2" id="hangye2"><{$result.tpname}></span>
+					<input type="hidden" name="hangye" value="<{$result.hangye}>" id="hangye_value2">
+				</td>
+			</tr>
+			<tr>
+				<td style="background: url('http://jiaolian.wisecareer.org/public/img/icon/arrow-right-xiao.png') no-repeat scroll right center">
+					<span style="float:left; text-align:left;width: 35%">职业:</span>
+					<span style="float:right; text-align:left;width: 140px;line-height: 24px;min-height:24px;font-size: 14px;padding: 8px 0 0 0;display: inline-block" class="hangye3" id="hangye3"><{$result.zhiye}></span>
+					<input type="hidden" name="zhiye" value="<{$result.zhiye}>" id="hangye_value3">
+				</td>
+			</tr>
+			<tr>
+				<td align="right">
+				<select name="zhineng" id=""  style="height: 40px">
+					<option value="0">请选择</option>
+					<{foreach $zhinengs as $value}>
+						<option value="<{$value.id}>" <{if $value.id == $result.zhineng}>selected<{/if}> > <{$value.tpname}></option>
+					<{/foreach}>
+				</select>				
+                <span style="float:left;">职能:</span>	</td>
+			</tr>
+			<tr>
+				<td  align="right">
+					<select name="zhiji" id=""  style="height: 40px">
+						<option value="0">请选择</option>
+					<{foreach $zhijis as $value}>
+						<option value="<{$value.id}>" <{if $value.id == $result.zhiji }> selected<{/if}> ><{$value.zjname}></option>
+					<{/foreach}>
+					</select>			
+                    
+                     <span style="float:left;">职级:</span>		</td>
+			</tr>
+			<tr>
+				<td style="background: url('http://jiaolian.wisecareer.org/public/img/icon/arrow-right-xiao.png') no-repeat scroll right center">
+					<span style="float:left; text-align:left;width: 35%">经验关键词:</span>
+					<span style="float:left; text-align:left;width: 58%;line-height: 24px;min-height:24px;font-size: 14px;padding: 8px 7% 0 0;display: inline-block" class="hangye" id="hangye"><{$result.keyword}></span>
+					<input type="hidden" name="keyword" value="<{$result.keyword}>" id="hangye_value">
+			    </td>
+			</tr>
+			<tr>
+				<td >
+					职责描述：
+					<textarea placeholder="请描述一下职责"   name="content" style=" width:98%; line-height:28px;"><{$result.content}></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td align="right" width="100%">
+					<span style="float:left; width:30%; text-align:left;">证明人:</span>
+					<input name="proveman" type="text" value="<{$result.proveman}>" style="line-height:30px;width: 70%;"/>
+				</td>
+			</tr>
+			<tr>
+				<td align="right" width="100%">
+					<span style="float:left; width:30%; text-align:left;">手机号码:</span>
+					<input name="provemob" type="text" value="<{$result.provemob}>" maxlength="11" style="line-height:30px;width: 70%;"/>
+				</td>
+			</tr>
+			<tr>
+				<td align="right" width="100%" style="border-bottom: none">
+					<span style="float:left; width:100%; text-align:left;">证明人关系:</span>
+					<ul style="line-height:30px;width: 100%;" class="danxuan">
+						<li><a href="javascript:void(0);" style="display: block;padding: 3px 0;text-align: center" tag="1">朋友</a><img src="http://xueye.wisecareer.org/images/xueye/icon/yes.png" style="display: none;" alt=""/></li>
+						<li><a href="javascript:void(0);" style=" display: block;padding: 3px 0;text-align: center" tag="2">（前）同事 </a><img src="http://xueye.wisecareer.org/images/xueye/icon/yes.png" style="display: none;"alt=""/></li>
+						<li><a href="javascript:void(0);" style="display: block;padding: 3px 0;text-align: center" tag="3">家人</a><img src="http://xueye.wisecareer.org/images/xueye/icon/yes.png" style="display: none;" alt=""/></li>
+						<li><a href="javascript:void(0);" style="display: block;padding: 3px 0;text-align: center" tag="4">合作伙伴</a><img src="http://xueye.wisecareer.org/images/xueye/icon/yes.png" style="display: none;" alt=""/></li>
+					</ul>
+				</td>
+			</tr>
+			<input type="hidden" id="relation" name="relation" value="<{$result.relation}>">
+			</table>
+	</div>
+	</form>
+			<div class="clear cleardiv10"></div>
+		</div>
+	</div>
+</div>
+
+<div class="show_hide" style="display: none;">
+	<div class="class_content">
+		<div id="box1_tittle">
+			<div class="head">
+				<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">经验关键词</h1>
+				<a class="box1_return" href="javascript:hide()"><i class="return-right"></i></a>
+				<a href="javascript:hide()" name="submit" style="" id="screen_btn"><input type="submit" value="完成" style="line-height: 40px;" class="tijiao" id="btn1"/></a>
+			</div>
+		</div>
+		<div id="box1" style="padding-top: 50px" class="clear">
+		<{foreach $keyword as $value}>
+			<div style='padding-left:5%;width: 45%;float: left;'>
+			<label for="jy<{$value}>"><input type='checkbox'  id="jy<{$value}>" value="<{$value}>"  name='show_hide_1'/>
+			<span style='padding-left: 10%'><{$value}></span></label></div>
+		<{/foreach}>
+		</div>
+		<div class="cleardiv20"></div>
+		<div class="cleardiv20"></div>
+		<div class="clear"></div>
+	</div>
+</div>
+
+<div class="show_hide2" style="display: none;">
+	<div class="class_content">
+		<div id="box2_tittle">
+			<div class="head">
+				<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">行业</h1>
+				<a class="box1_return" href="javascript:hide2()"><i class="return-right"></i></a>
+				<a href="javascript:hide2()" name="submit" style="" id="screen_btn"><input type="submit" value="完成" style="line-height: 40px;" class="tijiao" id="btn2"/></a>
+			</div>
+		</div>
+		<div id="box2" style="padding-top: 50px" class="clear">
+			<{foreach $hangyes as $value}>
+
+			<div style="padding-left:5%;width: 45%;float: left;"><label for="hy<{$value.tpid}>"><input type="radio"  id="hy<{$value.tpid}>" value="<{$value.tpid}>"  name="show_hide_2"/><span style="padding-left: 10%"><{$value.tpname}></span></label></div>
+
+			<{/foreach}>
+		</div>
+		<div class="cleardiv20"></div>
+		<div class="cleardiv20"></div>
+		<div class="clear"></div>
+	</div>
+</div>
+
+<div class="show_hide3" style="display: none;">
+	<div class="class_content">
+		<div id="box3_tittle">
+			<div class="head">
+				<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">职业</h1>
+				<a class="box1_return" href="javascript:hide3()"><i class="return-right"></i></a>
+				<a href="javascript:hide3()" name="submit" style="" id="screen_btn"><input type="submit" value="完成" style="line-height: 40px;" class="tijiao" id="btn3"/></a>
+			</div>
+		</div>
+		<div id="box3" style="padding-top: 50px" class="clear">
+		<{foreach $zhiyes as $val}>
+			<div style='padding-left:5%;width: 45%;float: left;'>
+			<label for="zy<{$val}>"><input type='radio'  id="zy<{$val}>" value="<{$val}>"  name='show_hide_3'/>
+			<span style='padding-left: 10%'><{$val}></span></label></div>
+		<{/foreach}>
+		</div>
+		<div style='width: 100%;display: inline-block;text-align: center'><a class="btn_yes" id="btn_tianjia">添加新职业</a></div>
+		<div class="cleardiv20"></div>
+		<div class="cleardiv20"></div>
+	</div>
+</div>
+
+<div class="show_hide4" style="display: none;">
+	<div class="class_content" style="z-index: 400">
+		<div id="box4_tittle">
+			<div class="head">
+				<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">添加职业</h1>
+				<a class="box1_return" href="javascript:hide4()"><i class="return-right"></i></a>
+				</div>
+		</div>
+		<div id="box4" style="padding: 50px 3% 0" class="clear">
+			<form action="" name="myform2" id = "myform2">
+				<table width="100%" id="box4_table">
+					<tr>
+						<td width="80">职业名称：</td>
+						<td><input type="text" name="titlename" placeholder="请输入职业名称"/></td>
+					</tr>
+					<tr>
+						<td>所属行业：</td>
+						<td>
+							<select name="hangye" class="tjzy">
+							<{foreach $hangyes as $value}>
+								<option value="<{$value.tpid}>"><{$value.tpname}></option>
+							<{/foreach}>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>岗位门槛：</td>
+						<td>
+							<select name="jibie" class="tjzy">
+								<option value="3">高</option>
+								<option value="2">中</option>
+								<option value="1">低</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td valign="top" >职业描述：</td>
+						<td><textarea name="content" placeholder="请描述该职业的主要职责"></textarea></td>
+					</tr> 
+						<tr>
+						<td colspan="2"><input type="button" value="提交" class="btn_yes" onclick="sub_search()"/></td>
+					</tr>
+				</table>
+			</form>
+		</div>
+		<div class="cleardiv20"></div>
+		<div class="cleardiv20"></div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	$('.danxuan>li>a').click(function(){
+		$('.danxuan>li>a').removeClass("this");
+		$(this).addClass("this");
+		var relation = $(this).attr('tag');
+		$('.danxuan>li>img').hide();
+		$(this).next().show();
+		$('#relation').val(relation);
+	})
+
+
+	function sub_search(){
+		var titlename = document.myform2.titlename.value;
+		var content = document.myform2.content.value;
+		var jibie = document.myform2.jibie.value;
+		var hangye = document.myform2.hangye.value;
+		var index = layer.load(1, {
+                  shade: [0.1,'#fff'] //0.1透明度的白色背景
+                });
+		 $.ajax({
+            url: "/ajax/add_search",
+            type: "Post",
+            data: {titlename:titlename,content:content,hangye:hangye,jibie:jibie},
+            success: function (msg){ 
+
+            	layer.close(index);
+            	if(msg==1){
+					layer.open({
+						content: '提交审核成功'
+						,btn: '我知道了'
+					});
+            		hide4()
+            	}else{
+					layer.open({
+						content: '提交审核失败'
+						,btn: '我知道了'
+					});
+            	}	
+        		
+            }     
+        })
+	}
+
+
+	var obox1 = document.getElementById("box1");
+	var obox2 = document.getElementById("box2");
+	var obox3 = document.getElementById("box3");
+	var cboList1 = obox1.getElementsByTagName("input");
+	var cboList2 = obox2.getElementsByTagName("input");
+	var cboList3 = obox3.getElementsByTagName("input");
+	var oText1 = document.getElementById("hangye");
+	var oText2 = document.getElementById("hangye2");
+	var oText3 = document.getElementById("hangye3");
+	var oValue1 = document.getElementById("hangye_value");
+	var oValue2 = document.getElementById("hangye_value2");
+	var oValue3 = document.getElementById("hangye_value3");
+
+	document.getElementById("btn1").onclick = function(e){
+		var values1 = [];
+		var values2 = [];
+		for(var i=0;i<cboList1.length;i++){
+			if(cboList1[i].checked){
+				values1.push(cboList1[i].nextSibling.innerHTML);
+				values2.push(cboList1[i].value);
+			}
+		}
+		oText1.innerHTML = values2.join(",");
+		oValue1.value = values2.join(",");
+	};
+	document.getElementById("btn2").onclick = function(e){
+		var values1 = [];
+		var values2 = [];
+		for(var i=0;i<cboList2.length;i++){
+			if(cboList2[i].checked){
+				values1.push(cboList2[i].nextSibling.innerHTML);
+				values2.push(cboList2[i].value);
+			}
+		}
+		oText2.innerHTML = values1.join(",");
+		oValue2.value = values2.join(",");
+		init();
+	}
+
+      function init(){
+           if("\v"=="v"){//IE浏览器
+                oValue2.onpropertychange=changeValue;
+           }else{ // 其他浏览器
+                oValue2.addEventListener("input",changeValue(),false);
+           }
+        }
+       
+	  function changeValue(){
+	  	var id = oValue2.value
+		  $("#box1").html('');
+		  $("#box3").html('');
+		  $("#hangye").html('');
+		  $("#hangye3").html('');
+            $.getJSON("/user/get_search",{id:id},function(json){
+            	
+				$.each(json.zhiye,function(index,array){
+						
+					var str ="<div style='padding-left:5%;width: 45%;float: left;'>";
+					str+="<label for="+array+"><input type='radio'  id="+array+" value="+array+"  name='show_hide_3'/>";
+					str+="<span style='padding-left: 10%'>"+array+"</span></label></div>";
+					$("#box3").append(str);
+				});
+
+
+				$.each(json.keyword,function(index,key){
+					var strs ="<div style='padding-left:5%;width: 45%;float: left;'>";
+					strs+="<label for="+key+"><input type='checkbox'  id="+key+" value="+key+"  name='show_hide_1'/>";
+					strs+="<span style='padding-left: 10%'>"+key+"</span></label></div>";
+					$("#box1").append(strs);
+					
+				});
+
+			});
+     }
+
+	document.getElementById("btn3").onclick = function(e){
+		var values1 = [];
+		var values2 = [];
+		for(var i=0;i<cboList3.length;i++){
+			if(cboList3[i].checked){
+				values1.push(cboList3[i].nextSibling.innerHTML);
+				values2.push(cboList3[i].value);
+			}
+		}
+		oText3.innerHTML = values2.join(",");
+		oValue3.value = values2.join(",");
+	}
+	$('.hangye').click(function(){
+		$('.show_hide').show();
+	});
+	$('.hangye2').click(function(){
+		$('.show_hide2').show();
+	});
+	$('.hangye3').click(function(){
+		$('.show_hide3').show();
+	});
+	$('#btn_tianjia').click(function(){
+		$('.show_hide4').show();
+	});
+function hide(){
+	$('.show_hide').hide();
+}
+	function hide2(){
+		$('.show_hide2').hide();
+	}
+	function hide3(){
+		$('.show_hide3').hide();
+	}
+
+	function hide4(){
+		$('.show_hide4').hide();
+	}
+	$('.tijiao,.box1_return').click(function(){
+		$('.show_hide').hide();
+		$('.show_hide_2').hide();
+	});
+
+
+
+	function check(){
+		if(document.myform.company.value ==''){
+			layer.open({
+				content: '所属机构不能为空'
+				,btn: '我知道了'
+			});
+			return false 
+		}
+		if(document.myform.logo.value ==''){
+			layer.open({
+				content: '所属机构logo不能为空'
+				,btn: '我知道了'
+			});
+			return false 
+		}
+		if(document.myform.timelong.value ==''){
+			layer.open({
+				content: '工作时长不能为空'
+				,btn: '我知道了'
+			});
+			return false 
+		}
+		if(document.myform.hangye.value ==''){
+			layer.open({
+				content: '行业不能为空'
+				,btn: '我知道了'
+			});
+			return false 
+		}
+		if(document.myform.zhiye.value ==''){
+			layer.open({
+				content: '职业不能为空'
+				,btn: '我知道了'
+			});
+			return false 
+		}
+		if(document.myform.zhineng.value ==''){
+			layer.open({
+				content: '职能不能为空'
+				,btn: '我知道了'
+			});
+			return false 
+		}
+		if(document.myform.zhiji.value ==''){
+			layer.open({
+				content: '职级不能为空'
+				,btn: '我知道了'
+			});
+			return false 
+		}
+		
+		if(document.myform.keyword.value ==''){
+			layer.open({
+				content: '经验关键词不能为空'
+				,btn: '我知道了'
+			});
+			return false 
+		}
+		
+		if(document.myform.content.value ==''){
+			layer.open({
+				content: '职责描述不能为空'
+				,btn: '我知道了'
+			});
+			return false 
+		}
+		
+
+
+		if(document.myform.proveman.value ==''){
+			layer.open({
+				content: '证明人不能为空'
+				,btn: '我知道了'
+			});
+			return false 
+		}
+
+		if(document.myform.provemob.value ==''){
+			layer.open({
+				content: '证明人手机不能为空'
+				,btn: '我知道了'
+			});
+			return false 
+		}
+
+           myform.submit();
+    }
+</script>
+<div id="dFoot">
+	<div class="body-nav">
+		<ul>
+			<li><a  onclick="location.href='/index/index/'"><i class="icon-nav-1"></i>首页</a></li>
+			<li><a onClick="goPermissionUrl('/message/index.html');"><i class="icon-nav-2"></i>消息</a></li>
+			<li class="in"><a onClick="goPermissionUrl('/user/index.html');"><i class="icon-nav-5"></i>个人中心</a></li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/user/writing');
+	});
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/writing',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/writing',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

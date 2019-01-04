@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//xueye.wisecareer.org/css/xueye/yuan.css"/>
+	<link href="/static/xueye/css/user_info.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+   <script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		ul#hangye_list{
+			width: 35%;
+			position: fixed;
+			left: 0;
+			top: 0;
+			z-index: 1000;
+			height: 100%;
+			overflow-y: scroll;
+		}
+		ul#hangye_list>li>a{
+			display: block;
+			text-align: center;
+			border-bottom: solid 1px #ebebeb;
+			line-height: 48px;
+			font-size: 14px;
+			color: #666;
+			background: #ebebeb;
+		}
+		ul#hangye_list>li>a.this{
+			font-size: 16px;
+			font-weight: bold;
+			color: #00bb0c;
+			background: #fff;
+		}
+
+		ul#zhiye_list>li>a{
+			display: block;
+			text-align: center;
+			line-height: 48px;
+			font-size: 14px;
+			color: #666;
+		}
+		ul#zhiye_list>li>a.this{
+			font-size: 16px;
+			font-weight: bold;
+			color: #00bb0c;
+		}
+		ul#zhiye_list>li>a.this:before{
+		content: '·  ';
+		font-size: 30px;
+		line-height: 50px;
+
+		}
+		.tijiao{
+			display: none;
+		}
+		a.click_input{
+			display: block;
+			line-height: 36px;
+			border: solid 1px #e3e3e3;
+			padding-left: 5%;
+			color: #666;
+			font-size: 12px;
+		}
+	</style>
+</head>
+<body>
+
+<!-- head -->
+
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">家庭生涯环境</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<div class="show_hide" style="display: none">
+	<div class="class_bg"></div>
+	<div class="class_content" style="padding: 0;overflow-y: scroll">
+		<div id="box1_tittle">
+			<div class="head">
+				<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">选择职业</h1>
+				<a href="javascript:hide()" class="box1_return"><i class="return-right"></i></a>
+				<a href="javascript:void(0)" name="submit" style="" id="screen_btn">
+					<input type="submit" value="提交" style="line-height: 40px;" class="tijiao father" id="btn1"/>
+					<input type="submit" value="提交" style="line-height: 40px;" class="tijiao mather" id="btn2"/>
+				</a>
+			</div>
+		</div>
+
+		<div width="100%" id="box1" class="clear">
+			<ul id="hangye_list">
+
+			</ul>
+			<table width="100%" style="padding-top: 55px;background: #fff">
+				<tr>
+					<td width="35%" align="center" style="height: 100%">&nbsp;</td>
+					<td width="65%" align="center" style="height: 100%">
+						<ul id="zhiye_list">
+
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="clear"></div>
+		<div style="width: 100%;text-align: center;display: block"></div>
+		<div class="cleardiv5 "></div>
+	</div>
+</div>
+
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner" id="home">
+			<div class="cleardiv10"></div>
+			<h3>1．你平时主要与谁居住在一起？</h3>
+			<ul class="danxuan3 clear" id="n_1">
+				<li><a href="javascript:void(0);" name="59" tag="59" style="display: block;padding:0;text-align: center" >父母亲</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="60" tag="60" style="display: block;padding:0;text-align: center"  >父亲</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="61" tag="61" style="display: block;padding:0;text-align: center"  >母亲</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="62" tag="62" style="display: block;padding:0;text-align: center"  >（外）祖父母</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="63" tag="63" style="display: block;padding:0;text-align: center"  >其他亲戚</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="64" tag="64" style="display: block;padding:0;text-align: center"  >独处</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+			</ul>
+			<div class="cleardiv10"></div>
+			<h3>2．父亲当前的职业？</h3>
+			<div><a href="javascript:a2()" class="click_input" id="text2" tpid="0" zid="0">点击选择</a></div>
+			<div class="cleardiv10"></div>
+			<h3>3．母亲当前的职业？</h3>
+			<div><a href="javascript:a3()" class="click_input" id="text3" tpid="0" zid="0">点击选择</a></div>
+			<div class="cleardiv10"></div>
+			<h3>4．你的生涯决策模式？</h3>
+			<ul class="danxuan3 clear" id="n_4">
+				<li><a href="javascript:void(0);" name="65" tag="65" style="display: block;padding:0;text-align: center" >自己做主</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="66" tag="66" style="display: block;padding:0;text-align: center"  >父母做主</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="67" tag="67" style="display: block;padding:0;text-align: center"  >听朋友的</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="68" tag="68" style="display: block;padding:0;text-align: center"  >其它</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+			</ul>
+			<h3>5. 你是否了解父母的工作环境和工作职责？</h3>
+			<ul class="danxuan3 clear" id="n_5">
+				<li><a href="javascript:void(0);" name="78" tag="78" style="display: block;padding:0;text-align: center" >非常了解</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="79" tag="79" style="display: block;padding:0;text-align: center"  >有点了解</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="80" tag="80" style="display: block;padding:0;text-align: center"  >不太了解</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				</ul>
+			<h3>6. 你认为父母的工作是</h3>
+			<ul class="danxuan3 clear" id="n_6">
+				<li><a href="javascript:void(0);" name="81" tag="81" style="display: block;padding:0;text-align: center" >有价值、意义</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="82" tag="82" style="display: block;padding:0;text-align: center"  >很累、不值得</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="83" tag="83" style="display: block;padding:0;text-align: center"  >无聊、乏味</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="84" tag="84" style="display: block;padding:0;text-align: center"  >为了生存而已</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" name="85" tag="85" style="display: block;padding:0;text-align: center"  >其它</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+			</ul>
+			<input type="button" class="btn_yes" value="提&nbsp;交" onclick="submit();"/>
+			<div class="cleardiv10"></div>
+		</div>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+
+		$(function(){
+			isHaveLogin('/user/write_home.html');
+		});
+
+		var uid =localStorage.CURRENT_USER_ID;
+		var stop1=false;
+		var stop4=false;
+		var stop5=false;
+		var stop6=false;
+		var text2=$('input#text2').val();
+		var text3=$('input#text3').val();
+		var tpid='7';
+		var id='';
+		var val='';
+		var stop=false;
+		var select1=null;
+		var select4=null;
+		var select5=null;
+		var select6=null;
+		$('#n_1>li>a').click(function(){
+			$('#n_1>li>a').removeClass("this");
+			$(this).addClass("this");
+			$('#n_1>li>img').hide();
+			$(this).next().show();
+			stop1=true;
+			select1=$(this).attr('tag');
+		});
+		$('#n_4>li>a').click(function(){
+			$('#n_4>li>a').removeClass("this");
+			$(this).addClass("this");
+			$('#n_4>li>img').hide();
+			$(this).next().show();
+			stop4=true;
+			select4=$(this).attr('tag');
+		});
+		$('#n_5>li>a').click(function(){
+			$('#n_5>li>a').removeClass("this");
+			$(this).addClass("this");
+			$('#n_5>li>img').hide();
+			$(this).next().show();
+			stop5=true;
+			select5=$(this).attr('tag');
+		});
+		$('#n_6>li>a').click(function(){
+			$('#n_6>li>a').removeClass("this");
+			$(this).addClass("this");
+			$('#n_6>li>img').hide();
+			$(this).next().show();
+			stop6=true;
+			select6=$(this).attr('tag');
+		});
+
+	function submit(){
+		if(stop1==false){
+			layer.open({
+				content: '请选择问题一！'
+				,shadeClose: false
+				,btn: '我知道了'
+			});
+		}else if(stop4==false){
+			layer.open({
+				content: '请选择问题四！'
+				,shadeClose: false
+				,btn: '我知道了'
+			});
+		}else{
+			var text2_hy=$('#text2').attr('tpid');
+			var text2_zy=$('#text2').attr('zid');
+			var text3_hy=$('#text3').attr('tpid');
+			var text3_zy=$('#text3').attr('zid');
+			layer.open({
+				content: "你确定提交吗？"
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					layer.close(index);
+					$.ajax({
+						type:"POST",
+						url:WEB_API_URL+"publics/userWirtehome?",
+						data:"token="+uid+"&live="+select1+"&home="+select4+"&parenthy="+text2_hy+"&parentzy="+text2_zy+"&womanhy="+text3_hy+"&womanzy="+text3_zy+"&duty="+select5+"&work="+select6,
+						cache:false, //不缓存此页面
+						success:function(data){
+							if(data.status==0){
+								layer.open({
+									content: data.msg
+									,btn: "我知道了"
+									,shadeClose: false
+									,yes: function(index){
+										layer.close(index);
+										window.location.href='/user/userinfo'
+									}
+								});
+							}else{
+								layer.open({
+									content: data.msg
+									,btn: "我知道了"
+									,shadeClose: false
+									,yes: function(index){
+										layer.close(index);
+									}
+								});
+							}
+						}
+					});
+				}
+			});
+
+		}
+	}
+		$.ajax({ url:WEB_API_URL + "publics/wirteHomeList?", async: false,data:{token:uid}, success: function(json){
+			var data=json.data;
+			if(data!=''){
+				stop1=true;
+				stop4=true;
+				select1=data['housingID'];
+				select4=data['familyID'];
+				$('ul#n_1>li>a[name="'+data['housingID']+'"]').addClass('this');
+				$('ul#n_1>li>a[name="'+data['housingID']+'"]').next().show();
+				$('ul#n_4>li>a[name="'+data['familyID']+'"]').addClass('this');
+				$('ul#n_4>li>a[name="'+data['familyID']+'"]').next().show();
+				$('ul#n_5>li>a[name="'+data['dutyID']+'"]').addClass('this');
+				$('ul#n_5>li>a[name="'+data['dutyID']+'"]').next().show();
+				$('ul#n_6>li>a[name="'+data['workID']+'"]').addClass('this');
+				$('ul#n_6>li>a[name="'+data['workID']+'"]').next().show();
+				$('#text2').attr('tpid',data['father_hy']).attr('zid',data['father_zy']);
+				if(data['father_zy_name']!=''){
+					$('#text2').html(data['father_zy_name']);
+				}else{
+					$('#text2').html('点击选择');
+				}
+
+				$('#text3').attr('tpid',data['mother_hy']).attr('zid',data['mother_zy']);
+				if(data['mother_zy_name']!=''){
+					$('#text3').html(data['mother_zy_name']);
+				}else{
+					$('#text3').html('点击选择');
+				}
+			}
+		}});
+
+
+
+		$.ajax({ url:WEB_API_URL + "classnamel/industry?", async: false,data:{}, success: function(json){
+			var data=json.data;
+			var first=true;
+			var str1='<li><div class="cleardiv50" style="background: #fff"></div></li>';
+			$.each(json.data, function (index, array) {
+				if(first==true){
+					str1+='<li><a href="javascript:void(0);" tpid="'+array['tpid']+'" class="this" id="first">'+array['tpname']+'</a></li>';
+					first=false;
+				}else{
+					str1+='<li><a href="javascript:void(0);" tpid="'+array['tpid']+'">'+array['tpname']+'</a></li>';
+				}
+			});
+			$('ul#hangye_list').html(str1);
+		}});
+
+		$.ajax({ url:WEB_API_URL + "classnamel/getoccupation?", async: false,data:{tpid:tpid}, success: function(json){
+			var data=json.data;
+			var str1='';
+			$.each(json.data, function (index, array) {
+				str1+='<li><a href="javascript:void(0);" id="'+array['id']+'">'+array['titlename']+'</a></li>';
+			});
+			$('ul#zhiye_list').html(str1);
+		}});
+
+		$('#hangye_list>li>a').live('click',function(){
+			tpid=$(this).attr('tpid');
+			$('#hangye_list>li>a').removeClass('this');
+			$(this).addClass('this');
+			$.ajax({ url:WEB_API_URL + "classnamel/getoccupation?", async: false,data:{tpid:tpid}, success: function(json){
+				var data=json.data;
+				var str1='';
+				if(data!=''){
+					$.each(json.data, function (index, array) {
+						str1+='<li><a href="javascript:void(0);" id="'+array['id']+'">'+array['titlename']+'</a></li>';
+					});
+				}else{
+					str1='<li><div class="cleardiv20"></div></li><li style="text-align: center;font-size: 14px;color: #666" >暂无职业</li><li><div class="cleardiv20"></div></li>';
+				}
+
+				$('ul#zhiye_list').html(str1);
+			}});
+		});
+
+
+		$('#zhiye_list>li>a').live('click',function(){
+			id=$(this).attr('id');
+			val=$(this).html();
+			$('#zhiye_list>li>a').removeClass('this');
+			$(this).addClass('this');
+			stop=true;
+		});
+
+
+		$('#btn1').live('click',function fa_sub(){
+			if(stop==true){
+				$('#text2').attr('tpid',tpid);
+				$('#text2').attr('zid',id);
+				$('#text2').html(val);
+				$('#zhiye_list>li>a').removeClass('this');
+				stop=false;
+				$('.show_hide').hide();
+				$('body').css('overflow-y','scroll')
+			}else{
+				layer.open({
+					content: '请选择职业！'
+					,btn: '我知道了'
+				});
+			}
+		})
+
+		$('#btn2').live('click',function ma_sub(){
+			if(stop==true){
+				$('#text3').attr('tpid',tpid);
+				$('#text3').attr('zid',id);
+				$('#text3').html(val);
+				$('#zhiye_list>li>a').removeClass('this');
+				stop=false;
+				$('.show_hide').hide();
+				$('body').css('overflow-y','scroll')
+			}else{
+				layer.open({
+					content: '请选择职业！'
+					,btn: '我知道了'
+				});
+			}
+		});
+
+
+		function hide(){
+			$('.show_hide').hide();
+			$('body').css('overflow-y','scroll')
+		}
+
+
+		function a2(){
+			$('.tijiao').hide();
+			$('.father').show();
+			$('.show_hide').show();
+			$('body').css('overflow-y','hidden')
+		}
+		function a3(){
+			$('.tijiao').hide();
+			$('.mather').show();
+			$('.show_hide').show();
+			$('body').css('overflow-y','hidden')
+		}
+	$('a#text2').live('click',function(){
+		$('.tijiao').hide();
+		$('.father').show();
+		$('.show_hide').show();
+	});
+	$('a#text3').live('click',function(){
+		$('.tijiao').hide();
+		$('.mather').show();
+		$('.show_hide').show();
+	})
+
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/user/write_home',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/user/write_home',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

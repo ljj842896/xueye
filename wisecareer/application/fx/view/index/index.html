@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <script src="//xy.wisecareer.org/static/public/js/jquery-1.8.3.min.js"></script>
+    <script src="//xy.wisecareer.org/static/fx/js/com.min.js"></script>
+    <script src="//xy.wisecareer.org/static/fx/js/base.min.js"></script>
+    <script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+    <link rel="stylesheet" href="//xy.wisecareer.org/static/public/css/fx.css" id="ys"/>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <title></title>
+    <style>
+        span.danwei{
+            font-size: 1rem;
+        }
+        h4{
+            line-height: 1.6rem;
+        }
+    </style>
+</head>
+
+<body>
+<div id="dHead">
+    <div class="head">
+        <h1 style="margin: 0">分销管理系统</h1>
+        <a href="javascript:history.go(-1)" id="screen_btn"><img src="//www.wisecareer.org/images/zhituo/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;width: 25px;vertical-align: middle"></a>
+    </div>
+</div>
+
+<div id="dBody">
+    <div class="cleardiv50"></div>
+    <div class="mycontent" style="margin: 0">
+        <div class="inner character">
+            <div class="cleardiv10"></div>
+            <table width="100%">
+                <tr>
+                    <td width="120" align="center" rowspan="2"><img src="//www.wisecareer.org/od/" alt="" width="90" style="border: 2px solid #ebebeb;border-radius: 50%" id="user_pic"/></td>
+                    <td width="10" rowspan="2">&nbsp;</td>
+                    <td>
+                        <h3 class="user_name"></h3>
+                    </td>
+                    <td width="10" rowspan="2">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>
+                        <h4><span class="day" style="color: red;font-size: 1rem"></span> 成为经销商</h4>
+                        <h4>累计佣金 <span class="all_money" style="color: red;font-size: 1rem"></span> 元</h4>
+                        <h4>分销团队 <span class="one_count" style="color: red;font-size: 1rem"></span> 人 </h4>
+                    </td>
+                </tr>
+            </table>
+            <div class="cleardiv10"></div>
+        </div>
+
+        <div class="cleardiv5"></div>
+
+        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+                <td align="center" width="50%" style="background: #fff">
+                    <div class="cleardiv20"></div>
+                    <h1><span class="one_moneysum" style="color: red"></span> <span class="danwei">元</span></h1>
+                    <h4>累计佣金</h4>
+                    <div class="cleardiv20"></div>
+                </td>
+
+                <td width="10">&nbsp;&nbsp;</td>
+
+                <td align="center" width="50%" style="background: #fff">
+                    <div class="cleardiv20"></div>
+                    <h1><span class="money" style="color: red"></span> <span class="danwei">元</span></h1>
+                    <h4>可提现</h4>
+                    <div class="cleardiv20"></div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="cleardiv5"></div>
+
+        <div style="background: #fff">
+            <div class="cleardiv20"></div>
+            <table width="100%">
+                <tr>
+                    <td onclick="location.href='/index/qrcode.html'" align="center" valign="top"><img src="/static/fx/images/icon2.png" alt="" height="40" id="icon2"/> <div class="cleardiv5"></div><h4 class="fontbold" style="letter-spacing: 4px">二维码</h4><div class="cleardiv5"></div><h5>推广二维码</h5></td>
+                    <td align="center" valign="top" onclick="location.href='/index/subordinate.html'"><img src="/static/fx/images/icon4.png" alt="" height="40" id="icon4"/> <div class="cleardiv5"></div><h4 class="fontbold">我的团队</h4><div class="cleardiv5"></div><h5><span class="all_count" style="color: red;font-size: 1.2rem;font-weight: bold"></span> 人</h5></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="cleardiv10"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td onclick="location.href='/index/cash.html'" align="center" valign="top" ><img src="/static/fx/images/icon.png" alt="" height="40" id="icon1"/> <div class="cleardiv5"></div><h4 class="fontbold">申请提现</h4></td>
+                    <td onclick="location.href='/index/commission_list.html'" align="center" valign="top"><img src="/static/fx/images/icon3.png" alt="" height="40" id="icon3"/> <div class="cleardiv5"></div><h4 class="fontbold">佣金明细</h4></td>
+                </tr>
+            </table>
+            <div class="cleardiv20"></div>
+        </div>
+        <div class="cleardiv5"></div>
+        <div class="inner">
+            <div class="my-index-list">
+                <ul>
+                    <li style="border-top:none;"><a href="/index/help_list.html"><i class="user-center-1"></i>帮助中心 </a></li>
+                    <li><a href="/index/about.html?id=29"><i class="user-center-2"></i>分销商协议</a></li>
+                    <li><a href="/index/about.html?id=31"><i class="user-center-5"></i>关于我们</a></li>
+                    <li><a href="tel:4000740520" style="background: none;"><i  class="user-center-4"></i>客服电话： <span style="text-decoration: underline;float: none">400-074-0520</span> </a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var ys=document.getElementById("ys");
+    var userid='{$userid}';
+    var uid = '{$token}';
+    var sessiontype = '{$sessiontype}';
+    if(sessiontype==1){
+        $('a#screen_btn').attr('href','http://xy.wisecareer.org/index/index');
+        $('img#icon1').attr('src','/static/fx/images/icon_green.png');
+        $('img#icon2').attr('src','/static/fx/images/icon2_green.png');
+        $('img#icon3').attr('src','/static/fx/images/icon3_green.png');
+        $('img#icon4').attr('src','/static/fx/images/icon4_green.png');
+        $('div#dHead>div.head').css('background','#00bb0c');
+        ys.setAttribute("href","//xy.wisecareer.org/static/public/css/fx2.css");
+    }else{
+        $('a#screen_btn').attr('href','http://zt.wisecareer.org/index/index');
+    }
+
+    var str1 = "";
+    $.ajax({ url:"https://wapi.wisecareer.org/fenxiao/myuserinfo?" , async: false,data:{token: uid}, success: function(json) {
+
+        if(json.data==''){
+
+            window.location.href='/index/login.html'
+
+        }else if(json.data.myuser.userretailid==0){
+
+            window.location.href='/index/become';
+
+        }else{
+            var myuser=json.data.myuser;
+            var userretail=json.data.userretail;
+            var pic='';
+            if(myuser.pic==''){
+                pic='//fx.wisecareer.org/static/fx/images/user-image.png';
+            }else{
+                pic='//www.wisecareer.org/od/'+myuser.pic;
+            }
+
+            $('img#user_pic').attr('src',pic);
+            $('h3.user_name').html(myuser.user_name);
+            $('span.day').html(userretail.datetime);
+            $('span.all_money').html(userretail.commission);
+            $('span.one_count').html(userretail.one_count);
+            $('span.all_count').html(userretail.one_count+userretail.two_count);
+            $('span.one_moneysum').html(userretail.commission);
+            $('span.money').html(userretail.money);
+
+        }
+
+    }
+    });
+</script>
+
+<script>
+
+    wx.config({
+        debug: false,//关闭调试模式
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        /*appId: 'xxxxxx',
+         timestamp: xxxxx,
+         nonceStr: 'xxxxx',
+         signature: 'xxxxx',*/
+
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+    wx.ready(function () {
+
+        // 2. 分享接口
+        // 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+        wx.onMenuShareAppMessage({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://fx.wisecareer.org/index/distributor?userid='+userid,
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //   window.location.href = 'http://m.duolehuan.com/';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+
+        // 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://fx.wisecareer.org/index/distributor?userid='+userid,
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //window.location.href = '';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>

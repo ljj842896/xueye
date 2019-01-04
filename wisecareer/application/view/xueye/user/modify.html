@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>智能学业e站</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="MobileOptimized" content="320"/>
+    <link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+    <link href="//xueye.wisecareer.org/css/xueye/input.css" type="text/css" rel="stylesheet" />
+    <link href="//xueye.wisecareer.org/css/xueye/kuCity.css" type="text/css" rel="stylesheet" />
+    <link href="//xueye.wisecareer.org/css/xueye/SimpleCanleder.css" type="text/css" rel="stylesheet" />
+    <script src="/static/public/js/jquery-1.8.3.min.js"></script>
+    <script src="//xueye.wisecareer.org/js/xueye/DatePicker.js"></script>
+    <script src="//xueye.wisecareer.org/js/xueye/SimpleCanleder.js"></script>
+    <script src="//xueye.wisecareer.org/js/xueye/layer/mobile/layer.js"></script>
+    <script language="javascript" src="//xueye.wisecareer.org/js/xueye/city.js"></script>
+    <link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+    <script src="/static/public/js/base.min.js"></script>
+    <script src="/static/public/js/com.min.js"></script>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <style>
+        input[type="submit"], input[type="reset"], input[type="button"],input[type="text"],input[type="date"]. button ,select{
+            -webkit-appearance:none;font-family:Arial,"微软雅黑", Helvetica, sans-serif;
+        }
+        input,select,textarea{
+            -webkit-appearance:none;
+        }
+        #btnSendCode{
+            font-size: 16px;
+            margin-left: 5%;
+            height: 36px;
+            width: 30%;
+            border-radius: 6px;
+            background: #298bee;
+            color: #fff;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- head -->
+<div id="dHead" style="z-index: 0">
+    <div class="head">
+        <h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">{$headlines}</h1>
+        <a href="javascript:history.go(-1)" class="return">取消</a>
+        <a href="javascript:void(0)" name="submit" onclick="check()" class="save">保存</a>
+    </div>
+</div>
+
+<!-- user-info  -->
+<div id="dBody">
+    <div class="cleardiv50"></div>
+    <div class="mycontent">
+        <form  action="/user/doPerfect" method="post" class="inner" id="myform" name="myform">
+            {if  $Think.get.type == 'jingli'}
+             <textarea placeholder="请输入职业经历" name='jingli' class="shuru" style="color: #999999;">{$jingli}</textarea><a href="javascript:void(0);" class="close">x</a>
+             <input type="hidden" name = "tag" value="{$Think.get.tag}">
+           
+             {elseif  $Think.get.type == 'sfid'}
+
+             <input type="text" name="user_name"  value="{$name}" class="shuru" placeholder="真实姓名"/><a href="javascript:void(0);" class="close" style="top: 12px">x</a>
+             <input type="text" name = "sfid"  value="" class="shuru" placeholder="身份证" style=" text-transform:uppercase" pattern="(^\d{15}$)|(^\d{17}([0-9]|X)$)"  maxlength="18"/><a href="javascript:void(0);" class="close" style="top: 55px">x</a>
+            <div class="cleardiv5"></div>
+            <h4>身份证号需要通过政府指定机构的验证。一旦验证不能修改哟！</h4>
+            <div class="cleardiv20"></div>
+             {elseif  $Think.get.type == 'gongl'}
+            <input type="text" id="search_begindate"  name="gongl" value="{$gongl}" class="shuru" placeholder="起始工作日期" />
+            <div class="cleardiv5"></div>
+            <h4>注：工作起始时间一旦保存无法在线修改！</h4>
+            <div class="cleardiv5"></div>
+            <script type="text/javascript">
+                $(function (){
+                    $("#search_begindate").simpleCanleder();
+                });
+            </script>
+             {elseif  $Think.get.type == 'nickname'}
+                <input type="text" id="nickname" name = "coach_nickname" value="{$coach_nickname}" class="shuru" placeholder="昵称" required/><a href="javascript:void(0);" class="close" style="top: 13px">x</a>
+                <span id="tishi_1">可输入4-20个字符</span>
+            {elseif  $Think.get.type == 'telsas'}
+            
+             <input type="text" name = "telname" value="{$telname}" class="shuru" placeholder="紧急联系人" required/><a href="javascript:void(0);" class="close">x</a>
+            <input type="text" name = "telsas" value="{$telsas}" class="shuru" placeholder="紧急联系电话" required  maxlength="11" onkeyup='this.value=this.value.replace(/\D/gi,"")'/><a href="javascript:void(0);" class="close">x</a>
+             {elseif  $Think.get.type == 'sex'}
+            <select name="sex" id=""  class="shuru" >
+                <option value="1" {if $sex} selected{/if}>男</option>
+                <option value="0" {if !$sex} selected{/if}>女</option>
+            </select>
+            {elseif  $Think.get.type == 'phone'}
+            <input type="text" name = "phone" value="" id="phone" class="shuru" placeholder="原手机号" required/><a href="javascript:void(0);" class="close">x</a>
+            <input type="text" name = "newphone"  id="newphone"   value="" class="shuru" placeholder="新手机号" required  maxlength="11"/><a href="javascript:void(0);" class="close" style="top: 64px">x</a>
+            <input type="text" name = "yanzheng" id="yz" value="" class="shuru" placeholder="验证码" required  maxlength="11" style="width: 55%"/>
+            <input type="button" value="获取验证码" id="btnSendCode" onclick="sendMessage()"/>
+
+
+            {elseif $Think.get.type == 'xueli'}
+            <select name="xueli" id=""  class="shuru" >
+            
+                {foreach $xuelis as $value}
+                <option value="{$value.tpid}"  {if $xueli== $value.tpid} selected='selected' {/if} >{$value.tpname}</option>
+                {/foreach}
+            </select>
+            {elseif $Think.get.type == 'rank'}
+             <select name="" id=""  class="shuru" >
+                <option value="1"></option>
+                <option value="2">职员</option>
+                <option value="3">主管</option>
+                <option value="4">总监</option>
+                <option value="5">总裁</option>
+            </select>
+            {elseif $Think.get.type == 'employer'}
+            <select name="" id=""  class="shuru" >
+                <option value="1"></option>
+                <option value="2">是</option>
+                <option value="3">否</option>
+            </select>
+            {elseif $Think.get.type == 'city'}
+            
+            <select name="scid" id ='scid' onChange="changelocation(document.myform.scid.options[document.myform.scid.selectedIndex].value)" size="1" required="required" style="height: 30px;border: solid 1px #f6f6f6;margin-top: 5px;margin-bottom: 10px;padding-left: 3%;">
+            <option value="3" >北京</option>
+            <option value="26" >上海</option>
+            <option value="46">广东</option>
+            <option value="68">江苏</option>
+            <option value="82">浙江</option>
+            <option value="95">山东</option>
+            <option value="113">四川</option>
+            <option value="135">天津</option>
+            <option value="153">重庆</option>
+            <option value="194">辽宁</option>
+            <option value="209">云南</option>
+            <option value="4">河南</option>
+            <option value="240">河北</option>
+            <option value="252">福建</option>
+            <option value="262">安徽</option>
+            <option value="280">湖北</option>
+            <option value="297">黑龙江</option>
+            <option value="311">江西</option>
+            <option value="324">吉林</option>
+            <option value="334">陕西</option>
+            <option value="345">湖南</option>
+            <option value="360">山西</option>
+            <option value="372">甘肃</option>
+            <option value="399">广西</option>
+            <option value="387">内蒙古</option>
+            <option value="414">贵州</option>
+            <option value="424">新疆</option>
+            <option value="439">海南</option>
+            <option value="459">宁夏</option>
+            <option value="465">西藏</option>
+            <option value="473">青海</option>
+            <option value="485">香港</option>
+        </select>
+            <select name="sdid" size="1"  required="required" style="height: 30px;border: solid 1px #f6f6f6;margin-bottom: 10px;padding-left: 3%;">
+                <option value="">选择市区</option>
+            </select>
+            <script>
+               
+            var str = $("#scid option").map(function(){
+                var value = $(this).val();
+                if(value == {$scid}){
+                        $(this).attr('selected','selected')
+                }
+            })
+
+            var scid = $('#scid').val();
+            changelocation(scid);
+            </script>
+            {/if}
+            <input type="submit" style="width: 100px;height: 50px;position: fixed;top: 0;right: 0;z-index: 500;background:rgba(0,0,0,0)" value="&nbsp;"/>
+        </form>
+    </div>
+    <div class="cleardiv55"></div>
+</div>
+<script>
+
+            function check(){
+               
+
+                var tel = $("#phone").val();
+                var yz = $("#yz").val();
+                var obj = $('#myform');
+                $.ajax({
+                    url: "/ajax/Verifycode",
+                    type: "Post",
+                    data: "tel="+tel+"&yz="+yz,
+                    dataType:'text',
+                    async:false,
+                    success: function (msg){
+                        if(msg == 1) {
+                            obj.submit(); //验证码正确提交表单
+                        }else{
+                            layer.open({
+                                content: '验证码错误请重新输入'
+                                ,shadeClose: false
+,btn: '我知道了'
+                            });
+                        }
+                    }
+
+                })
+                return false;
+
+            }
+            
+
+
+            var count = 60; //间隔函数，1秒执行
+            var curCount;//当前剩余秒数
+
+
+            function sendMessage() {
+                curCount = count;
+
+                var partten = /^\d{10,13}$/;
+
+                if (!partten.test(document.getElementById("phone").value)) {
+                    layer.open({
+                        content: '请输入正确的手机号码'
+                        ,shadeClose: false
+,btn: '我知道了'
+                    });
+                    return;
+                }
+                //产生验证码
+
+                //设置button效果，开始计时
+                $("#btnSendCode").attr("disabled", "true");
+                $("#btnSendCode").val("" + curCount + "秒内输入");
+                InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+//向后台发送处理数据
+                $.ajax({
+                    url: "/public/code",
+                    type: "Post",
+                    data: "sms=mobile&tel=" + $("#phone").val(),
+                    success: function (msg){
+
+                        if(msg == 'mobilefalse'){
+                            layer.open({
+                                content: '手机格式错误'
+                                ,shadeClose: false
+,btn: '我知道了'
+                            });
+                            $("#btnSendCode").removeAttr("disabled");//启用按钮
+                            $("#btnSendCode").val("重新发送");
+                            myform.phone.focus();
+                        }else if(msg == 'error'){//yz
+                            layer.open({
+                                content: '发送错误请重新获取'
+                                ,shadeClose: false
+,btn: '我知道了'
+                            });
+                            window.clearInterval(InterValObj);//停止计时器
+                            $("#btnSendCode").removeAttr("disabled");//启用按钮
+                            $("#btnSendCode").val("重新发送");
+                            myform.yz.focus();
+                        }else{
+                            layer.open({
+                                content: '验证码已发送到你的手机'
+                                ,shadeClose: false
+,btn: '我知道了'
+                            });
+                            //$('#nyz').val(msg);
+                        }
+                    }
+                })
+            }
+            //timer处理函数
+            function SetRemainTime() {
+                if (curCount == 0) {
+                    window.clearInterval(InterValObj);//停止计时器
+                    $("#btnSendCode").removeAttr("disabled");//启用按钮
+                    $("#btnSendCode").val("重新发送");
+                    //code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
+                }else {
+                    curCount--;
+                    $("#btnSendCode").val("" + curCount + "秒内输入");
+                }
+            }
+
+</script>
+
+<script>
+    wx.config({
+        debug: false,//关闭调试模式
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        /*appId: 'xxxxxx',
+         timestamp: xxxxx,
+         nonceStr: 'xxxxx',
+         signature: 'xxxxx',*/
+
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+    wx.ready(function () {
+
+        // 2. 分享接口
+        // 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+        wx.onMenuShareAppMessage({
+            title: '智能学业e站，您身边的生涯规划专家！',
+            desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+            link: 'http://xy.wisecareer.org/user/modify',
+            imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //   window.location.href = 'http://m.duolehuan.com/';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+
+        // 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+            title: '快来学业e站吧！',
+            desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+            link: 'http://xy.wisecareer.org/user/modify',
+            imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //window.location.href = '';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+    });
+
+    function hide(){
+        $('.show_hide').hide();
+    }
+
+    function show(){
+        $('.show_hide').show();
+    }
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

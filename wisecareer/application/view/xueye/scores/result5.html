@@ -1,0 +1,305 @@
+{extend name="layout/layout" }
+	{block name="link"} 
+    		<link href="__XUEYE__/css/aggregate.css" type="text/css" rel="stylesheet" />
+        <link rel="stylesheet" href="/static/public/css/layui.css"  media="all"> 
+	<script src="__XUEYE__/js/city.js"></script> 
+    <script src="/static/public/js/layui.js"></script>
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		table.scores tr>td{
+			color: #666;
+			line-height: 20px;
+			font-size: 16px;
+			padding: 10px 0;
+		}
+		table.scores tr>td>span{
+			font-weight: bold;
+		}
+		table.school{
+			border: none;
+		}
+
+		table.school tr>td{
+			color: #666;
+			line-height: 16px;
+			font-size: 16px;
+			padding: 20px 0;
+		}
+		table.school tr>td>span.gl{
+			display: block;
+			padding-top: 5px;
+			font-size: 12px;
+		}
+		table.school tr>td.next{
+			background: url(//xueye.wisecareer.org/images/xueye/icon/arrow-right-xiao.png) right center no-repeat;
+		}
+		table.school tr>th{
+			color: #666;
+			line-height: 36px;
+			font-size: 16px;
+			background: #f2f2f2;
+		}
+
+		/*table.school tr:nth-child(odd)>td{*/
+		/*background: #f2f2f2;*/
+		/*}*/
+
+		tr#cj>td,tr#wt>td,tr#bd>td{
+			border-top: 1px solid #ebebeb;
+		}
+		.num{
+			font-size: 20px;
+			color: red;
+		}
+		h3{
+			padding: 10px 0;
+			line-height: 24px;
+			font-size: 16px;
+		}
+		h5{
+			border-top: 1px solid #ebebeb;
+			font-size: 12px;
+			padding: 10px 0 10px 5%;
+		}
+	</style>
+{/block}
+<!-- head -->
+{block name='head'}
+<div id="dHead" style="position: fixed;top: 0;left: 0;z-index: 300">
+	<div class="head">
+		<h1 style="margin: 0">知位选大学</h1>
+		<a href="/scores/search5.html" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<a href="javascript:void(0);" id="screen_btn" style="position: fixed">筛选</a>
+<div id="shaixuan" style="display: none">
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">院校所在地</h1>
+		<a href="javascript:shaixuan_hide();" class="return"><i class="return-right"></i></a>
+	</div>
+	<form method="GET" action="" accept-charset="UTF-8">
+		<table width="100%">
+			<tr>
+				<td colspan="3">
+					<ul id="shaixuan_content" class="shaixuan_content">
+
+					</ul>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3"><input value="确定" class="btn_yes" id="shaixuan_btn"/></td>
+			</tr>
+		</table>
+	</form>
+</div> 
+{/block}
+<!-- home -->
+{block name='content'}
+
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+			<table width="100%" style="background: #ffffff;padding:10px 0;" class="scores">
+
+			</table>
+		</div>
+		<div class="cleardiv5"></div>
+		<div class="inner">
+			<h3>院校所在地：<span id="school_name" style="font-weight: bold"></span></h3>
+			<table width="100%" style="background: #ffffff;padding:5px 0;" class="school">
+
+			</table>
+			<h5>* 点击筛选，可选择院校所在地。<br>
+ * 各个档次的推荐学校最多为20所。</h5> 
+
+			<div class="cleardiv10"></div>
+		</div>
+	</div>
+	<div class="cleardiv55"></div>
+</div>
+ 
+
+<script>
+	$(function () {
+		var isPageHide = false;
+		window.addEventListener('pageshow', function () {
+			if (isPageHide) {
+				window.location.reload();
+			}
+		});
+		window.addEventListener('pagehide', function () {
+			isPageHide = true;
+		});
+	});
+	$(function(){
+		isHaveLogin('/scores/result5');
+	});
+</script>
+
+<script src="//www.wisecareer.org/js/xueye/layui.js" charset="utf-8"></script>
+<script>
+	var uid = localStorage.CURRENT_USER_ID;
+	var lx = getUrlParam('lx');
+	var sch_city = getUrlParam('sch_city');
+	var stu_city = getUrlParam('stu_city');
+	var rank = getUrlParam('rank');
+
+	$.ajax({ url:WEB_API_URL + "scores/knowledge_rank?" , async: false,data:{token:uid,lx:lx,sch_city:sch_city,stu_city:stu_city,rank:rank}, success: function(json){
+		var data=json.data;
+		var str1='';
+		var str2='<tr><td width="40%" align="center">生源：<span style="font-weight: bold">'+data['city']+'</span></td><td width="60%" align="center">我的省排位：<span style="font-size: 18px;font-weight: bold">'+rank+'</span>&nbsp;&nbsp;&nbsp;<span style="font-weight: bold">'+data['subject']+'科</span></td></tr>';
+		str1+='<tr id="cj" onclick="location.href=\'/scores/result5_1.html?stu_city='+stu_city+'&lx='+lx+'&sch_city='+sch_city+'&rank='+rank+'&action=sprint\'"><td width="15%" align="center" valign="middle"><img src="//www.wisecareer.org/images/xueye/icon/chong.png" alt="" width="50%"/></td> <td width="43%" align="left">可冲刺 <br/><span class="gl">录取概率 30%-50%</span></td>';
+		str1+='<td width="25%" align="right"><span class="num">'+data.list.sprint['num']+'</span> 所</td><td width="12%" align="center" class="next">&nbsp;</td><td width="5%">&nbsp;</td></tr>';
+
+		str1+='<tr id="wt" onclick="location.href=\'/scores/result5_1.html?stu_city='+stu_city+'&lx='+lx+'&sch_city='+sch_city+'&rank='+rank+'&action=safe\'"><td width="15%" align="center" valign="middle"><img src="//www.wisecareer.org/images/xueye/icon/wen.png" alt="" width="50%"/></td><td width="43%" align="left">较稳妥 <br/><span class="gl">录取概率 50%-80%</span></td>';
+		str1+='<td width="25%" align="right"><span class="num">'+data.list.safe['num']+'</span> 所</td><td width="12%" align="center" class="next">&nbsp;</td><td width="5%">&nbsp;</td></tr>';
+
+		str1+='<tr id="bd" onclick="location.href=\'/scores/result5_1.html?stu_city='+stu_city+'&lx='+lx+'&sch_city='+sch_city+'&rank='+rank+'&action=ative\'"><td width="15%" align="center" valign="middle"><img src="//www.wisecareer.org/images/xueye/icon/bao.png" alt="" width="50%"/></td><td width="43%" align="left">可保底 <br/><span class="gl">录取概率 80%-99%</span></td>';
+		str1+='<td width="25%" align="right"><span class="num">'+data.list.ative['num']+'</span> 所</td><td width="12%" align="center" class="next">&nbsp;</td><td width="5%">&nbsp;</td></tr>';
+		$('table.school').html(str1);
+		$('table.scores').html(str2);
+		$('#school_name').html(data['schname']);
+	}});
+
+
+
+	$('a#screen_btn').live('click',function() {
+		var str_dy = "";
+		$.getJSON(WEB_API_URL+"classnamel/areaClass",{token:uid},function(json){
+			$.each(json.data,function(index,array){
+				if(array['ar_id']==sch_city){
+					str_dy +="<li id='"+array['ar_id']+"' class='this' style='cursor:pointer;'>"+array['ar_name']+"&nbsp;&nbsp;&nbsp;<img src=\"//xueye.wisecareer.org/images/xueye/icon/yes.png\"/></li>"
+				}else{
+					str_dy +="<li id='"+array['ar_id']+"' style='cursor:pointer;'>"+array['ar_name']+"&nbsp;&nbsp;&nbsp;<img src=\"//xueye.wisecareer.org/images/xueye/icon/yes.png\" style='display: none'/></li>"
+				}
+				});
+			$('#shaixuan_content>li').remove();
+			$('#shaixuan_content').append(str_dy);
+		});
+	});
+	$('.shaixuan_content>li').live('click',function(){
+		$('.shaixuan_content>li').removeClass('this');
+		$('.shaixuan_content>li').children().hide();
+		$(this).addClass('this');
+		$(this).children().show();
+	});
+
+
+
+	$('#screen_btn').click(function(){
+		$('#shaixuan').show();
+		$('#dBody').css({'height':'100%','overflow-y':'hidden'});
+	});
+	function shaixuan_hide(){
+		$('#shaixuan').hide();
+		$('#dBody').css({'height':'auto','overflow-y':'scroll'});
+	}
+	$('#shaixuan_btn').click(function(){
+		var sch_num=$('.shaixuan_content>li.this').attr('id');
+		$('#shaixuan').hide();
+		if(sch_num!=undefined){
+			window.location.href=WEB_URL+'scores/result5.html?stu_city='+stu_city+'&lx='+lx+'&sch_city='+sch_num+'&rank='+rank;
+		}
+	});
+
+	$('#shaixuan td.option').click(function(){
+		$('#shaixuan td').removeClass("this");
+		$(this).addClass("this");
+		$('ul#shaixuan_xq').show();
+	});
+
+	$('.duoxuan>li>a').toggle(function(){
+		$(this).addClass("this");
+		$(this).next().show();
+		$(this).next().next().val(1);
+	},function(){
+		$(this).removeClass("this");
+		$(this).next().hide();
+		$(this).next().next().val(0);
+	})
+
+
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/scores/result5?stu_city='+stu_city+'&lx='+lx+'&sch_city='+sch_city+'&rank='+rank,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/scores/result5?stu_city='+stu_city+'&lx='+lx+'&sch_city='+sch_city+'&rank='+rank,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+{/block}
+{block name='menu'}
+
+{/block}

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/experience.css"/>
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/layui.css"  media="all">
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.layui-progress-big .layui-progress-text {
+			padding: 0 ;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">当前体验计划</h1>
+		<a href="/experience/index/" class="return"><i class="return-right"></i></a>
+		<a href="/experience/plan_log/" id="screen_btn" style="position: fixed;right: -5px">日志</a>
+	</div>
+</div>
+
+<div id="dBody">
+	<div class="mycontent experience" style="height:100%;margin: 0">
+		<div class="cleardiv50"></div>
+		<div class="inner">
+
+		</div>
+		<div class="cleardiv5"></div>
+	</div>
+</div>
+
+
+
+<script src="//www.wisecareer.org/js/xueye/layui.js"></script>
+<script>
+	$(function(){
+		isHaveLogin('/experience/plan');
+	});
+	Request = GetRequest();
+	var eid = localStorage.CURRENT_USER_ID;
+	var id = '';
+	var back = getUrlParam("back");
+	if(back==1){
+		$('a.return').attr('href','/experience/index');
+	}
+	$.ajax({ url:WEB_API_URL + "experience/get_plan?" , async: false,data:{token: eid}, success: function(json){
+		var data=json.data.tpid;
+		var str1='';
+		if(json.data==0){
+			layer.open({
+				content: '请先建立学习计划！'
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index){
+					window.location.href='/experience/write_plan/';
+				}
+			});
+		}else{
+			id=data['id'];
+			str1 +='<div class="cleardiv20"></div><h3 style="font-size: 16px">你的学习进度：</h3><div class="cleardiv10"></div>';
+			str1 +='<div class="layui-progress layui-progress-big" lay-showpercent="true" lay-filter="demo">';
+			str1 +='<div class="layui-progress-bar layui-bg-red" lay-percent="'+data['pro']+'%"></div></div>';
+			str1 +='<div class="cleardiv10"></div><h4>学习周期：'+data['starttime']+' 至 '+data['endtime']+'</h4>';
+			str1 +='<h4>各主题学习进度：</h4><div class="cleardiv5"></div><ul id="theme" class="clear">';
+			$.each(json.data.label, function (index, array) {
+				str1 += '<li>'+array['tpname']+'（<span>'+array['complete']+' 次</span> ）</li>';
+			});
+			var setting='';
+			if(data['setting']==1){
+				setting='每天';
+			}else if(data['setting']==7){
+				setting='每周';
+			}
+			str1 +='</ul><div class="cleardiv20"></div><h3>累计体验次数： '+data['nums']+' 次</h3>';
+			str1 +='<div class="cleardiv10"></div><h3>学习模式：'+data['every']+'个案例/次</h3>';
+			if(data['pro']==100){
+				str1 +='<div class="cleardiv20"></div> <input type="button" class="btn_yes" value="新的计划" onclick="location.href=\'/experience/write_plan/\'"/><div class="cleardiv20"></div>';
+			}else{
+				str1 +='<div class="cleardiv20"></div> <input type="button" class="btn_yes" value="重新定计划" onclick="giveup();" style="width: 160px;height: 44px;line-height: 44px"/><div class="cleardiv20"></div>';
+			}
+		}
+
+
+		$('div.inner').html(str1);
+	}});
+
+
+	layui.use('element', function(){
+		var $ = layui.jquery
+				,element = layui.element(); //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+		//触发事件
+		var active = {
+			setPercent: function(){
+				//设置50%进度
+				element.progress('demo', '50%')
+			}
+			,loading: function(othis){
+				var DISABLED = 'layui-btn-disabled';
+				if(othis.hasClass(DISABLED)) return;
+
+				//模拟loading
+				var n = 0, timer = setInterval(function(){
+					n = n + Math.random()*10|0;
+					if(n>100){
+						n = 100;
+						clearInterval(timer);
+						othis.removeClass(DISABLED);
+					}
+					layui.element().progress('demo', n+'%');
+				}, 300+Math.random()*1000);
+
+				othis.addClass(DISABLED);
+			}
+		};
+
+		$('.site-demo-active').on('click', function(){
+			var othis = $(this), type = $(this).data('type');
+			active[type] ? active[type].call(this, othis) : '';
+		});
+	});
+	function giveup(){
+		layer.open({
+			content: '体验计划一旦终止，不能恢复呀！要不坚持一下吧。'
+			,btn: ['下决心了', '返回']
+			,yes: function(index){
+				$.ajax({
+					type:"POST",
+					url:WEB_API_URL+"experience/giveupplan?",
+					data:"token="+eid+"&id="+id,
+					cache:false, //不缓存此页面
+					success:function(data){
+						if(data.status==0){
+							layer.open({
+								content: '成功放弃计划！'
+								,btn: '我知道了'
+								,shadeClose: false
+								,yes: function(index){
+									window.location.href='/experience/write_plan/';
+								}
+							});
+						}else if(data.status==60005){
+							layer.open({
+								content: '放弃计划失败！'
+								,btn: '我知道了'
+								,shadeClose: false
+								,yes: function(index){
+									location.reload();
+								}
+							});
+						}
+					}
+				});
+			}
+		});
+	}
+
+</script>
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>
+
+
+<script>
+
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/plan',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/plan',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>

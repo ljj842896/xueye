@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link rel="stylesheet" href="//www.wisecareer.org/css/xueye/picusers/css/page-common.css">
+	<link rel="stylesheet" href="//www.wisecareer.org/css/xueye/picusers/css/upload.css"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/layer.js"></script>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<title>职拓e站</title>
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		html{
+			height: 100%;
+		}
+		body{
+			height: 100%;
+			position: relative;
+			overflow: hidden;
+		}
+
+	</style>
+</head>
+<body>
+
+<div id="dHead" style="position: fixed">
+	<div class="head">
+		<h1 style="margin: 0">个人头像修改</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<div style="position: fixed;top: 0;right:-10px;z-index: 130">
+	<button id='fileChooseButton' class="button rarrow file-input-mask" style="background: none;border: none">上传图片<input class="upload-file" type="file" id="file"  /></button>
+</div>
+<div style="margin: 100px auto;padding: 0 10%">
+	<img src="<{$userpic}>" id="previewResult" style="" width="100%"/>
+</div>
+<img id="needCropImg"  width="100%" style="display: none"/>
+<div class="app" id="uploadPage">
+	<div class="upload-loading">
+		<span class="centerXY"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></span>
+	</div>
+	<div class="bar">
+		<a class="back pull-left" id="closeCrop" style="padding: 10px"><img src="http://jiaolian.wisecareer.org/public/img/icon/fanhui.png" alt="" width="30"/></a>
+		<a id="getFile" class="pull-right">保存</a>
+	</div>
+	<div class="main">
+		<canvas class="upload-mask">
+
+		</canvas>
+		<div class="preview-box">
+			<img id="preview"/>
+		</div>
+		<canvas class="photo-canvas">
+
+		</canvas>
+		<a  id="rotateBtn">
+			<!--<i class="fa fa-rotate-right  fa-3x"></i>-->
+			<img src="http://jiaolian.wisecareer.org/public/img/icon/xuanzhuan.png" alt="" width="50"/>
+			<div style="line-height: 30px;font-size: 18px">旋转照片</div>
+		</a>
+	</div>
+</div>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+<script src="http://xueye.wisecareer.org/css/xueye/picusers/js/require.js" ></script>
+<script src="http://xueye.wisecareer.org/css/xueye/picusers/js/main.js"></script>
+<script src="http://xueye.wisecareer.org/css/xueye/picusers/js/canvas-toBlob.js"></script>
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/user/picture');
+	});
+</script>
+<script>
+	var myCrop;
+	//    防require缓存
+	require.config({
+		urlArgs:"bust="+new Date
+	})
+	require(["jquery",'hammer','tomPlugin',"tomLib",'hammer.fake','hammer.showtouch'],function($,hammer,plugin,T){
+		document.addEventListener("touchmove",function(e){
+			e.preventDefault();
+		})
+		//初始化图片大小300*300
+		var opts={cropWidth:300,cropHeight:300},
+				$file=$("#file"),
+				previewStyle={x:0,y:0,scale:1,rotate:0,ratio:1},
+				transform= T.prefixStyle("transform"),
+				$previewResult=$("#previewResult"),
+				$previewBox=$(".preview-box"),
+				$rotateBtn=$("#rotateBtn"),
+				$getFile=$("#getFile"),
+				$preview=$("#preview"),
+				$uploadPage=$("#uploadPage"),
+				$mask=$(".upload-mask"),
+				$loading=$(".upload-loading"),
+				maskCtx=$mask[0].getContext("2d"),
+				$needCropImg=$("#needCropImg");
+
+		//这是插件调用主体
+		myCrop=T.cropImage({
+			bindFile:$file,//绑定Input file
+//            bindFile:$needCropImg[0],//绑定一个图片
+			enableRatio:true,//是否启用高清,高清得到的图片会比较大
+			canvas:$(".photo-canvas")[0],  //放一个canvas对象
+			cropWidth:opts.cropWidth,       //剪切大小
+			cropHeight:opts.cropHeight,
+			bindPreview:$preview,      //绑定一个预览的img标签
+			useHammer:true,            //是否使用hammer手势，否的话将不支持缩放
+			oninit:function(){
+
+			},
+			onChange:function(){
+				$loading.show();
+				resetUserOpts();
+			},
+			onLoad:function(data){
+				//用户每次选择图片后执行回调
+				previewStyle.ratio=data.ratio;
+				$preview.attr("src",data.originSrc).css({width:data.width,height:data.height}).css(transform,'scale('+1/previewStyle.ratio+')');
+				myCrop.setCropStyle(previewStyle)
+				$loading.hide();
+			}
+		});
+		function resetUserOpts(){
+			$(".photo-canvas").hammer('reset');
+			previewStyle={scale:1,x:0,y:0,rotate:0};
+			$previewResult.attr("src",'').hide();
+			$preview.attr("src",'')
+		}
+		$('#fileChooseButton').on('click',function(){
+			setTimeout(function(){
+				resetUserOpts();
+			})
+		})
+		$(".photo-canvas").hammer({
+			gestureCb:function(o){
+				//每次缩放拖拽的回调
+				$.extend(previewStyle,o);
+//                console.log("用户修改图片",previewStyle)
+				$preview.css(transform,"translate3d("+ previewStyle.x+'px,'+ previewStyle.y+"px,0) rotate("+previewStyle.rotate+"deg) scale("+(previewStyle.scale/previewStyle.ratio)+")")
+			}
+		})
+		//选择图片
+		$rotateBtn.on("click",function(){
+			previewStyle.rotate+=90;
+			if(previewStyle.rotate>=360){
+				previewStyle.rotate-=360;
+			}
+			$(".photo-canvas").hammer('setRotate',previewStyle.rotate)
+			myCrop.setCropStyle(previewStyle)
+			$preview.css(transform,"translate3d("+ previewStyle.x+'px,'+ previewStyle.y+"px,0) rotate("+previewStyle.rotate+"deg) scale("+(previewStyle.scale/previewStyle.ratio)+")")
+		})
+		//获取图片并关闭弹窗返回到表单界面
+		$getFile.on("click",function(){
+			var cropInfo;
+			$uploadPage.hide();
+			myCrop.setCropStyle(previewStyle)
+			//自定义getCropFile({type:"png",background:"red",lowDpi:true})
+			cropInfo=myCrop.getCropFile({});
+			$previewResult.attr("src",cropInfo.src).show();
+			//可选传base64或者file对象
+			//cropInfo.src cropInfo.dfd
+
+			//you can upload img base64  :cheers:)
+			// console.info('拿到Base64了,传给后台吧？')//src.substr(22)
+
+			var index = layer.load(1, {
+				shade: [0.1,'#fff'] //0.1透明度的白色背景
+			});
+
+			var token= localStorage.CURRENT_USER_ID
+			$.ajax({
+				url:WEB_API_URL+'/user/update_pic',
+				type:"post",
+				dataType:"json",
+				data:{pic:cropInfo.src,token:token},//后端无需在过滤头
+				success:function(data){
+					if(data.status==0){
+						layer.close(index);
+					}else{
+						layer.open({
+							content: '失败'
+							,btn: '我知道了'
+						});
+					}
+				}
+			})
+			//you can upload new img file :cheers:)
+			// cropInfo.dfd.done(function(blob){
+			//     if(blob){
+			//         var formData=new FormData;
+			//         blob.name='imgFile'
+			//         formData.append("imgFile",blob)
+			//         formData.append("uploadType",'imgFile');
+			//         $.ajax({
+			//             url:'http://127.0.0.1/testAdjustImg/upload.php',
+			//             type:"post",
+			//             data:formData,
+			//             processData:false,
+			//             contentType: false,
+			//             dataType:"json",
+			//             success:function(data){
+			//                 console.log(data)
+			//                 if(data.result==1){
+			//                     console.log(data.imgPath)
+			//                 }
+			//             }
+			//         })
+			//     }
+			// })
+
+		})
+		//上传文件按钮&&关闭弹窗按钮
+		$(document).delegate("#file","click",function(){
+			$uploadPage.show();
+		}).delegate("#closeCrop","click",function(){
+			$uploadPage.hide();
+			resetUserOpts();
+			myCrop.setCropStyle(previewStyle)
+		})
+		$file.one("click",showCropModal)
+		$previewResult.on('click',showCropModal)
+
+		function showCropModal(){
+			setTimeout(function(){
+				$uploadPage.show();
+				$mask.prop({width:$mask.width(),height:$mask.height()})
+				maskCtx.fillStyle="rgba(0,0,0,0.7)";
+				maskCtx.fillRect(0,0,$mask.width(),$mask.height());
+				maskCtx.strokeStyle='white';
+				maskCtx.lineWidth='2'
+				maskCtx.clearRect(($mask.width()-opts.cropWidth)/2,($mask.height()-opts.cropHeight)/2,opts.cropWidth,opts.cropHeight)
+				maskCtx.strokeRect(($mask.width()-opts.cropWidth)/2-1,($mask.height()-opts.cropHeight)/2-1,opts.cropWidth+2,opts.cropHeight+2);//Add a subpath with four points
+			})
+		}
+		//单独绑定图片时用到
+//        $needCropImg[0].addEventListener("load",showCropModal)
+//        $needCropImg[0].src='./img/9-1.jpg';
+	})
+
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/userimg',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/userimg',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+</script>
+</html>

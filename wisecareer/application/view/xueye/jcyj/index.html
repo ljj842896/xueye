@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		#dBody .inner table td{
+			color: #666;
+			font-size: 14px;
+			line-height: 20px;
+			padding: 3px 0;
+		}
+		.right_point{
+			background-image: url(//xueye.wisecareer.org/images/xueye/icon/arrow-right-xiao.png);
+			background-repeat: no-repeat;
+			background-position: left center;
+		}
+	</style>
+</head>
+<body>
+<div id="dHead">
+	<div class="head">
+		<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">选科决策流程</h1>
+		<a href="/index/index" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+<div id="dBody" style=" overflow-x:hidden;table-layout: fixed;word-wrap:break-word;word-break:break-all;height: 100%">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner" style="">
+			<div class="cleardiv20"></div>
+				<table width="100%" onclick="location.href='/jcyj/details/'" id="step1">
+					<tr>
+						<td width="80" rowspan="3" valign="top" align="center">
+							<img src="/static/xueye/images/icon/step1.png" alt="" width="100%"/>
+
+						</td>
+						<td width="10" rowspan="3" valign="middle"></td>
+						<td valign="middle" style="font-weight: bold">建立学业决策模型</td>
+						<td width="10" rowspan="3" valign="top" class="right_point"></td>
+					</tr>
+					<tr>
+						<td valign="middle" id="xiang1_1">风险预警：0项 </td>
+					</tr>
+					<tr>
+						<td valign="middle" id="xiang1_2">（未完成）</td>
+					</tr>
+				</table>
+			<div class="cleardiv20"></div>
+		</div>
+		<div class="cleardiv5" style="background: #ebebeb"></div>
+		<div class="inner" style="">
+			<div class="cleardiv20"></div>
+			<table width="100%"  onclick="location.href='/presentation/branch_list?id=0'" id="step2">
+				<tr>
+					<td width="80" rowspan="3" valign="top" align="center">	<img src="/static/xueye/images/icon/step2.png" alt="" width="100%"/></td>
+					<td width="10" rowspan="3" valign="top"></td>
+					<td valign="middle" style="font-weight: bold">评估学科能力 </td>
+					<td width="10" rowspan="3" valign="top" class="right_point"></td>
+				</tr>
+				<tr>
+					<td valign="middle" id="xiang2_1"><img src="/static/xueye/images/icon/biao.png" alt="" width="16" style="position: relative;top: 1px;"/>看分析图  </td>
+				</tr>
+				<tr>
+					<td valign="middle" id="xiang2_2">未完成 </td>
+				</tr>
+			</table>
+			<div class="cleardiv20"></div>
+		</div>
+		<div class="cleardiv5" style="background: #ebebeb"></div>
+		<div class="inner" style="">
+			<div class="cleardiv20"></div>
+    <table width="100%" id="step3">
+    <tr id="dwzy" onclick="location.href='/jcyj/recommend?type=2'">
+    <td width="80" rowspan="3" valign="top" align="center"><img src="/static/xueye/images/icon/step3.png" alt="" width="100%"/></td>
+    <td width="10" rowspan="3" valign="top"></td>
+    <td valign="middle" style="font-weight: bold">定位目标专业&nbsp;&nbsp;&nbsp;</td>
+    <td width="10" rowspan="3" valign="top" class="right_point"></td>
+    </tr>
+    <tr>
+    	<td valign="middle" id="xiang3_1"  onclick="location.href='/presentation/major?id=0'">理性程度：</td>
+    </tr>
+    <tr>
+    <td valign="middle" id="xiang3_2" ><span id="xiang3_3"  onclick="location.href='/presentation/major?id=0'">已收藏：0个专业&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-weight: 300;display:inline-block"><img src="/static/xueye/images/icon/biao.png" alt="" width="16" style="position: relative;top: 1px;"/>&nbsp;&nbsp;招生要求&nbsp;</span></td>
+    </tr>
+    </table>
+		    <div class="cleardiv20"></div>
+		</div>
+		<div class="cleardiv5" style="background: #ebebeb"></div>
+		<div class="inner" style="">
+			<div class="cleardiv20"></div>
+			<table width="100%"  onclick="location.href='/jcyj/combination'" id="step4">
+				<tr>
+					<td width="80" rowspan="3" valign="top" align="center"><img src="/static/xueye/images/icon/step4.png" alt="" width="100%"/></td>
+					<td width="10" rowspan="3" valign="top"></td>
+					<td valign="middle" style="font-weight: bold">确定选科组合</td>
+					<td width="10" rowspan="3" valign="top" class="right_point"></td>
+				</tr>
+				<tr>
+					<td valign="middle" id="xiang4_1"></td>
+				</tr>
+				<tr>
+					<td valign="middle" id="xiang4_2">未完成</td>
+				</tr>
+			</table>
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+</div>
+<script>
+	$(function(){
+		isHaveLogin('/jcyj/index/');
+	});
+	var uid = localStorage.CURRENT_USER_ID;
+	var userinfo=0;
+	$.ajax({ url:WEB_API_URL + "user/userstatus?"  , async: false,data:{token: uid}, success: function(json){
+		userinfo=json.data.userinfo;
+	}})
+	console.log(userinfo);
+	$.ajax({ url:WEB_API_URL + "Navigation/planningedit?"  , async: false,data:{token: uid}, success: function(json){
+		var str3 = "";
+		var str4 = "";
+		var data=json.data;
+		if(json.status==0){
+
+
+
+			//		第四步判断
+			if(data['subject_str']==""){
+				$('#xiang4_1').html('未完成').css('color','red');
+				$('#xiang4_2').html('');
+			}else{
+				if(data['subjectno']>0){
+					$('#xiang4_1').html(data['subject_str']+'&nbsp;&nbsp;&nbsp;<img src="//zxedu.wisecareer.org/images/tanhao.png" width="16" height="16" id="btn_3">');
+				}else{
+					$('#xiang4_1').html(data['subject_str']);
+				}
+
+				$('#xiang4_2').html('');
+			}
+
+
+			//		第三步判断
+			if(data['edu_sc_num']<8 || data['edu_sc_num']>15){
+				$('#xiang3_1').html('理性程度：&nbsp;<span	style="color: #f00;font-weight: bold">'+data['edu_sc_policynum']+'%</span>&nbsp;');
+				$('#xiang3_2').html('<span id="xiang3_3"  onclick="location.href=\'/presentation/major?id=0\'">已收藏：&nbsp;<span	style="color: #f00;font-weight: bold">'+data['edu_sc_num']+'</span>&nbsp;个专业&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-weight: 300;display:inline-block" id="xiang3_4" onclick="location.href=\'/presentation/xuankao/\'"><img src="/static/xueye/images/icon/biao.png" alt="" width="16" style="position: relative;top: 1px;"/>&nbsp;&nbsp;高校招生&nbsp;</span>');
+				$('#step4').attr('onclick','future3();');
+			}else{
+				$('#xiang3_1').html('理性程度：&nbsp;<span	style="color: #f00;font-weight: bold">'+data['edu_sc_policynum']+'%</span>&nbsp;');
+				$('#xiang3_2').html('<span id="xiang3_3"  onclick="location.href=\'/presentation/major?id=0\'">已收藏：&nbsp;<span	style="color: #f00;font-weight: bold">'+data['edu_sc_num']+'</span>&nbsp;个专业&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="font-weight: 300;display:inline-block" id="xiang3_4" onclick="location.href=\'/presentation/xuankao/\'"><img src="/static/xueye/images/icon/biao.png" alt="" width="16" style="position: relative;top: 1px;"/>&nbsp;&nbsp;高校招生&nbsp;</span>');
+			}
+
+
+
+			//		第二步判断
+
+			if(data['score']==0){
+				$('#xiang2_1').html('未完成').css('color','red');
+				$('#xiang2_2').html('');
+				$('#step3 #dwzy,#step3 #xiang3_1,#step3 #xiang3_3,#step3 #xiang3_4,#step4').attr('onclick','future2();');
+			}else{
+				$('#xiang2_1').html('<img src="/static/xueye/images/icon/biao.png" alt="" width="16" style="position: relative;top: 1px;"/>&nbsp;&nbsp;看分析图');
+				$('#xiang2_2').html('');
+			}
+
+
+			//		第一步判断
+			if(data['planning']==0){
+				$('#xiang1_1').html('未完成').css('color','red');
+				$('#xiang1_2').html('');
+				$('#step2,#step3 #dwzy,#step3 #xiang3_1,#step3 #xiang3_3,#step3 #xiang3_4,#step4').attr('onclick','future();');
+			}else{
+				$('#xiang1_1').html('风险预警：&nbsp;<span	style="color: #f00;font-weight: bold">'+data['planning_num']+'</span>&nbsp;项');
+				$('#xiang1_2').html('');
+			}
+
+
+		}
+
+	}});
+
+	function future(){
+		layer.open({
+			content: '你好！学业决策的第一步是建立自己的学业决策模型。接下来我们将和你一起寻找自己的学业决策关键参数......'
+			,shadeClose: false
+			,btn: ['确定', '取消']
+			,yes: function(index){
+				window.location.href='/jcyj/option1';
+				layer.close(index);
+			}
+		});
+	}
+
+function future2(){
+	layer.open({
+		content: '请先完善第二步！'
+		,shadeClose: false
+		,btn: ['确定', '取消']
+		,yes: function(index){
+			window.location.href='/presentation/branch_list/';
+			layer.close(index);
+		}
+	}); 
+}
+
+function future3(){
+	layer.open({
+		content: '需要完成收藏8-15个专业！'
+		,shadeClose: false
+		,btn: ['确定', '取消']
+		,yes: function(index){
+			window.location.href='/presentation/major?id=0';
+			layer.close(index);
+		}
+	});
+}
+
+
+	if(userinfo == 0 && uid !=''){
+		layer.open({
+			content: '请先完善资料'
+			,shadeClose: false
+			,btn: '我知道了'
+			,yes: function(index){
+				layer.close(index);
+				window.location.href='/user/userinfo/';
+			}
+		});
+	}
+</script>
+
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/jcyj/index',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/jcyj/index',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

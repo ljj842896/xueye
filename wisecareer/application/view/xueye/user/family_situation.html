@@ -1,0 +1,560 @@
+{extend name="layout/layout" }
+
+{block name="link"}
+
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<link href="__XUEYE__/css/user_info.css" type="text/css" rel="stylesheet" />
+<style>
+	ul#hangye_list{
+		width: 35%;
+		position: fixed;
+		left: 0;
+		top: 0;
+		z-index: 1000;
+		height: 100%;
+		overflow-y: scroll;
+	}
+	ul#hangye_list>li>a{
+		display: block;
+		text-align: center;
+		border-bottom: solid 1px #ebebeb;
+		line-height: 48px;
+		font-size: 14px;
+		color: #666;
+		background: #ebebeb;
+	}
+	ul#hangye_list>li>a.this{
+		font-size: 16px;
+		font-weight: bold;
+		color: #00bb0c;
+		background: #fff;
+	}
+
+	ul#zhiye_list>li>a{
+		display: block;
+		text-align: center;
+		line-height: 48px;
+		font-size: 14px;
+		color: #666;
+	}
+	ul#zhiye_list>li>a.this{
+		font-size: 16px;
+		font-weight: bold;
+		color: #00bb0c;
+	}
+	ul#zhiye_list>li>a.this:before{
+		content: '·  ';
+		font-size: 30px;
+		line-height: 50px;
+
+	}
+	.tijiao{
+		display: none;
+	}
+	a.click_input{
+		display: block;
+		line-height: 30px;
+		border: solid 1px #e3e3e3;
+		padding-left: 5%;
+		color: #666;
+		font-size: 12px;
+	}
+	#home h3 {
+		font-size: 14px;
+		line-height: 20px;
+		padding: 3px 0;
+		color: #666;
+	}
+	ul.select>li{
+		font-size: 14px;
+		line-height: 20px;
+		padding: 3px 0;
+		color: #666;
+	}
+	ul.select>li>label{
+		display: block;
+	}
+	input.qita_text{
+		display: none;
+		line-height: 24px;
+		width: 100px;
+	}
+</style>
+{/block}
+{block name="content"}
+<div class="show_hide" style="display: none">
+	<div class="class_bg"></div>
+	<div class="class_content" style="padding: 0;overflow-y: scroll">
+		<div id="box1_tittle">
+			<div class="head">
+				<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">选择职业</h1>
+				<a href="javascript:hide()" class="box1_return"><i class="return-right"></i></a>
+				<a href="javascript:void(0)" name="submit" style="" id="screen_btn">
+					<input type="submit" value="提交" style="line-height: 40px;" class="tijiao father" id="btn1"/>
+					<input type="submit" value="提交" style="line-height: 40px;" class="tijiao mather" id="btn2"/>
+				</a>
+			</div>
+		</div>
+
+		<div width="100%" id="box1" class="clear">
+			<ul id="hangye_list">
+
+			</ul>
+			<table width="100%" style="padding-top: 55px;background: #fff">
+				<tr>
+					<td width="35%" align="center" style="height: 100%">&nbsp;</td>
+					<td width="65%" align="center" style="height: 100%">
+						<ul id="zhiye_list">
+
+						</ul>
+					</td>
+				</tr>
+			</table>
+		</div>
+		<div class="clear"></div>
+		<div style="width: 100%;text-align: center;display: block"></div>
+	</div>
+</div>
+
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner" id="home">
+
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+function getElements(formId) {  
+  var form = document.getElementById(formId);  
+  var elements = new Array();  
+  var tagElements = form.getElementsByTagName('input');  
+  for (var j = 0; j < tagElements.length; j++){ 
+     elements.push(tagElements[j]);
+  } 
+  return elements;
+}  
+function inputSelector(element) {  
+ if (element.checked)  
+   return [element.name, element.value];  
+} 
+function input(element) {  
+  switch (element.type.toLowerCase()) {  
+   case 'submit':  
+   case 'hidden':  
+   case 'password':  
+   case 'text':  
+    return [element.name, element.value];  
+   case 'checkbox':  
+   case 'radio':  
+    return inputSelector(element);  
+  }  
+  return false;  
+} 
+
+function serializeElement(element) {  
+  var method = element.tagName.toLowerCase();  
+  var parameter = input(element);  
+   
+  if (parameter) {  
+   var key = encodeURIComponent(parameter[0]);  
+   if (key.length == 0) return;  
+   
+   if (parameter[1].constructor != Array)  
+    parameter[1] = [parameter[1]];  
+      
+   var values = parameter[1];  
+   var results = [];  
+   for (var i=0; i<values.length; i++) {  
+    results.push(key + '=' + encodeURIComponent(values[i]));  
+   }  
+   return results.join('&');  
+  }  
+ }
+
+ function serializeForm(formId) {  
+  var elements = getElements(formId);  
+  var queryComponents = new Array();  
+   
+  for (var i = 0; i < elements.length; i++) {  
+   var queryComponent = serializeElement(elements[i]);  
+   if (queryComponent)  
+    queryComponents.push(queryComponent);  
+  }  
+
+  return queryComponents.join('&'); 
+} 
+		$(function(){
+			isHaveLogin('/user/family_situation');
+		});
+
+		var uid =localStorage.CURRENT_USER_ID;
+
+		var text2=$('input#text2').val();
+		var text3=$('input#text3').val();
+		var tpid='7';
+		var id='';
+		var val='';
+		var stop=false;
+		var page=1;
+
+	function submit(){
+	var datajson = serializeForm('home');
+		$.ajax({
+				type:"POST",
+				url:"/publics/userWirtehome",
+				data:{"__token__":"{$Request.token}",writehome:datajson},
+				cache:false, //不缓存此页面
+				success:function(data){
+					 if(data.status==0){
+						 page++;
+						 $.ajax({ url:  "/publics/wirteHomeList?", async: false,data:{token:uid,page:page}, success: function(json){
+							 var data=json.data;
+							 var str1='';
+							 if(data!=''){
+								 str1+='<div class="cleardiv10"></div>';
+								 $.each(json.data.list, function (index, array) {
+									 if(array['lx']==1){
+										 str1 +='<h3>'+array['px']+'．'+array['titlename']+'</h3><ul class="select">';
+										 $.each(array['ti'], function (index2, array2) {
+											 if(array2['lx']==0){
+												 if(array2['has']==0){
+													 str1 += '<li><label for="'+array2['tid']+array2['da']+'"><input type="radio" value="'+array2['id']+'" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'</label></li>';
+												 }else{
+													 str1 += '<li><label for="'+array2['tid']+array2['da']+'"><input type="radio" value="'+array2['id']+'" checked="checked" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'</label></li>';
+												 }
+											 }else{
+												 if(array2['has']==0){
+													 str1 += '<li><label for="'+array2['tid']+array2['da']+'" class="qita"><input type="radio" value="'+array2['id']+'"  name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'&nbsp;&nbsp;<input type="text" value="'+array2['qita']+'" name="qita'+array2['tid']+'" class="qita_text" /></label></li>';
+												 }else{
+													 str1 += '<li><label for="'+array2['tid']+array2['da']+'" class="qita"><input type="radio" value="'+array2['id']+'" checked="checked" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'&nbsp;&nbsp;<input type="text" value="'+array2['qita']+'" name="qita'+array2['tid']+'" class="qita_text" style="display:inline-block;" /></label></li>';
+												 }
+
+											  }
+
+										 });
+										 str1 +='</ul><div class="cleardiv10"></div>';
+									 }else if(array['lx']==2){
+										 str1 +='<h3>'+array['px']+'．'+array['titlename']+'</h3><ul class="select">';
+										 $.each(array['ti'], function (index2, array2) {
+											 if(array2['lx']==0){
+												 if(array2['has']==0){
+													 str1 += '<li><label for="'+array2['tid']+array2['da']+'"><input type="checkbox" value="'+array2['id']+'" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'</label></li>';
+												 }else{
+													 str1 += '<li><label for="'+array2['tid']+array2['da']+'"><input type="checkbox" value="'+array2['id']+'" checked="checked" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'</label></li>';
+												 }
+											 }else{
+												 if(array2['has']==0){
+													 str1 += '<li><label for="'+array2['tid']+array2['da']+'" class="qita"><input type="checkbox" value="'+array2['id']+'" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'&nbsp;&nbsp;<input type="text" value="'+array2['qita']+'" name="qita'+array2['tid']+'" class="qita_text"/></label></li>';
+												 }else{
+													 str1 += '<li><label for="'+array2['tid']+array2['da']+'" class="qita"><input type="checkbox" value="'+array2['id']+'"  checked="checked" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'&nbsp;&nbsp;<input type="text" value="'+array2['qita']+'" name="qita'+array2['tid']+'" class="qita_text" style="display:inline-block;" /></label></li>';
+												 }
+											  }
+										 });
+										 str1 +='</ul><div class="cleardiv10"></div>';
+									 }else if(array['lx']==3){
+										 str1 += '<h3>'+array['px']+'．'+array['titlename']+'</h3><div><a href="javascript:a'+array['px']+'()" class="click_input" id="text'+array['px']+'" tpid="0" zid="0">'+array['val']+'</a><input type="hidden" value="" name="name'+array['id']+'"/></div><div class="cleardiv10"></div>';
+									 }
+								 });
+								 if(data['has']==0){
+									 str1+='<input type="button" class="btn_yes" value="提&nbsp;交" onclick="submit();"/><div class="cleardiv5"></div>';
+								 }else{
+									 str1+='<input type="button" class="btn_yes" value="下一步" onclick="submit();"/><div class="cleardiv5"></div>';
+								 }
+								}else{
+								 window.location.href='/user/userinfo.html'
+							 }
+							 $('div#home').html(str1);
+						 }});
+					 }else{
+					 	layer.open({
+					 		content: data.msg
+					 		,btn: "我知道了"
+					 		,shadeClose: false
+					 		,yes: function(index){
+					 			layer.close(index);
+					 		}
+					 	});
+					 }
+				}
+			});
+	}
+
+$.ajax({ url: "/publics/wirteHomeList?", async: false,data:{token:uid,page:page}, success: function(json){
+	var data=json.data;
+	var str1='';
+	if(data!=''){
+		str1+='<div class="cleardiv10"></div>';
+		$.each(json.data.list, function (index, array) {
+			if(array['lx']==1){
+				str1 +='<h3>'+array['px']+'．'+array['titlename']+'</h3><ul class="select">';
+				$.each(array['ti'], function (index2, array2) {
+					if(array2['lx']==0){
+						if(array2['has']==0){
+							str1 += '<li><label for="'+array2['tid']+array2['da']+'"><input type="radio" value="'+array2['id']+'" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'</label></li>';
+						}else{
+							str1 += '<li><label for="'+array2['tid']+array2['da']+'"><input type="radio" value="'+array2['id']+'" checked="checked" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'</label></li>';
+						}
+					}else{
+						if(array2['has']==0){
+							str1 += '<li><label for="'+array2['tid']+array2['da']+'" class="qita"><input type="radio" value="'+array2['id']+'"  name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'&nbsp;&nbsp;<input type="text" value="'+array2['qita']+'" name="qita'+array2['tid']+'" class="qita_text" /></label></li>';
+						}else{
+							str1 += '<li><label for="'+array2['tid']+array2['da']+'" class="qita"><input type="radio" value="'+array2['id']+'" checked="checked" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'&nbsp;&nbsp;<input type="text" value="'+array2['qita']+'" name="qita'+array2['tid']+'" class="qita_text"  style="display:inline-block;" /></label></li>';
+						}
+					}
+				});
+				str1 +='</ul><div class="cleardiv10"></div>';
+			}else if(array['lx']==2){
+				str1 +='<h3>'+array['px']+'．'+array['titlename']+'</h3><ul class="select">';
+				$.each(array['ti'], function (index2, array2) {
+					if(array2['lx']==0){
+						if(array2['has']==0){
+							str1 += '<li><label for="'+array2['tid']+array2['da']+'"><input type="checkbox" value="'+array2['id']+'" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'</label></li>';
+						}else{
+							str1 += '<li><label for="'+array2['tid']+array2['da']+'"><input type="checkbox" value="'+array2['id']+'" checked="checked" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'</label></li>';
+						}
+					}else{
+						if(array2['has']==0){
+							str1 += '<li><label for="'+array2['tid']+array2['da']+'" class="qita"><input type="checkbox" value="'+array2['id']+'" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'&nbsp;&nbsp;<input type="text" value="'+array2['qita']+'" name="qita'+array2['tid']+'" class="qita_text"/></label></li>';
+						}else{
+							str1 += '<li><label for="'+array2['tid']+array2['da']+'" class="qita"><input type="checkbox" value="'+array2['id']+'"  checked="checked" name="name'+array2['tid']+'" id="'+array2['tid']+array2['da']+'"/>&nbsp;&nbsp;'+array2['da']+'&nbsp;&nbsp;'+array2['titlename']+'&nbsp;&nbsp;<input type="text" value="'+array2['qita']+'" name="qita'+array2['tid']+'" class="qita_text"  style="display:inline-block;" /></label></li>';
+						}
+					}
+				});
+				str1 +='</ul><div class="cleardiv10"></div>';
+			}else if(array['lx']==3){
+				str1 += '<h3>'+array['px']+'．'+array['titlename']+'</h3><div><a href="javascript:a'+array['px']+'()" class="click_input" id="text'+array['px']+'" tpid="0" zid="0">'+array['val']+'</a><input type="hidden" value="" name="name'+array['id']+'"/></div><div class="cleardiv10"></div>';
+			}
+		});
+		if(data['has']==0){
+			str1+='<input type="button" class="btn_yes" value="提&nbsp;交" onclick="submit();"/><div class="cleardiv5"></div>';
+		}else{
+			str1+='<input type="button" class="btn_yes" value="下一步" onclick="submit();"/><div class="cleardiv5"></div>';
+		}
+	}else{
+		window.location.href='/user/userinfo.html'
+	}
+	$('div#home').html(str1);
+}});
+
+	$.ajax({ url:  WEB_API_URL +"/classnamel/industry?"+ Request , async: false,data:{}, success: function(json){
+			var data=json.data;
+			var first=true;
+			var str1='<li><div class="cleardiv50" style="background: #fff"></div></li>';
+			$.each(json.data, function (index, array) {
+				if(first==true){
+					str1+='<li><a href="javascript:void(0);" tpid="'+array['tpid']+'" class="this" id="first">'+array['tpname']+'</a></li>';
+					first=false;
+				}else{
+					str1+='<li><a href="javascript:void(0);" tpid="'+array['tpid']+'">'+array['tpname']+'</a></li>';
+				}
+			});
+			$('ul#hangye_list').html(str1);
+		}
+	});
+
+		$.ajax({ url: WEB_API_URL + "/classnamel/getoccupation?"+ Request, async: false,data:{tpid:tpid}, success: function(json){
+			var data=json.data;
+			var str1='';
+			$.each(json.data, function (index, array) {
+				str1+='<li><a href="javascript:void(0);" id="'+array['id']+'">'+array['titlename']+'</a></li>';
+			});
+			$('ul#zhiye_list').html(str1);
+		}});
+
+		$('#hangye_list>li>a').live('click',function(){
+			tpid=$(this).attr('tpid');
+			$('#hangye_list>li>a').removeClass('this');
+			$(this).addClass('this');
+			$.ajax({ url: "/classname/getoccupation?", async: false,data:{tpid:tpid}, success: function(json){
+				var data=json.data;
+				var str1='';
+				if(data!=''){
+					$.each(json.data, function (index, array) {
+						str1+='<li><a href="javascript:void(0);" id="'+array['id']+'">'+array['titlename']+'</a></li>';
+					});
+				}else{
+					str1='<li><div class="cleardiv20"></div></li><li style="text-align: center;font-size: 14px;color: #666" >暂无职业</li><li><div class="cleardiv20"></div></li>';
+				}
+
+				$('ul#zhiye_list').html(str1);
+			}});
+		});
+
+
+		$('#zhiye_list>li>a').live('click',function(){
+			id=$(this).attr('id');
+			val=$(this).html();
+			$('#zhiye_list>li>a').removeClass('this');
+			$(this).addClass('this');
+			stop=true;
+		});
+
+
+		$('#btn1').live('click',function fa_sub(){
+			if(stop==true){
+				$('#text3').attr('tpid',tpid);
+				$('#text3').attr('zid',id);
+				$('#text3').next().val(tpid+','+id);
+				$('#text3').html(val);
+				$('#zhiye_list>li>a').removeClass('this');
+				stop=false;
+				$('.show_hide').hide();
+				$('body').css('overflow-y','scroll')
+			}else{
+				layer.open({
+					content: '请选择职业！'
+					,btn: '我知道了'
+				});
+			}
+		})
+
+		$('#btn2').live('click',function ma_sub(){
+			if(stop==true){
+				$('#text4').attr('tpid',tpid);
+				$('#text4').attr('zid',id);
+				$('#text4').next().val(tpid+','+id);
+				$('#text4').html(val);
+				$('#zhiye_list>li>a').removeClass('this');
+				stop=false;
+				$('.show_hide').hide();
+				$('body').css('overflow-y','scroll')
+			}else{
+				layer.open({
+					content: '请选择职业！'
+					,btn: '我知道了'
+				});
+			}
+		});
+
+		$('div#home label').live('click',function(){
+			$(this).children('input.qita_text').hide();
+		});
+		$('div#home label.qita').live('click',function(){
+			$(this).children('input.qita_text').show();
+		});
+
+		function hide(){
+			$('.show_hide').hide();
+			$('body').css('overflow-y','scroll')
+		}
+
+
+		function a3(){
+			$('.tijiao').hide();
+			$('.father').show();
+			$('.show_hide').show();
+			$('body').css('overflow-y','hidden')
+		}
+		function a4(){
+			$('.tijiao').hide();
+			$('.mather').show();
+			$('.show_hide').show();
+			$('body').css('overflow-y','hidden')
+		}
+	$('a#text3').live('click',function(){
+		$('.tijiao').hide();
+		$('.father').show();
+		$('.show_hide').show();
+	});
+	$('a#text4').live('click',function(){
+		$('.tijiao').hide();
+		$('.mather').show();
+		$('.show_hide').show();
+	})
+
+	function fanhui(){
+		layer.open({
+			content: '您确定退出吗？'
+			,btn: ['确定', '取消']
+			,shadeClose: false
+			,yes: function(index){
+				window.location.href='/user/userinfo.html';
+				layer.close(index);
+			}
+		});
+}
+
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/user/family_situation',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/user/family_situation',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+{/block}
+{block name='menu'}
+{/block}

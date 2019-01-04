@@ -1,0 +1,202 @@
+{extend name="layout/layout" }
+{block name="link"}
+<link href="__XUEYE__/css/user_info.css" type="text/css" rel="stylesheet" />
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+{/block}
+<!-- head -->
+{block name='head'}
+<div id="dHead" style="position: fixed;top: 0;left: 0;z-index: 300">
+	<div class="head">
+		<h1 style="margin: 0">个人中心</h1>
+		<a href="/index/index" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+{/block}
+{block name="content"}
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<table width="100%" id="user_xx">
+			<tr>
+				<td rowspan="4" align="center" valign="top"><div class="portrait head_pic_man head_pic" onClick="goPermissionUrl('/user/picture.html');"><img id = 'pic' src="" alt="" style="border: 1px solid #ebebeb;"/></div></td>
+				<td id = 'name'></td>
+			</tr>
+			<tr>
+				<td id = "school"></td>
+			</tr>
+			<tr>
+				<td id="ztb">职拓币：<span id="money">0</span></td>
+			</tr>
+			<tr>
+				<td id="vip"><span id="status"></span>  |  到期时间 : <span id="xy_e_time"></span> </td>
+			</tr>
+		</table>
+		<div class="cleardiv5"></div>
+		<div class="inner">
+	<div class="my-index-list">
+		<ul>
+			<li style="border-top:none;"><a href="javascript:goPermissionUrl('/user/userinfo.html');"><i class="user-center-1"></i>个人资料</a></li>
+ <li class="tuichu"><a href="javascript:goPermissionUrl('/user/password.html');"><i class="user-center-2"></i>修改密码</a></li>
+ <li class="tuichu"><a href="javascript:goPermissionUrl('/user/wallet.html');"><i class="user-center-3"></i>余额与充值</a></li>
+ <li class="tuichu"><a href="javascript:goPermissionUrl('/user/card.html');"><i class="user-center-5"></i>优惠券</a></li>
+ <li ><a href="javascript:void(0);" style="background: #fff"><i class="user-center-4"></i>联系我们<span style="margin: 0;padding-right: 10px" id="phone">
+
+			</span></a></li>
+
+		</ul>
+	</div>
+		</div>
+<div class="cleardiv10"></div>
+			<div class="my-index-list"><input type="submit" class="tuichu" id="tuichu" value="退出登录"  onclick="doLogout()"/></div>
+	</div>
+</div>
+<script>
+	var EXTERNAL = getCookie('EXTERNAL')
+	if(EXTERNAL ==1){
+	    $('.tuichu').remove();
+	}
+function doLogout() {  
+	layer.open({
+		content: '你确定退出登录吗？'
+		,shadeClose: false
+				,btn: ['确定', '取消']
+				,yes: function(index){
+							var uid = localStorage.CURRENT_USER_ID;
+							$.post( "/user/logout")
+							$.post(WEB_API_URL + "login/logout", {
+							token: uid,
+							r: Math.random()
+							}, function(data) {
+
+					         var result = eval(data);
+							 localStorage.CURRENT_USER_ID = ""; 
+							 localStorage.CURRENT_USER_TypeLX = ""; 
+							 localStorage.CURRENT_USER_VIP = "";
+							 localStorage.CURRENT_userinfo = "";
+
+
+             if (result.status == 0) {
+							location.href = "/login"
+			}else {
+				layer.open({
+				content: result.msg
+				,btn: '我知道了'
+				});
+				return;
+				}
+    })
+				}
+			}); 
+			
+}
+
+
+var token = localStorage.CURRENT_USER_ID
+$.getJSON(WEB_API_URL + "user/xygetuser?", {'token': token}, function (json) {
+
+    if(json.status ==0){
+        var array = json.data;
+        var pic  = $('#pic').attr('src','__PICURL__/'+array.pic)
+        if(array.status ==1){
+            var statusstr = 'vip会员'
+            var xy_e_timestr = array.xy_e_time
+        }else if(array.status ==2){
+            var statusstr = '机构会员'
+            var xy_e_timestr = array.xy_e_time
+        }else{
+            var statusstr = '普通会员'
+            var xy_e_timestr = '未开通'
+        }
+            $('#status').html(statusstr)
+            $('#money').html(array.money)
+        $('#xy_e_time').html(xy_e_timestr)
+        $('#name').html(array.user_name)
+        $('#school').html(array.school_name)
+        $('#phone').html(array.advisory)
+    }else{
+        window.location.href='/index/index'
+	}
+})
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/user/index',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/user/index',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<!--{include file="layout/userperfect" /}-->
+{/block}
+
+{block name='menu'}
+{/block}

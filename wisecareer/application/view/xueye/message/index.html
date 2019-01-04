@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//xueye.wisecareer.org/css/xueye/yuan.css"/>
+	<link href="/static/xueye/css/user_info.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/public/js/jquery.mousewheel.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<link rel="stylesheet" href="/static/public/css/layui.css"  media="all">
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.message>.layui-tab>.layui-tab-title>li{
+			padding-top: 0;
+		}
+		.message>.layui-tab>.layui-tab-title>li:last-child {
+			padding-bottom: 0;
+		}
+
+		ul#content2>li>h2{font-size: 16px;color: #666;font-weight: 600;line-height: 30px;}
+		ul#content2>li>h6{font-size: 14px;color: #666;line-height: 30px;height: 30px;overflow: hidden;}
+		ul#content2>li>h6>a{width: 150px;display:inline-block;text-align: center;color: #666;font-weight: 600;}
+	</style>
+</head>
+<body>
+
+<!-- head -->
+
+
+<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+	<h1 style="margin: 0">消息中心</h1>
+	<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+</div>
+
+
+
+
+<link href="//xueye.wisecareer.org/css/xueye/message.css" type="text/css" rel="stylesheet" />
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="message clear">
+				<div class="layui-tab" style="text-align: center">
+					<ul class="layui-tab-title" style="height: 32px;width: 100%;text-align: center;padding: 15px 0">
+						<li class="layui-this" num="1" style="width: 35%;line-height: 32px">系统消息</li>
+						<li num="2" style="width: 35%;line-height: 32px">公告</li>
+					</ul>
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show" id="tab1">
+							<div class="mycontent">
+							<div class="inner">
+							<ul id="content1">
+
+							</ul>
+							</div>
+							</div>
+						</div>
+						<div class="layui-tab-item" id="tab2">
+							<div class="mycontent">
+								<div class="inner">
+							<ul id="content2" class="clear">
+
+							</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	</div>
+</div>
+<div class="return_top"><img src="//xueye.wisecareer.org/images/xueye/return_top.png" alt="" /></div>
+
+
+
+<script type="text/javascript">
+	var uid = localStorage.CURRENT_USER_ID;
+	var tab1_i = 1; //设置当前页数
+	var tab2_i = 1; //设置当前页数
+	var Request = GetRequest();
+	var shu='';
+	//滚屏加载
+
+	//给窗口滚动事件绑定滚屏加载方法
+	var winH = $(window).height(); //页面可视区域高度
+	$(window).scroll(function () {
+		var pageH = $(document).height();
+		var scrollT = $(window).scrollTop(); //滚动条top
+		var aa = (pageH - scrollT) ;
+		if($('.layui-this').attr('num')==1){
+			if (tab1_i == 0) {
+				return false;
+				$(window).scroll()
+				$('.return_top').show();
+			}
+			if (aa ==winH) {
+				scrollLoad();
+				$('.return_top').show();
+			}
+		}
+
+		if($('.layui-this').attr('num')==2){
+			if (tab2_i == 0) {
+				return false;
+				$(window).scroll()
+				$('.return_top').show();
+			}
+			if (aa ==winH) {
+				scrollLoad2();
+				$('.return_top').show();
+			}
+		}
+	});
+
+
+	function GetRequest() {
+		var url = location.search; //获取url中"?"符后的字串
+
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			return str;
+		}
+
+	}
+
+
+
+	function scrollLoad(){
+
+		var str = "";
+		var load_index =layer.open({type: 2, shadeClose: false});
+		if (tab1_i == 0) {
+			return false;
+		}
+
+		$.ajax({ url:WEB_API_URL + "mess/userMessage?", async: false,data:{token: uid, page: tab1_i,type:1}, success: function(json){
+			if(json.data){
+				$.each(json.data,function(index,array){
+					str += "<li>";
+					str +="<h4>"+array['titlename']+"</h4>";
+					str +="<h5>"+array['datetime']+"</h5>";
+					str +="<div class=\"clear\"></div>";
+					str +="<div class=\"bg\"></div>";
+					str +="<p>"+array['content']+"</p>";
+					str +="</li>";
+				});
+				tab1_i++;
+			}else{
+				tab1_i = 0;//设置数据已全部加载
+				str = "<li style='text-align: center'>数据加载完成</li>";
+			}
+			$(".message ul#content1").append(str);
+			layer.close(load_index);
+		}
+
+		});
+	}
+
+	function scrollLoad2(){
+
+		var str2 = "";
+		var load_index =layer.open({type: 2, shadeClose: false});
+		if (tab2_i == 0) {
+			return false;
+		}
+
+		$.ajax({ url:WEB_API_URL + "mess/userMessage?", async: false,data:{token: uid, page: tab2_i,type:2}, success: function(json){
+			if(json.data){
+				$.each(json.data,function(index,array){
+					str2 += "<li>";
+					str2 +="<h4>"+array['titlename']+"</h4>";
+					str2 +="<h5>"+array['datetime']+"</h5>";
+					str2 +="<div class=\"clear\"></div>";
+					str2 +="<div class=\"bg\"></div>";
+					str2 +="<p>"+array['content']+"</p>";
+					str2 +="</li>";
+				});
+				tab2_i++;
+			}else{
+				tab2_i = 0;//设置数据已全部加载
+				str2 = "<li style='text-align: center'>数据加载完成</li>";
+			}
+			$(".message ul#content2").append(str2);
+			layer.close(load_index);
+		}
+
+		});
+	}
+	scrollLoad();
+	scrollLoad2();
+
+
+
+
+	var UA = window.navigator.userAgent;  //使用设备
+	var CLICK = "click";
+	if (/ipad|iphone|android/.test(UA)) {   //判断使用设备
+		CLICK = "tap";
+	}
+	$(".tab a").each(function (j) {
+		var num = j + 1;
+
+		$(this).click(function () {
+			$('html, body').animate({
+				scrollTop: 0,
+				scrollLeft: 0
+			});
+			$(".tab a").attr("class", "");
+			$(this).attr("class", "on");
+			for (var i = 1; i <= 2; i++) {
+				$("#tab_kc" + i).css("display", "none");
+			}
+			$("#tab_kc" + num).css("display", "block");
+		});
+	});
+	$("#top").click(function (event) {
+		$("body,html").animate({
+			scrollTop: 0
+		}, 500)
+	});
+	var gonav_btn = $("#gonav_btn");
+	var gonav_box = $("#gonav_box");
+	gonav_box.hide();
+	gonav_btn[CLICK](function () {
+		event.preventDefault();
+		gonav_box.slideToggle("slow");
+	});
+
+
+	$('.return_top').click(function () {
+		window.scrollTo(0, 0);
+		$(this).hide();
+	})
+	$(document).mousewheel(function (event) {
+		if ($(document).scrollTop() > 100) {
+			$('.return_top').show();
+		} else {
+			$('.return_top').hide();
+		}
+//		alert($(document).scrollTop());
+
+	})
+</script>
+
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/message/index.html');
+	});
+</script>
+
+
+<script src="/static/public/js/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+	layui.use('element', function(){
+		var $ = layui.jquery
+				,element = layui.element(); //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+		//触发事件
+		var active = {
+			tabAdd: function(){
+				//新增一个Tab项
+				element.tabAdd('demo', {
+					title: '新选项'+ (Math.random()*1000|0) //用于演示
+					,content: '内容'+ (Math.random()*1000|0)
+					,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+				})
+			}
+			,tabDelete: function(othis){
+				//删除指定Tab项
+				element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+				othis.addClass('layui-btn-disabled');
+			}
+			,tabChange: function(){
+				//切换到指定Tab项
+				element.tabChange('demo', '22'); //切换到：用户管理
+			}
+		};
+
+		$('.site-demo-active').on('click', function(){
+			var othis = $(this), type = othis.data('type');
+			active[type] ? active[type].call(this, othis) : '';
+		});
+
+		//Hash地址的定位
+		var layid = location.hash.replace(/^#test=/, '');
+		element.tabChange('test', layid);
+
+		element.on('tab(test)', function(elem){
+			location.hash = 'test='+ $(this).attr('lay-id');
+		});
+
+	});
+</script>
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/message/index',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/message/index',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

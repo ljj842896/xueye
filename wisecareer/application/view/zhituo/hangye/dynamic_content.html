@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<link rel="stylesheet" href="/static/public/css/layui.css"  media="all">
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.character>p{
+			font-size: 14px;
+			padding-bottom: 5px;
+			color: #666;
+		}
+		td{color: #666}
+		table td>h2{
+			color: #666;font-size: 16px;line-height: 24px;padding: 5px 0;font-weight: bold;
+		}
+		table td>h5{
+			color: #666;font-size: 14px;padding-bottom: 10px;
+		}
+		table td>h4{
+			color: #666;font-size: 16px;margin-top: 15px;border-top: 1px solid #ebebeb;
+		}
+		table td>img{
+			width: 100%;
+		}
+		.inner img{
+			width: 100%;
+			height: auto;
+		}
+		table td>p{
+			padding-top: 5px;color: #666;font-size: 14px;
+		}
+		.width50_100{display: inline-block}
+		.padding_t{padding-top: 2px;display: inline-block}
+	</style>
+</head>
+<body>
+<!-- head -->
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0"><span id="obj"></span>行业动态</h1>
+		<a href="javascript:history.go(-1)" class="return"><i class="return-right"></i></a>
+		</div>
+<a href="/index/index.html" id="screen_btn"><img src="/static/xueye/images/icon/nav-1-bai.png" alt="" style="display: inline-block;vertical-align: middle;width: 25px"/></a>
+
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent" style="margin-bottom: 0">
+		<div class="inner">
+
+		</div>
+	</div>
+</div>
+
+<script>
+	var load_index =layer.open({type: 2, shadeClose: false});
+	var uid = localStorage.CURRENT_USER_ID;
+	var did = getUrlParam("id");
+
+
+	$.getJSON(WEB_API_URL + "dynamic/hangyedetails?", {token: uid,id : did}, function (json) {
+		var data =json.data.data;
+		var str1 = "";
+		var source='';
+		if(data['source']==''){source='暂无'}else{source=data['source']}
+		if(json.status==0){
+			str1 +='<table width="100%" style="padding: 5px 0"><tr><td><h2>'+data['titlename']+'</h2></td></tr>';
+			str1 +='<tr><td><div class="cleardiv5"></div></td></tr>';
+			str1 +='<tr><td align="center"><img src="'+data['pic']+'" alt="" width="100%"/></td></tr>';
+			str1 +='<tr><td style="line-height:24px">'+data['content']+'</td></tr>';
+			str1 +='<tr><td><h4 style="line-height: 30px"><span class="padding_t">阅读</span>&nbsp;&nbsp;<span class="padding_t">'+data['hits']+'</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+			if(data['has']){
+				str1+='<span id="shoucang" onclick="dz(this)" stop="1"><a class="prompt" style="display: inline-block;width: 24px;height: 24px;padding-right: 5px"><img src="//www.wisecareer.org/images/zhituo/fabulous_yes.png" alt="1" height="100%" width="100%" style="position: static" id="star"/>'
+				str1+='</a><span id="zannum" class="padding_t" style="font-size: 14px;color:#00bb0c;"></span></span></h4></td>';
+
+			}else{
+				str1+='<span id="shoucang" onclick="dz(this)" stop="0"><a class="prompt" style="display: inline-block;width: 24px;height: 24px;padding-right: 5px"><img src="//www.wisecareer.org/images/zhituo/fabulous_no.png" alt="0" height="100%" width="100%" style="position: static" id="star"/>'
+				str1+='</a><span id="zannum" class="padding_t" style="font-size: 14px"></span></span></h4></td>';
+
+			}
+
+
+			str1 +='</tr></table><div class="cleardiv10"></div>';
+
+		}else{
+
+
+					layer.open({
+						content: "抱歉！此内容需要订阅 ‘"+json.msg+"’ 动态才能查看。"
+						,shadeClose: false
+						,btn: ['立即订阅', '取消']
+						,yes: function(index){
+							location.href = "/dynamic/subject_list";
+							layer.close(index);
+						},no:function(index){
+							location.href = "/dynamic/index";
+							layer.close(index);
+						}
+					});
+
+		}
+		$('div.inner').html(str1);
+		$('span#obj').html(json.data['tpname']);
+		$('span#num').html(json.data['num']);
+		layer.close(load_index);
+	})
+</script>
+
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/hangye/dynamic_content');
+	});
+	var stop=true;
+
+
+function dz(a){
+		var num  = parseInt( $('#zannum').html());
+
+		$.ajax({
+			type:"POST",
+			url:WEB_API_URL+"dynamic/hangye_like?",
+			data:"token="+uid+"&tpid="+did,
+			cache:false, //不缓存此页面
+			success:function(data){
+					if($(a).attr('stop') ==1){
+						$('img#star').attr('src','//www.wisecareer.org/images/zhituo/fabulous_no.png');
+						$(a).attr('stop','0');
+						$('#zannum').html('').css('color','#666');
+						layer.open({
+							content: '取消点赞'
+							,skin: 'msg'
+							,time: 2 //2秒后自动关闭
+						});
+					}else{
+						$('img#star').attr('src','//www.wisecareer.org/images/zhituo/fabulous_yes.png');
+						$(a).attr('stop','1');
+						$('#zannum').html('').css('color','#f58020');
+						layer.open({
+							content: '已点赞'
+							,skin: 'msg'
+							,time: 2 //2秒后自动关闭
+						});
+					}
+
+			}
+		});
+
+}
+
+	if(stop==true){
+		$('img#star').attr('src','//www.wisecareer.org/images/zhituo/fabulous_yes.png');
+		stop=false;
+	}else{
+		$('img#star').attr('src','//www.wisecareer.org/images/zhituo/fabulous_no.png');
+		stop=true;
+	}
+	$("img").css("width","100%")
+//	$('img').attr('width','90%');
+
+
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/hangye/dynamic_content',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/hangye/dynamic_content',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+</script>
+
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

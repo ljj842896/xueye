@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>分销管理系统</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="MobileOptimized" content="320"/>
+    <script src="//xy.wisecareer.org/static/public/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="//xy.wisecareer.org/static/fx/js/swiper-3.4.0.jquery.min.js"></script>
+    <link rel="stylesheet" href="//xy.wisecareer.org/static/public/css/fx.css" id="ys"/>
+
+    <link rel="stylesheet" href="//xy.wisecareer.org/static/public/css/swiper-3.2.7.min.css"/>
+    <!--<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />-->
+    <script src="//xy.wisecareer.org/static/fx/js/com.min.js"></script>
+    <script src="//xy.wisecareer.org/static/fx/js/base.min.js"></script>
+
+    <script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <style>
+        h3,h4,h5{
+            line-height: 24px;
+        }
+    </style>
+</head>
+<body>
+
+<div id="dHead">
+    <div class="head">
+        <h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">佣金明细</h1>
+        <a href="index.html" class="return"><img src="http://www.wisecareer.org/images/zhituo/icon/return-right.png" alt="" style="width: 12px"/></a>
+    </div>
+</div>
+
+
+<div id="dBody">
+    <div class="cleardiv50"></div>
+
+    <div class="myorder-tab">
+        <div class="myorder-nav" style="background: #fff;position: fixed;top: 50px;width: 100%;height: 40px;border-bottom: 1px solid #ebebeb">
+            <ul id="tab_btn" class="coupon-list" style="display: block">
+                <li class="pick" tab="1">一级明细</li>
+                <li tab="2"><span class="bar"></span>二级明细</li>
+            </ul>
+            <div class="cl"></div>
+        </div>
+        <div class="myorder-content">
+            <ul>
+                <li class="mc-all cc-one tab_content show" id="tab1">
+                    <div class="t-line" style="padding-top: 60px">
+
+                        <div class="cleardiv5"></div>
+                        <div class="inner" style="padding:10px">
+
+                        </div>
+                    </div>
+                </li>
+                <li class="mc-all mc-two tab_content" id="tab2">
+                    <div class=" t-line" style="padding-top: 60px">
+                        <div class="cleardiv5"></div>
+                        <div class="inner" style="padding:10px">
+                            <table width="100%">
+                                <tr>
+                                    <td align="left"><h3>name</h3></td>
+                                    <td align="right"><h3>￥ <span style="font-size: 1.6rem;color: red">5000</span></h3></td>
+                                </tr>
+                                <tr>
+                                    <td align="left"><h5>2019-12-12</h5></td>
+                                    <td align="right"><h5></h5></td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <!--html5 nav-->
+
+</div>
+
+<button id="test" style="position:fixed;right:10px;bottom:10px;display: none"><img src="//xy.wisecareer.org/static/public/images/return_top.png" alt="" width="100%"/></button>
+<script>
+    var test=document.getElementById('test');
+    test.onclick = function(){
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+        $('button#test').fadeOut();
+    }
+</script>
+
+<script src="//xy.wisecareer.org/static/fx/js/mui.min.js"></script>
+<script type="text/javascript" charset="utf-8">
+    mui.init({
+        swipeBack:true //启用右滑关闭功能
+    });
+    var slider = mui("#slider");
+
+</script>
+<script>
+    mui.init();
+</script>
+
+
+<script type="text/javascript">
+    //TAB切换
+    var tab_Btns_box=document.getElementById('tab_btn');
+    var tab_Btns=tab_Btns_box.getElementsByTagName('li');
+    var tab_contents=document.getElementsByClassName('tab_content');
+    for(var i=0;i<tab_Btns.length;i++){
+        tab_Btns[i].index=i;
+
+        tab_Btns[i].onclick=function(){
+            document.body.scrollTop = document.documentElement.scrollTop = 0;
+            for(var i=0;i<tab_Btns.length;i++){
+                if(i!==this.index){
+                    tab_Btns[i].classList.remove('pick')
+                }
+            }
+            tab_Btns[this.index].className="pick";
+
+            for(var j=0;j<tab_contents.length;j++){
+                if(j!==this.index){
+                    tab_contents[j].classList.remove('show');
+                }
+                tab_contents[this.index].classList.add('show');
+            }
+        }
+    }
+</script>
+
+
+<script>
+    var userid='{$userid}';
+    var uid = '{$token}';
+    var sessiontype = '{$sessiontype}';
+
+    var tab1_i = 1; //设置当前页数
+    var tab2_i = 1; //设置当前页数
+    var load_index =layer.open({type: 2, shadeClose: false});
+    var str1 = "";
+    var str2 = "";
+
+    function scrollLoad() {
+
+        var load_index =layer.open({type: 2, shadeClose: false});
+
+        if (tab1_i == 0) {
+            return false;
+        }
+
+        $.ajax({ url:"https://wapi.wisecareer.org/fenxiao/commission_list?" , async: false,data:{token: uid, page: tab1_i,type:1}, success: function(json) {
+
+            var state="";
+            if(json.data.num==0){
+                str1='<div class="cleardiv5"></div><div class="inner" style="padding:10px"><table width="100%"><tr><td align="center" style="color: #666;line-height: 40px;font-size: 16px">无明细</td></tr></table></div>';
+                tab1_i = 0;
+            }else if (json.data.list!= '') {
+                $.each(json.data.list, function (index, array) {
+                    if(array['state']==1){ state="已到账"}else{ state="未到账"}
+                    str1+='<div class="cleardiv5"></div><div class="inner" style="padding:10px"><table width="100%"><tr>';
+                    str1+='<td align="left"><h3>用户返现</h3></td><td align="right"><h3>￥ <span style="font-size: 1.6rem;color: red">'+array['money']+'</span></h3></td>';
+                    str1+='</tr><tr><td align="left">'+array['datetime']+'<h5></h5></td><td align="right"><h5>'+state+'</h5></td>';
+                    str1+='</tr></table></div>'
+
+                });
+                tab1_i++;
+            } else {
+                str1+='<div class="cleardiv5"></div><div class="inner" style="padding:10px"><table width="100%"><tr><td align="center" style="color: #666">加载完成</td></tr></table></div>';
+                tab1_i = 0;
+            }
+
+            $('li#tab1>div.t-line').html(str1);
+
+            layer.close(load_index);
+        }
+        });
+
+    }
+    function scrollLoad2() {
+
+        var load_index =layer.open({type: 2, shadeClose: false});
+
+        if (tab2_i == 0) {
+            return false;
+        }
+
+        $.ajax({ url:"https://wapi.wisecareer.org/fenxiao/commission_list?" , async: false,data:{token: uid, page: tab2_i,type:2}, success: function(json) {
+
+            var state="";
+            if(json.data.num==0){
+                str2='<div class="cleardiv5"></div><div class="inner" style="padding:10px"><table width="100%"><tr><td align="center" style="color: #666;line-height: 40px;font-size: 16px">无明细</td></tr></table></div>';
+                tab1_i = 0;
+            }else if (json.data.list!= '') {
+                $.each(json.data.list, function (index, array) {
+                    if(array['state']==1){ state="已到账"}else{ state="未到账"}
+                    str2+='<div class="cleardiv5"></div><div class="inner" style="padding:10px"><table width="100%"><tr>';
+                    str2+='<td align="left"><h3>用户返现</h3></td><td align="right"><h3>￥ <span style="font-size: 1.6rem;color: red">'+array['money']+'</span></h3></td>';
+                    str2+='</tr><tr><td align="left">'+array['datetime']+'<h5></h5></td><td align="right"><h5>'+state+'</h5></td>';
+                    str2+='</tr></table></div>'
+
+                });
+                tab2_i++;
+            } else {
+                str2+='<div class="cleardiv5"></div><div class="inner" style="padding:10px"><table width="100%"><tr><td align="center" style="color: #666">加载完成</td></tr></table></div>';
+                tab2_i = 0;
+            }
+
+            $('li#tab2>div.t-line').html(str2);
+
+            layer.close(load_index);
+        }
+        });
+
+    }
+
+    scrollLoad();
+    scrollLoad2();
+
+
+
+
+    var winH = $(window).height(); //页面可视区域高度
+    $(window).scroll(function () {
+        var pageH = $(document).height();
+        var scrollT = $(window).scrollTop(); //滚动条top
+        var aa = (pageH - scrollT) ;
+
+        if($('.pick').attr('tab')==1){
+            if (tab1_i == 0) {
+                return false;
+                $(window).scroll()
+            }
+
+            if (aa ==winH) {
+                scrollLoad();
+
+            }
+        }else{
+            if (tab2_i == 0) {
+                return false;
+                $(window).scroll()
+            }
+
+            if (aa ==winH) {
+                scrollLoad2();
+
+            }
+        }
+
+        if(scrollT>80){
+            $('button#test').fadeIn();
+        }else{
+            $('button#test').fadeOut();
+        }
+
+
+    });
+
+</script>
+
+<script>
+    var test=document.getElementById('test');
+    test.onclick = function(){
+        document.body.scrollTop = document.documentElement.scrollTop = 0;
+        $('button#test').fadeOut();
+    }
+
+    var ys=document.getElementById("ys");
+    if(sessiontype==1){
+        ys.setAttribute("href","//xy.wisecareer.org/static/public/css/fx2.css");
+    }
+</script>
+
+
+<script>
+
+    wx.config({
+        debug: false,//关闭调试模式
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        /*appId: 'xxxxxx',
+         timestamp: xxxxx,
+         nonceStr: 'xxxxx',
+         signature: 'xxxxx',*/
+
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+    wx.ready(function () {
+
+        // 2. 分享接口
+        // 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+        wx.onMenuShareAppMessage({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://fx.wisecareer.org/index/distributor?userid='+userid,
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //   window.location.href = 'http://m.duolehuan.com/';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+
+        // 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://fx.wisecareer.org/index/distributor?userid='+userid,
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //window.location.href = '';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

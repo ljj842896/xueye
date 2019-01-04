@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link href="/static/xueye/css/user_info.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//www.wisecareer.org/left_and_right_slide/css/idangerous.swiper.css">
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/public/js/jquery.mousewheel.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<body>
+<!-- head --> 
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">竞争数据</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+<a href="/index/index.html" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle;width: 25px"/></a>
+
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner" style="padding: 0">
+			<div class="cleardiv5"></div>
+	<style type="text/css">  
+<!--  
+.proccess b{vertical-align:middle;background:url(//xueye.wisecareer.org/images/xueye/loading.gif) no-repeat center center;line-height:40px;display:block;text-align: center;color: #666;font-size: 16px}
+-->  
+</style>  
+ <script type="text/javascript"> 
+		document.domain = 'wisecareer.org';
+    </script>
+
+<div class="proccess" id="loading"><b><br/><br/>数据加载中...</b></div>
+ <iframe width="100%" id="iframeid" height="1" frameborder="0" src="" scrolling="no"></iframe> 
+ 
+ <script language="JavaScript">  
+ 	var token = localStorage.CURRENT_USER_ID;
+ 	var iframe = document.getElementById("iframeid");   
+	iframe.src='//www.wisecareer.org/Report/xueyechart/chart_{$Think.get.act}.php?token='+token+'&action={$Think.get.action}&eid={$Think.get.eid}';
+if (iframe.attachEvent){   
+    iframe.attachEvent("onload", function(){  
+    document.getElementById("loading").style.display="none";  
+    });   
+} else {   
+    iframe.onload = function(){  
+    document.getElementById("loading").style.display="none";  	
+	 var iframeid=document.getElementById("iframeid");
+	if (document.getElementById){
+   if (iframeid && !window.opera){
+    if (iframeid.contentDocument && iframeid.contentDocument.body.offsetHeight){
+    	 iframeid.height = iframeid.contentDocument.body.offsetHeight;
+    }else if(iframeid.Document && iframeid.Document.body.scrollHeight){
+     iframeid.height = iframeid.Document.body.scrollHeight;
+    }
+   }
+  }  
+    };    
+}   
+</script>   
+
+ 
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+	$(function(){
+		isHaveLogin('/dynamic/data_content');
+	});
+</script>
+
+<script src="//www.wisecareer.org/left_and_right_slide/js/idangerous.swiper-2.0.min.js"></script>
+<script>
+	var uid = localStorage.CURRENT_USER_ID;
+	Request = GetRequest();
+
+	var eid = getUrlParam('eid');
+	var act = getUrlParam('act');
+	var action = getUrlParam('action');
+	$(function(){
+		//Init Navigation
+		var nav = $('.swiper-nav').swiper({
+			slidesPerView: 'auto',
+			freeMode:true,
+			noSwiping : true,
+			freeModeFluid:true,
+//			calculateHeight : true,
+			visibilityFullFit: true,
+			onSlideClick: function(nav){
+				pages.swipeTo( nav.clickedSlideIndex )
+			}
+		})
+
+		//Function to Fix Pages Height
+		function fixPagesHeight() {
+			$('.swiper-pages').css({
+				height: $(window).height()
+			})
+		}
+//		$(window).on('resize',function(){
+//			fixPagesHeight()
+//		})
+
+//		fixPagesHeight()
+
+		//Init Pages
+		var pages = $('.swiper-pages').swiper({
+			noSwiping : true,
+			onSlideChangeStart: function(){
+				$(".swiper-nav .active").removeClass('active')
+				$(".swiper-nav .swiper-slide").eq(pages.activeIndex).addClass('active')
+			},
+		})
+
+		var mySwiper = new Swiper('#banner',{
+			loop:true,
+			autoplay:5000,
+			calculateHeight : true,
+			pagination : '.pagination',
+
+			//其他设置
+		});
+
+        //Scroll Containers
+        $('.scroll-container').each(function(){
+            $(this).swiper({
+
+                mode:'vertical',
+                scrollContainer: true,
+                mousewheelControl: true,
+                scrollbar: {
+                    container:$(this).find('.swiper-scrollbar')[0]
+                }
+            })
+        })
+
+        //Gallery
+        var swiperGallery = $('.swiper-gallery').swiper({
+            mode: 'vertical',
+            slidesPerView: 'auto',
+            freeMode: true,
+            freeModeFluid: true,
+            scrollbar: {
+                container:$('.swiper-gallery .swiper-scrollbar')[0]
+            }
+        }) 
+	})
+
+	function showsubmenu(sid)
+	{
+		whichEl = eval("submenu" + sid);
+		if (whichEl.style.display == "none")
+		{
+			eval("submenu" + sid + ".style.display=\"\";");
+			$("#"+sid).attr("style","background-image:url('//xueye.wisecareer.org/images/xueye/icon/arrow-xia-xiao.png')");
+		}
+		else
+		{
+			eval("submenu" + sid + ".style.display=\"none\";");
+			$("#"+sid).attr("style","background-image:url('//xueye.wisecareer.org/images/xueye/icon/arrow-right-xiao.png')");
+
+		}
+	}
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/dynamic/data_content?action='+action+'&act='+act+'&eid='+eid,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/dynamic/data_content?action='+action+'&act='+act+'&eid='+eid,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="/static/xueye/css/policy_decision.css"/>
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<body>
+<div id="dHead">
+	<div class="head">
+		<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">学业决策模型</h1>
+ <a href="javascript:history.go(-1)" class="return" id="histgo"><i class="return-right"></i></a>
+	</div>
+</div>
+ 
+   
+<div id="dBody" style="overflow-y:hidden; overflow-x:hidden;table-layout: fixed;word-wrap:break-word;word-break:break-all;">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<form  id="frmlogin" name="frmlogin" >
+		<div class="inner option">
+			<div class="cleardiv10"></div>
+			<h3>请从以下科目中选择<span style=" color:#F00">最擅长且喜欢</span>的学科</h3>
+			<ul class="danxuan3 clear">
+				<li><a href="javascript:void(0);" id="ids2" tag="2" style="display: block;padding:0;text-align: center" >  英语</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt="" ></li>
+				<li><a href="javascript:void(0);"  id="ids4" tag="4" style="display: block;padding:0;text-align: center">  数学</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""></li>
+				<li><a href="javascript:void(0);"  id="ids5" tag="5" style="display: block;padding:0;text-align: center">  语文</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""></li>
+				<li><a href="javascript:void(0);"  id="ids8" tag="8" style="display: block;padding:0;text-align: center">  历史</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""></li>
+				<li><a href="javascript:void(0);"  id="ids9" tag="9" style="display: block;padding:0;text-align: center">  物理</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""></li>
+				<li><a href="javascript:void(0);"  id="ids10" tag="10" style="display: block;padding:0;text-align: center">  化学</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""></li>
+				<li><a href="javascript:void(0);"  id="ids15" tag="15" style="display: block;padding:0;text-align: center">  生物</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""></li>
+				<li><a href="javascript:void(0);"  id="ids17" tag="17" style="display: block;padding:0;text-align: center">  地理</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""></li>
+				<li><a href="javascript:void(0);"  id="ids27" tag="27" style="display: block;padding:0;text-align: center">  思想政治</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""></li>
+			</ul>
+            <input id="list21" name="list21" type="hidden" value="">
+			<input type="button" value="保存" onclick="Userplanningedit()" id="Useedit" class="btn_yes">
+			<div class="cleardiv20"></div>
+		</div>
+		</form>
+	</div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        isHaveLogin('/jcyj/option3');
+    });
+
+
+    var uid = localStorage.CURRENT_USER_ID;
+    var str1 = '';
+	var locationhref = 0;
+	var stop=false;
+    $.ajax({
+        url: WEB_API_URL + "navigation/getuserwensr?", async: false, data: {token: uid}, success: function (json1) {
+            if(json1.data.list21 != 0 && json1.data.list21 !=null){
+
+                $('.danxuan3>li>a').removeClass("this");
+                $('.danxuan3>li>img').hide();
+                var  list21 = json1.data.list21
+                $('#ids'+list21).addClass("this");
+                $('#ids'+list21).next().show();
+                $('#list21').val(list21)
+                stop=true;
+            }
+			
+			
+			if(json1.data.openok==0){  
+			 	 $("#Useedit").val("下一步");
+				 $("#histgo").hide(); 
+				 locationhref = 1;
+			}else{
+				 $("#Useedit").val("保存");
+				 $("#histgo").show();
+				 locationhref = 0;
+			}
+        }
+    });
+
+
+    $('.danxuan3>li>a').click(function () {
+        $('.danxuan3>li>a').removeClass("this");
+        $('.danxuan3>li>img').hide();
+        // $('.danxuan3>li>input[type="hidden"]').remove();
+        $(this).addClass("this");
+        var tag = $(this).attr('tag');
+        $('#list21').val(tag)
+        $(this).next().show();
+        stop=true;
+    });
+    var o = {};
+    function search() {
+        o ={}
+        var a = $("#frmlogin").serializeArray();
+        $.each(a, function () {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+
+        for (var i in o) {
+            if (o[i] != 0) {
+                return true;
+            }
+        }
+        layer.open({
+            content: '请至少选择一项'
+            , shadeClose: false
+            , btn: '我知道了'
+        });
+        return false;
+    }
+    function Userplanningedit(){
+        if(!search()){
+            return false
+		}
+        var uid =localStorage.CURRENT_USER_ID
+        var list1 = $("#list1").val();
+        o['token'] = uid;
+
+        if( stop==false){
+            layer.open({
+                content: '请选择你最擅长且喜欢的学科！'
+                ,shadeClose: false
+                ,btn: '我知道了'
+            })
+        }else{
+            $.ajax({
+                url: WEB_API_URL+"navigation/makeplanning",
+                type: "Post",
+                data:o,
+                dataType:'json',
+                async:false,
+                success: function (result){
+                    if(result.status == 0) {
+                        if(locationhref == 1){
+                            window.location.href="/jcyj/option3/"
+                        }else{
+                            window.location.href="/jcyj/details/"
+                        }
+                    }else{
+                        layer.open({
+                            content: result.msg
+                            ,shadeClose: false
+                            ,btn: '我知道了'
+                        });
+                    }
+                }
+
+            })
+        }
+
+    }
+
+
+    var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+    document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script>
+
+
+<script>
+    var action = getUrlParam("action");
+    wx.config({
+        debug: false,//关闭调试模式
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        /*appId: 'xxxxxx',
+         timestamp: xxxxx,
+         nonceStr: 'xxxxx',
+         signature: 'xxxxx',*/
+
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+    wx.ready(function () {
+
+        // 2. 分享接口
+        // 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+        wx.onMenuShareAppMessage({
+            title: '智能学业e站，您身边的生涯规划专家！',
+            desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+            link: 'http://xy.wisecareer.org/jcyj/option2?action='+action,
+            imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //   window.location.href = 'http://m.duolehuan.com/';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+
+        // 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+            title: '快来学业e站吧！',
+            desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+            link: 'http://xy.wisecareer.org/jcyj/option2?action='+action,
+            imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //window.location.href = '';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+    });
+
+    function hide(){
+        $('.show_hide').hide();
+    }
+
+    function show(){
+        $('.show_hide').show();
+    }
+</script>
+</body>
+</html>

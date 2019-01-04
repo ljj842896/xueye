@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>智能学业e站</title>
+</head>
+<body>
+
+{extends file='indexCtrl/index.html'}
+{block name=head}
+<link href="/public/css/uers.css" type="text/css" rel="stylesheet" />
+<div id="dHead">
+    <div class="head">
+        <h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">个人中心</h1>
+    </div>
+</div>
+{/block}
+
+{block name=content}
+<div id="dBody">
+    <div class="mycontent">
+        <div class="my-index-basic">
+            <div class="portrait">
+                <img src="/public/img/temp/pic.png">
+            </div>
+            <ul class="name">
+                <li>周丽虹<span>教练</span></li>
+                <li><img src="/public/img/logo.jpg" alt="联想集团" style="height: 20px;"/></li>
+            </ul>
+            <div class="score">
+                <i></i>
+                <i></i>
+                <i></i>
+            </div>
+        </div>
+        <div class="inner">
+            <div class="my-index-list">
+                <ul>
+                    <li style="border-top:none;"><a href="/user/userinfo"><i class="user-center-1"></i>个人资料</a></li>
+                    <li><a href="/user/password"><i class="user-center-2"></i>密码修改</a></li>
+                    <li class="in"><a href="/user/integral"><i class="user-center-3"></i>积分<span>234</span></a></li>
+                    <li><a href="/user/wallet"><i class="user-center-4"></i>教练钱包</a></li>
+                    <li><a href="/user/label"><i class="user-center-5"></i>教练标签</a></li>
+                    <li><a href="/user/person"><i class="user-center-6"></i>设置</a></li>
+                    <li><a href="/user/auth"><i class="user-center-7"></i>教练权限</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="inner">
+            <div class="my-index-list">
+                <ul>
+                    <li style="border-top:none;"><input type="submit" value="退出登录"  onclick="location.href='/public/load.html'"/></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- nav -->
+{/block}
+
+<script>
+    wx.config({
+        debug: false,//关闭调试模式
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        /*appId: 'xxxxxx',
+         timestamp: xxxxx,
+         nonceStr: 'xxxxx',
+         signature: 'xxxxx',*/
+
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+    wx.ready(function () {
+
+        // 2. 分享接口
+        // 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+        wx.onMenuShareAppMessage({
+            title: '智能学业e站，您身边的生涯规划专家！',
+            desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+            link: 'http://xy.wisecareer.org/login/examine',
+            imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //   window.location.href = 'http://m.duolehuan.com/';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+
+        // 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+            title: '快来学业e站吧！',
+            desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+            link: 'http://xy.wisecareer.org/login/examine',
+            imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //window.location.href = '';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+    });
+
+    function hide(){
+        $('.show_hide').hide();
+    }
+
+    function show(){
+        $('.show_hide').show();
+    }
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

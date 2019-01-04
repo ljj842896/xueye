@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<!--[if IE]>
+	<script src="//www.wisecareer.org/js/html5shiv.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+</head>
+<body>
+<!-- head -->
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">找教练</h1>
+		<a href="javascript:history.go(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+			<div class="cleardiv20"></div>
+			<ul class="danxuan clear">
+				<li><a href="javascript:void(0);" tag="1" style="display: block;padding:0;text-align: center" >关注我</a><img src="//www.wisecareer.org/images/zhituo/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" tag="3"  style="display: block;padding:0;text-align: center"  >推荐我</a><img src="//www.wisecareer.org/images/zhituo/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" tag="2" style="display: block;padding:0;text-align: center" >现场指导</a><img src="//www.wisecareer.org/images/zhituo/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" tag="4" style="display: block;padding:0;text-align: center"  >为我评价</a><img src="//www.wisecareer.org/images/zhituo/icon/yes.png" alt=""/></li>
+				<input name="lx" type="hidden"  id="lx" value='0' />
+			</ul>
+			<input type="button" value="确定" class="btn_yes"/>
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+	$(function(){
+		isHaveLogin('/jiaolian/seek');
+	});
+	$('.danxuan>li>a').click(function(){
+		$('.danxuan>li>a').removeClass("this");
+		$('.danxuan>li>img').hide();
+		$(this).addClass("this");
+		$(this).next().show();
+		var lx = $(this).attr('tag');
+		$("#lx").val(lx);
+	});
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/jiaolian/seek',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/jialian/seek',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

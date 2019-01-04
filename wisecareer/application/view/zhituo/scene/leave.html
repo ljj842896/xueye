@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/experience.css"/>
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<!--[if IE]>
+	<script src="//www.wisecareer.org/js/html5shiv.min.js"></script>
+	<![endif]-->
+	<!--<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>-->
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/layui.css"  media="all">
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	
+	<style>
+			#nothing{
+				padding: 20px 0;
+				font-size: 16px;
+				color: #666;
+			}
+			table tr>td,table tr>td>span{
+				font-size: 14px;
+			}
+			div.renshu{
+				width: 90%;
+				padding: 10px 5%;
+				color: #666666;
+				position: fixed;
+				top: 55px;left: 0;
+				z-index: 300;
+				background: #fff;
+				min-height: 0px;
+				display: none;
+				border-top: 1px #ebebeb solid;
+				border-bottom: 1px #ebebeb solid;
+			}
+			div.renshu>table td{
+				line-height: 24px;
+			}
+			th{line-height: 30px}
+			.my-date>table{
+				background: #fff;
+			}
+			td.dianji{
+				cursor: pointer;
+			}
+	</style>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">现场实习</h1>
+		<a href="/index/index" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<div id="dBody">
+	<div class="mycontent">
+		<div class="cleardiv50"></div>
+		<div class="my-date">
+
+		</div>
+	</div>
+</div>
+
+
+
+<script src="//www.wisecareer.org/js/zhituo/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+	$(function(){
+		isHaveLogin('/scene/leave');
+	});
+	function GetRequest() {
+		var url = location.search; //获取url中"?"符后的字串
+
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			return str;
+		}
+	}
+
+
+	Request = GetRequest();
+	var uid = localStorage.CURRENT_USER_ID;
+	var tid = getUrlParam("tid");
+	var text1='';
+	var text2='';
+	var text3='';
+	var str1='';
+	var endtime='';
+	$.ajax({
+		url: WEB_API_URL+"activity/leave",
+		type: 'POST',
+		dataType: 'json',
+		data: {token:uid,tid:tid},
+		async:false,
+		success: function (result){
+			if(result.status == '0') {
+				var rcom='';
+				var work='';
+				if(result.data['rcom_has']==0){rcom='否';}else{rcom='是';}
+				if(result.data['work_has']==0){work='否';}else{work='是';}
+				str1+='<h3 style="text-align: center;line-height: 48px;font-size: 16px;background: #fff">教练已同意离岗</h3><div class="cleardiv5"></div>';
+
+				str1 +='<table width="100%"   style="color: #666666;padding:0 5px 10px;position: relative"><tr><td colspan="3">&nbsp;</td></tr><tr><td align="right" style="padding:5px 0" width="80">实习空间：</td>';
+				str1 +='<td valign="middle">'+result.data['title']+'</td><td width="20">&nbsp;</td></tr>';
+				str1 +='<tr><td align="right" style="padding:5px 0" width="120">实习岗位：</td><td valign="middle">'+result.data['titlename']+'</td><td width="20">&nbsp;</td></tr>';
+				str1 +='<tr><td align="right" style="padding:5px 0">签到时间：</td><td valign="middle">'+result.data['datetime']+'</td><td width="20">&nbsp;</td></tr>';
+				str1 +='<tr><td align="right" style="padding:5px 0">离岗时间：</td><td valign="middle">'+result.data['endtime']+'</td><td width="20">&nbsp;</td></tr>';
+				str1 +='<tr><td align="right" style="padding:5px 0">现场教练：</td><td valign="middle"><span style="float: left"> '+result.data['coach_nickname']+' </span><span style="float: left">';
+				str1 +='<tr><td align="right" style="padding:5px 0">被推荐：</td><td valign="middle"><span style="float: left"> '+rcom+' </span><span style="float: left">';
+				str1 +='<tr><td align="right" style="padding:5px 0">作品上传：</td><td valign="middle"><span style="float: left"> '+work+' </span><span style="float: left">';
+				str1 +='<tr><td align="right" style="padding:5px 0">被评价指标：</td><td valign="middle" style="color:#f58020" class="dianji"><span style="float: left"> '+result.data['count']+' </span><span style="float: left">&nbsp;&nbsp;项&nbsp;&nbsp;</span></td></tr>';
+				if(result.data.list.length==0){
+
+				}else{
+					str1 +='<tr><td colspan="3"><div class="renshu"><table width="100%">';
+					str1+='<tr><th align="center" width="40%">教练</th><th align="center" width="35%">评价指标</th><th align="center" width="25%">打分</th></tr>';
+					$.each(result.data.list, function (index1, array1) {
+						str1+='<tr><td align="center">'+array1['coach_nickname']+'</td><td align="center">'+array1['basetitle']+'</td><td align="center">'+array1['jifen']+'</td></tr>';
+					});
+					str1+='<tr><td align="center" colspan="3"><input type="button" class="btn_yes fanhui" value="返回" style="margin: 20px auto"/></td></tr></table></div></td></tr>';
+				}
+				str1+='<tr><td colspan="3"><input type="button" value="正式离场" class="btn_yes" onclick="leave();"/></td></tr>';
+				str1+='</table>';
+				endtime=result.data['endtime'];
+				$('div.my-date').html(str1);
+			}else{
+				layer.open({
+					content: result.msg
+					,shadeClose: false
+					,btn: '我知道了'
+					,yes: function(index1){
+						layer.close(index1);
+					}
+				});
+			}
+		}
+	})
+
+
+	function leave(){
+		$.ajax({
+			url: WEB_API_URL+"activity/degree_endtime",
+			type: 'POST',
+			dataType: 'json',
+			data: {token:uid,tid:tid},
+			async:false,
+			success: function (result){
+				if(result.status == '0') {
+					window.location.href='/scene/input';
+				}else{
+					layer.open({
+						content: result.msg
+						,shadeClose: false
+						,btn: '我知道了'
+						,yes: function(index1){
+							layer.close(index1);
+						}
+					});
+				}
+			}
+		})
+	}
+
+
+	$.ajax({ url:WEB_API_URL + "activity/internship?" , async: false,data:{token: uid}, success: function(json) {
+
+		var data=json.data;
+
+		if(data.degree==0){
+			window.location.href='/scene/index/';
+		}else if(data.degree==1){
+			window.location.href='/scene/entry/?tid='+tid;
+		}else if(data.degree==2){
+			window.location.href='/scene/post/?tid='+tid;
+		}else if(data.degree==3){
+			window.location.href='/scene/transfer/?tid='+tid;
+		}else if(data.degree==4){
+			window.location.href='/scene/waitfor/?tid='+tid;
+		}else{
+
+		}
+	}
+	});
+	$("td.dianji").live('click',function(){
+		$(this).parent().parent().parent().find("div.renshu").show();
+	});
+	$("input.fanhui").live('click',function(){
+		$(this).parent().parent().parent().parent().parent().hide();
+	});
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/scene/leave',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/scene/leave',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

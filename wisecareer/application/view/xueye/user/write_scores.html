@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/public/js/jquery.mousewheel.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<link rel="stylesheet" href="/static/public/css/layui.css"  media="all">
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		table#scores tr>td{font-size: 16px;color: #666;line-height: 36px}
+		table#scores tr>td>input[type="number"]{line-height: 14px;padding-top:8px;padding-bottom:6px;padding-left: 10%;width: 90%;font-size: 14px; -webkit-appearance:none;}
+		table#scores tr>th{font-size: 16px;color: #666;line-height: 36px}
+	</style>
+</head>
+<body>
+<!-- head -->
+
+<div id="dHead">
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0"></h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner ">
+			<div class="cleardiv10"></div>
+			<table width="100%" id="scores">
+				<tr>
+					<th width="80" valign="top" align="center">学科</th>
+					<th width="20"></th>
+					<th width="110">分制(满分)/分</th>
+					<th width="20"></th>
+					<th width="110">我的成绩</th>
+				</tr>
+				<tr>
+					<td colspan="5" style="line-height: 5px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="80" valign="top" align="center">语&nbsp;&nbsp;&nbsp;文</td>
+					<td width="20">&nbsp;</td>
+					<td width="80"><input type="number" placeholder="语文分制" name="5max" value="" id="5max" min="0"  /></td>
+					<td width="20">&nbsp;</td>
+					<td width="100"><input type="number" placeholder="语文成绩" name="5" value="" id="5" max="150" min="0"/></td>
+				</tr>
+				<tr>
+					<td colspan="5" style="line-height: 10px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="80" valign="top" align="center">英&nbsp;&nbsp;&nbsp;语</td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="英语分制" name="5max" value="" id="2max" min="0"  /></td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="英语成绩" name="2" value="" id="2" max="150" min="0"/></td>
+				</tr>
+				<tr>
+					<td colspan="5" style="line-height: 10px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="80" valign="top" align="center">数&nbsp;&nbsp;&nbsp;学</td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="数学分制" name="5max" value="" id="4max" min="0"  /></td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="数学成绩" name="4" value="" id="4" max="150" min="0"/></td>
+				</tr>
+				<tr>
+					<td colspan="5" style="line-height: 10px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="80" valign="top" align="center">历&nbsp;&nbsp;&nbsp;史</td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="历史分制" name="8max" value="" id="8max" min="0"  /></td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="历史成绩" name="8" value="" id="8" max="150" min="0"/></td>
+				</tr>
+				<tr>
+					<td colspan="5" style="line-height: 10px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="80" valign="top" align="center">物&nbsp;&nbsp;&nbsp;理</td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="物理分制" name="9max" value="" id="9max" min="0"/></td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="物理成绩" name="9" value="" id="9" max="150" min="0"/></td>
+				</tr>
+				<tr>
+					<td colspan="5" style="line-height: 10px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="80" valign="top" align="center">化&nbsp;&nbsp;&nbsp;学</td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="化学分制" name="10max" value="" id="10max" min="0"  /></td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="化学成绩" name="10" value="" id="10" max="150" min="0"/></td>
+				</tr>
+				<tr>
+					<td colspan="5" style="line-height: 10px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="80" valign="top" align="center">生&nbsp;&nbsp;&nbsp;物</td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="生物分制" name="15max" value="" id="15max" min="0"  /></td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="生物成绩" name="15" value="" id="15" max="150" min="0"/></td>
+				</tr>
+				<tr>
+					<td colspan="5" style="line-height: 10px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="80" valign="top" align="center">地&nbsp;&nbsp;&nbsp;理</td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="地理分制" name="17max" value="" id="17max" min="0"  /></td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="地理成绩" name="17" value="" id="17" max="150" min="0"/></td>
+				</tr>
+				<tr>
+					<td colspan="5" style="line-height: 10px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td width="80" valign="top" align="center">思想政治</td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="政治分制" name="27" value="" id="27max" min="0"  /></td>
+					<td width="20">&nbsp;</td>
+					<td><input type="number" placeholder="政治成绩" name="27" value="" id="27" max="150" min="0"/></td>
+				</tr>
+				<tr>
+					<td colspan="5" style="line-height: 5px">&nbsp;</td>
+				</tr>
+				<tr>
+					<td colspan="5"><p style="font-size: 14px;padding-top: 10px;line-height: 20px">* 如有未考科目，此科目我的成绩项请填写 0 分。</p></td>
+				</tr>
+				<tr>
+					<td colspan="5"><p style="font-size: 14px;line-height: 20px">* 如考试科目的分制与默认值不同，请自行修改。</p></td>
+				</tr>
+				<tr>
+					<td colspan="5" style="line-height: 10px"><input type="button" value="提交" class="btn_yes"/></td>
+				</tr>
+			</table>
+			<div class="cleardiv10"></div>
+		</div>
+	</div>
+</div>
+
+
+
+
+<script src="/static/public/js/layui.js"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+	var uid =localStorage.CURRENT_USER_ID;
+	var id = getUrlParam("id");
+
+	$.ajax({ url:WEB_API_URL + "user/scores_lists?", async: false,data:{token:uid,classid:id}, success: function(json){
+		var data=json.data;
+		if(data !=''){
+			document.getElementById('5').value=data['scores5'];
+			document.getElementById('2').value=data['scores2'];
+			document.getElementById('4').value=data['scores4'];
+			document.getElementById('8').value=data['scores8'];
+			document.getElementById('9').value=data['scores9'];
+			document.getElementById('10').value=data['scores10'];
+			document.getElementById('15').value=data['scores15'];
+			document.getElementById('17').value=data['scores17'];
+			document.getElementById('27').value=data['scores27'];
+			document.getElementById('2max').value=data['number2'];
+			document.getElementById('4max').value=data['number4'];
+			document.getElementById('5max').value=data['number5'];
+			document.getElementById('8max').value=data['number8'];
+			document.getElementById('9max').value=data['number9'];
+			document.getElementById('10max').value=data['number10'];
+			document.getElementById('15max').value=data['number15'];
+			document.getElementById('17max').value=data['number17'];
+			
+			document.getElementById('27max').value=data['number27'];
+
+			// if(data['number2'] ==0){
+			// 	$('#2').attr('readonly',"readonly")
+			// 	$('#2').val(0)
+			// }
+			// if(data['number4'] ==0){
+			// 	$('#4').attr('readonly',"readonly")
+			// 	$('#4').val(0)
+			// }			
+			// if(data['number5'] ==0){
+			// 	$('#5').attr('readonly',"readonly")
+			// 	$('#5').val(0)
+			// }			
+			// if(data['number8'] ==0){
+			// 	$('#8').attr('readonly',"readonly")
+			// 	$('#8').val(0)
+			// }			
+			// if(data['number9'] ==0){
+			// 	$('#9').attr('readonly',"readonly")
+			// 	$('#9').val(0)
+			// }			
+
+			// if(data['number10'] ==0){
+			// 	$('#10').attr('readonly',"readonly")
+			// 	$('#10').val(0)
+			// }			
+			// if(data['number15'] ==0){
+			// 	$('#15').attr('readonly',"readonly")
+			// 	$('#15').val(0)
+			// }			
+			// if(data['number17'] ==0){
+			// 	$('#17').attr('readonly',"readonly")
+			// 	$('#17').val(0)
+			// }			
+			// if(data['number27'] ==0){
+			// 	$('#27').attr('readonly',"readonly")
+			// 	$('#27').val(0)
+			// }			
+
+
+
+			$('.head>h1').html(data['tpname']);
+		}
+	}});
+ 
+
+	
+	$('input.btn_yes').live('click',function(){ 
+		var tex5=document.getElementById('5').value;
+		var tex2=document.getElementById('2').value;
+		var tex4=document.getElementById('4').value;
+		var tex8=document.getElementById('8').value;
+		var tex9=document.getElementById('9').value;
+		var tex10=document.getElementById('10').value;
+		var tex15=document.getElementById('15').value;
+		var tex17=document.getElementById('17').value;
+		var tex27=document.getElementById('27').value;
+		var max5=document.getElementById('5max').value;
+		var max2=document.getElementById('2max').value;
+		var max4=document.getElementById('4max').value;
+		var max8=document.getElementById('8max').value;
+		var max9=document.getElementById('9max').value;
+		var max10=document.getElementById('10max').value;
+		var max15=document.getElementById('15max').value;
+		var max17=document.getElementById('17max').value;
+		var max27=document.getElementById('27max').value;
+		
+		//tex5>1 &&  tex2<1 && tex4 <1 && tex8 <1 && tex9 <1 && tex10 <1 && tex15<1 && tex17<1 && tex27 <1 
+		if(tex5==''){
+			layer.open({
+				content: "请输入语文成绩！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(tex2==''){
+			layer.open({
+				content: "请输入英语成绩！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(tex4==''){
+			layer.open({
+				content: "请输入数学成绩！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(tex8==''){
+			layer.open({
+				content: "请输入历史成绩！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(tex9==''){
+			layer.open({
+				content: "请输入物理成绩！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(tex10==''){
+			layer.open({
+				content: "请输入化学成绩！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(tex15==''){
+			layer.open({
+				content: "请输入生物成绩！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(tex17==''){
+			layer.open({
+				content: "请输入地理成绩！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		} else if(tex27==''){
+			layer.open({
+				content: "请输入思想政治成绩！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(max5==''){
+			layer.open({
+				content: "请输入语文成绩上限！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(max2==''){
+			layer.open({
+				content: "请输入英语成绩上限！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(max4==''){
+			layer.open({
+				content: "请输入数学成绩上限！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(max8==''){
+			layer.open({
+				content: "请输入历史成绩上限！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(max9==''){
+			layer.open({
+				content: "请输入物理成绩上限！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(max10==''){
+			layer.open({
+				content: "请输入化学成绩上限！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(max15==''){
+			layer.open({
+				content: "请输入生物成绩上限！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(max17==''){
+			layer.open({
+				content: "请输入地理成绩上限！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		} else if(max27==''){
+			layer.open({
+				content: "请输入思想政治成绩上限！"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(Number(tex5)>Number(max5)){
+			layer.open({
+				content: "语文成绩大于此成绩上限"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(Number(tex2)>Number(max2)){
+			layer.open({
+				content: "英语成绩大于此成绩上限"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(Number(tex4)>Number(max4)){
+			layer.open({
+				content: "数学成绩大于此成绩上限"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(Number(tex8)>Number(max8)){
+			layer.open({
+				content: "历史成绩大于此成绩上限"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(Number(tex9)>Number(max9)){
+			layer.open({
+				content: "物理成绩大于此成绩上限"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(Number(tex10)>Number(max10)){
+			layer.open({
+				content: "化学成绩大于此成绩上限"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(Number(tex15)>Number(max15)){
+			layer.open({
+				content: "生物成绩大于此成绩上限"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else if(Number(tex17)>Number(max17)){
+			layer.open({
+				content: "地理成绩大于此成绩上限"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		} else if(Number(tex27)>Number(max27)){
+			layer.open({
+				content: "思想政治成绩大于此成绩上限"
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					layer.close(index);
+				}})
+		}else{
+			layer.open({
+				content: "你确定提交吗？"
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					layer.close(index);
+					$.ajax({
+						type:"POST",
+						url:WEB_API_URL+"user/scores_add?",
+						data:"token="+uid+"&classid="+id+"&scores2="+tex2+"&scores5="+tex5+"&scores4="+tex4+"&scores8="+tex8+"&scores9="+tex9+"&scores10="+tex10+"&scores15="+tex15+"&scores17="+tex17+"&scores27="+tex27+"&number2="+max2+"&number5="+max5+"&number4="+max4+"&number9="+max9+"&number10="+max10+"&number15="+max15+"&number17="+max17+"&number27="+max27+"&number8="+max8,
+						cache:false, //不缓存此页面
+						success:function(data){
+							if(data.status==0){
+								layer.open({
+									content: data.msg
+									,btn: "我知道了"
+									,shadeClose: false
+									,yes: function(index){
+										layer.close(index);
+										window.location.href='/user/scores_list';
+									}
+								});
+							}else{
+								layer.open({
+									content: data.msg
+									,btn: "我知道了"
+									,shadeClose: false
+									,yes: function(index){
+										layer.close(index);
+									}
+								});
+							}
+						}
+					});
+				}
+			});
+		}
+	})
+
+</script>
+<script>
+	$(function(){
+		isHaveLogin('/user/write_scores.html');
+	});
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/user/write_scores',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/user/write_scores',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

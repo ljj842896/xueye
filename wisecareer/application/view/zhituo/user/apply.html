@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link href="//www.wisecareer.org/css/zhituo/user_info.css" type="text/css" rel="stylesheet" />
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="http://zhituo.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.danxuan>li, .duoxuan>li {
+			line-height: normal;
+			padding: 5px 2%;
+			height: 40px;
+		}
+	</style>
+</head>
+<body>
+
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">账户延期</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+<!-- user-info  -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="auth inner">
+			<div class="cleardiv10"></div>
+			<h3 class="title">延展时间</h3>
+			<ul class="danxuan clear">
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" num="300" moth='12'>1 年 <span style="color: #f00">（8.3折）</span></a><img src="http://xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" num="180" moth='6'>6 个月</a><img src="http://xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" num="90" moth='3'>3 个月</a><img src="http://xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" num="30" moth='1'>1 个月</a><img src="http://xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+				<!--<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" num="0" class="other">其他金额</a><img src="http://xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>-->
+				<!--<li><input type="number" step="1" max="999" min="0" class="money_text" style="display: none"/></li>-->
+			</ul>
+			<div class="cleardiv10"></div>
+			<p style="color: #f00;padding-left: 5px">提示：年度会员（职拓粉儿）将获赠2个学科动态的订阅服务。节省80%，还可独享“我关注的数据”！</p>
+			<div class="cleardiv10"></div>
+			<h5>当前到期日 <span class="floatright"><span><{$mycaccount.zt_e_time|date_format:"Y-m-d"}></span></span></h5>
+			<h5>可用余额：<span style="font-weight: bold;"><{$mycaccount.money}></span> 职拓币 <span class="floatright"><input type="button" value="充&nbsp;值" id="recharge"  onclick="location.href='/user/auth'"/></span>
+			</h5>
+			<h5>本次消费 <span class="floatright"><span class="font_red"><span id="money">0</span> <input type="hidden" name ="moth" value="" id="moth" /> </span> 职拓币</span></h5>
+
+			<input type="button" value="确&nbsp;&nbsp;认" class="btn_yes recharge" style="margin: 20px auto"/>
+			<div class="cleardiv20"></div>
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+</div>
+<script>
+	$('.danxuan>li>a').click(function(){
+		var num=$(this).attr('num');
+		var moth=$(this).attr('moth');
+//		$('.money_text').hide();
+		$('.danxuan>li>a').removeClass('this');
+		$('.danxuan>li>img').hide();
+		$(this).addClass("this");
+		$(this).next().show();
+		$('#money').html(num);
+		$('#moth').val(moth);
+	});
+	//	$('.danxuan>li>a.other').click(function(){
+	//		$('.money_text').show();
+	//	})
+	//	$('.money_text').bind('input propertychange', function() {
+	//		$('#money').html($(this).val());
+	//	});
+	$(".recharge").click(function(){
+		layer.open({
+			content: '您确定支付职拓币吗？'
+			,btn: ['确定', '取消']
+			,yes: function(index){
+				var money= parseInt($('#money').html());
+				var moth= parseInt($('#moth').val());
+
+				var uid= localStorage.CURRENT_USER_ID
+
+				$.ajax({
+					type:"POST",
+					url:WEB_API_URL+"user/user_delay?",
+					data:"token="+uid+"&money="+money+"&moth="+moth+"&style=zt",
+					cache:false, //不缓存此页面
+					success:function(data){
+						if(data.status==0){
+							layer.open({
+								content: data.msg
+								,btn: '知道了',
+								yes:function(index){
+									location.href='/user/wallet.html'
+									layer.close(index);
+								}
+							});
+						}else{
+							layer.open({
+								content: data.msg
+								,shadeClose: false
+								,btn: '我知道了'
+							});
+
+
+						}
+					}
+				});
+				return false;
+			}
+		});
+	});
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/apply',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/apply',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+</script>
+<!-- nav -->
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/user/apply.html');
+	});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

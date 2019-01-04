@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="http://www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="http://www.wisecareer.org/css/zhituo/experience.css"/>
+	<script type="text/javascript" src="http://www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="http://www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="http://www.wisecareer.org/css/zhituo/layui.css"  media="all">
+	<link rel="stylesheet" href="http://www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script type="text/javascript" src="/static/zhituo/js/base.min.js"></script>
+	<script type="text/javascript" src="/static/zhituo/js/com.min.js"></script>
+	<script type="text/javascript" src="http://www.wisecareer.org/ICalendar/js/lCalendar.js" ></script>
+	<link rel="stylesheet" href="http://www.wisecareer.org/ICalendar/css/lCalendar.css">
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		input.shuru{
+			line-height: 30px;
+			width: 100%;
+		}
+		table#ks td{
+			line-height: 30px;
+			height: 30px;
+		}
+		p#zhushi{
+			font-size: 14px;
+			color: #666666;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">我的学习计划</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+		<!--<a href="javascript:save()" id="screen_btn" style="position: fixed">保存</a>-->
+	</div>
+</div>
+
+<div id="dBody">
+	<div class="mycontent experience" style="height:100%;margin: 0">
+
+		<div class="cleardiv50"></div>
+		<div class="inner">
+			<div class="cleardiv10"></div>
+			<ul>
+				<li>学习开始时间</li>
+				<li><input id="open" class="shuru" data-lcalendar="2017-01-1,2019-12-31" placeholder="" readonly></li>
+				<li>学习完成时间</li>
+				<li><input id="close" class="shuru" data-lcalendar="2017-01-1,2019-12-31" readonly></li>
+			</ul>
+			<div class="cleardiv10"></div>
+				<table width="100%" id="ks">
+					<tr>
+						<td width="120">累计体验次数：</td>
+						<td><input type="number" class="howmuch" min="1" step="1" style="text-align: center" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')"/>&nbsp; 次</td>
+					</tr>
+				</table>
+			<div class="cleardiv5"></div>
+			<p id="zhushi">注：&ldquo;累计次数不少于所选择的体验主题数！&rdquo;</p>
+			<div class="cleardiv5"></div>
+			<ul>
+				<li>  每次体验时长：（3分钟 &mdash; 5分钟）</li>
+				<li>
+					<ul class="danxuan clear" id="ti">
+						<li><a href="javascript:void(0);" tag="1" style="display: block;padding:0;text-align: center" stop="0">1个案例（3min.）</a><img src="http://www.wisecareer.org/images/zhituo/icon/yes.png" alt=""/></li>
+						<li><a href="javascript:void(0);" tag="3" style="display: block;padding:0;text-align: center" stop="0">3个案例（5min.）</a><img src="http://www.wisecareer.org/images/zhituo/icon/yes.png" alt=""/></li>
+						<!--<li><a href="javascript:void(0);" tag="5" style="display: block;padding:0;text-align: center" stop="0">5个案例</a><img src="http://www.wisecareer.org/images/zhituo/icon/yes.png" alt=""/></li>-->
+						<!--<li><a href="javascript:void(0);" tag="10" style="display: block;padding:0;text-align: center" stop="0">10个案例</a><img src="http://www.wisecareer.org/images/zhituo/icon/yes.png" alt=""/></li>-->
+					</ul>
+				</li>
+			</ul>
+			<div class="cleardiv20"></div>
+			<input type="button" value="保存学习计划" class="btn_yes" id="plan_btn"/>
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+</div>
+<script>
+//	var num = 0 ;
+var moshi_stop=0;
+var ti_stop=0;
+	$('.duoxuan>li>a').toggle(function(){
+//		var attr1=$(this).next().attr('num');
+//		$(this).next().val(attr1);
+//		var tag = $(this).attr('tag');
+//		$(this).after('<input name="schooltagid[]" type="hidden"  value='+tag+' />' )
+//		num++;
+		$(this).addClass("this");
+		$(this).next().show();
+	},function(){
+//		$(this).next().remove();
+		$(this).removeClass("this");
+		$(this).next().hide();
+//		$(this).next().val(0);
+	});
+
+	$('#moshi>li>a').click(function(){
+		$('#moshi>li>a').removeClass("this");
+		$(this).addClass("this");
+		moshi_stop=1;
+		$('#moshi>li>img').hide();
+		$(this).next().show();
+	});
+$('#ti>li>a').click(function(){
+	$('#ti>li>a').removeClass("this");
+	$(this).addClass("this");
+	ti_stop=1;
+	$('#ti>li>img').hide();
+	$(this).next().show();
+});
+</script>
+<script>
+	$(function(){
+		isHaveLogin('/experience/write_plan2');
+	});
+</script>
+<script src="http://www.wisecareer.org/js/xueye/layui.js"></script>
+<script>
+
+	Request = GetRequest();
+	var eid = localStorage.CURRENT_USER_ID;
+	layui.use('element', function(){
+		var $ = layui.jquery
+				,element = layui.element(); //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+		//触发事件
+		var active = {
+			setPercent: function(){
+				//设置50%进度
+				element.progress('demo', '50%')
+			}
+			,loading: function(othis){
+				var DISABLED = 'layui-btn-disabled';
+				if(othis.hasClass(DISABLED)) return;
+
+				//模拟loading
+				var n = 0, timer = setInterval(function(){
+					n = n + Math.random()*10|0;
+					if(n>100){
+						n = 100;
+						clearInterval(timer);
+						othis.removeClass(DISABLED);
+					}
+					layui.element().progress('demo', n+'%');
+				}, 300+Math.random()*1000);
+
+				othis.addClass(DISABLED);
+			}
+		};
+
+		$('.site-demo-active').on('click', function(){
+			var othis = $(this), type = $(this).data('type');
+			active[type] ? active[type].call(this, othis) : '';
+		});
+	});
+
+	var date = new Date();//获取Date对象
+	var begindate = date.getFullYear() +"-"+ (date.getMonth()+1)+"-"+ date.getDate()
+	var dateStr = date.getFullYear() +"-"+ (date.getMonth()+1)+"-"+ date.getDate()+','+(date.getFullYear()+1)+"-"+ (date.getMonth()+1)+"-"+ date.getDate()
+	var types={};
+	var td_num=5;
+	var tpid;
+	console.log(dateStr);
+
+	$.ajax({ url:WEB_API_URL + "experience/plan_label?" + Request, async: false,data:{token: eid}, success: function(json){
+		var data1=json.data;
+//		var str1='';
+		tpid = data1.list.tpid;
+		td_num= data1.list.label.length;
+		console.log(td_num);
+		if(tpid==null||tpid==''){
+			window.location.href='/experience/index/';
+		}
+		dateStr = date.getFullYear() +"-"+ (date.getMonth()+1)+"-"+ date.getDate()+','+data1.endtime;
+		if(data1==''){
+			layer.open({
+				content: json.msg
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index) {
+					window.location.href='/user/wallet/';
+				}
+			});
+		}
+
+		if(json.status==260009){
+			layer.open({
+				content: '你没有购买案例体验套餐'
+				,shadeClose: false
+				,btn: ['确定', '取消']
+				,yes: function(index){
+					window.location.href='/experience/set1/';
+				}
+				,no: function(index){
+					window.location.href='/index/index/';
+				}
+			});
+		}
+//		else if(data1.expire!=0){
+//			window.location.href='/experience/index/';
+//		}
+//		$.each(data1.list.label, function (index, array) {
+//			str1 +='<tr><td width="120" >'+array['tpname']+'</td><td><input type="number"  id="'+array['type']+"_"+array['tid']+'" class="howmuch" min="1"  value="" step="1" style="text-align: center" onkeyup="onlyNonNegative(this)"/>&nbsp; 次</td></tr>';
+//		});
+//		$('table#ks').html(str1);
+//
+//
+//		$(".howmuch").bind('input porpertychange',function(){
+//			var key= $(this).attr('id');
+//			var val = $(this).val()
+//
+//			types[key] = val
+//
+//		})
+
+
+	}
+	})
+
+
+
+	$('input#open,input#close').attr('data-lcalendar',dateStr);
+	$('input#open').attr('placeholder',begindate);
+	$('input#open').attr('value',begindate);
+
+	var calendar = new lCalendar();
+	calendar.init({
+		'trigger': '#open',
+		'type': 'date'
+	});
+
+	var calendardatetime = new lCalendar();
+	calendardatetime.init({
+		'trigger': '#close',
+		'type': 'date'
+	});
+
+
+	function compareDate(s1,s2){
+		return ((new Date(s1.replace(/-/g,"\/")))<(new Date(s2.replace(/-/g,"\/"))));
+	}
+
+	$('input#plan_btn').live('click',function(){
+		var demo1=document.getElementById('open').value;
+		var demo2=document.getElementById('close').value;
+		var startday=$('input#open').val();
+		var endday=$('input#close').val();
+		var everynum=$('ul#ti>li>a.this').attr('tag');
+		console.log(everynum)
+//					var settnum=$('ul#moshi>li>a.this').attr('tag');
+		var typenums=$('input.howmuch').val();
+
+		var sessionid = localStorage.CURRENT_USER_ID;
+
+		var Times = compareDate(demo1,demo2);
+		if(demo1==''){
+			layer.open({
+				content: '开始实践日期不能为空'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else if(demo2==''){
+			layer.open({
+				content: '结束实践日期不能为空'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else if($('input.howmuch').val()==''){
+			layer.open({
+				content: '累计体验次数不能为空'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else if(typenums==0){
+			layer.open({
+				content: '请选择学习模式'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else if(everynum==undefined||everynum==''){
+			layer.open({
+				content: '请选择每次体验数'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else if(parseInt(typenums)<parseInt(td_num)){
+			layer.open({
+				content: '累计体验次数必须大于体验通道数'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else if(parseInt(typenums)<parseInt(everynum)){
+			layer.open({
+				content: '累计体验次数必须大于每次体验数'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		} else if(Times){
+			layer.open({
+				content: '你确定保存这个学习计划吗？一旦生成不能修改哟！'
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					$.ajax({
+						url: WEB_API_URL+"experience/plan_modfiy",
+						type: 'POST',
+						dataType: 'json',
+
+						data: {token:sessionid,setting:1,tpid:tpid,starttime:startday,endtime:endday,every:everynum,nums:typenums},
+						async:false,
+						success: function (result){
+							if(result.status == 0) {
+								window.location.href='/experience/index/';
+							}else{
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+								});
+							}
+						}
+					})
+				}
+			});
+		}else{
+			layer.open({
+				content: '结束实践日期必须晚于开始实践日期'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}
+	})
+
+
+
+
+
+
+
+
+
+</script>
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>
+
+
+<script>
+
+
+
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/write_plan2',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/write_plan2',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>

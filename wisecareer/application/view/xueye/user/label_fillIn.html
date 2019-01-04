@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link href="//xueye.wisecareer.org/css/xueye/label.css" type="text/css" rel="stylesheet" />
+	<link href="//xueye.wisecareer.org/css/xueye/interface.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.content h5{
+			padding-left: 10px;
+		}
+		.content .grade{
+			font-size:14px;cursor: pointer;
+			background:#f4f4f4 url(http://jiaolian.wisecareer.org/public/img/icon/arrow-xia-xiao.png) no-repeat right center;
+			margin-top: 10px;
+		}
+		.list2 table{
+			font-size: 14px;
+		}
+		.list2 table tr>td>span{
+			color: #666;
+			width: 18px;
+			height: 18px;
+			display: inline-block;
+			font-weight: bold;
+		}
+		.list2 table tr>td{
+			color: #666;
+			line-height: 30px;
+		}
+	</style>
+</head>
+<body>
+
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">个人中心</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+<!-- user-info  -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+			<div class="content">
+				<div class="photo">
+					<div class="cleardiv20"></div>
+					<ul>
+						<h5 class="grade">{$name}</h5>
+						<li class="list2 clear">
+							<table class="experience" width="100%" style="padding: 20px 0">
+							{foreach $data as $value}
+								<tr>
+									<td width="2.5%">&nbsp;</td>
+									<td width="40%" align="center">{$value.tpname}</td>
+									<td width="2.5%">&nbsp;</td>
+									<td width="25%" align="center"><div>
+									{if $value.sh == 1} <span style="color:green">已授权</span>{elseif $value.sh ==2}申请中{elseif $value.sh == 3}<span style="color:red">申请失败</span>{else}未授权{/if}</div></td>
+									<td width="2.5%">&nbsp;</td>
+									<td width="25%" align="center">
+										{if $value.sh == 1 }
+									<span style="margin-right: 10px" class ="del"  tag="{$value.id}" ><img src="http://jiaolian.wisecareer.org/public/img/icon/jian.png" alt=""/></span>
+										{elseif $value.sh == 2}
+										
+										<span style="margin-right: 10px" class ="chexiao"  tag="{$value.id}" ><img src="http://jiaolian.wisecareer.org/public/img/icon/revoke.png" alt=""/></span>
+							
+									{elseif $num <3 }
+									<span style="margin-right: 10px" alt="{$value.sh}" class="label" tag="txid/{$Think.get.type}/aid/{$value.tpid}"><img src="http://jiaolian.wisecareer.org/public/img/icon/jia.png" alt=""/></span>
+									{/if}
+									</td>
+									<td width="2.5%">&nbsp;</td>
+								</tr>
+
+							{/foreach}
+							</table>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="cleardiv55"></div>
+</div>
+<script>
+	$('.content .grade').toggle(function(){
+		$(this).next().slideUp();
+		$(this).css('background','#f4f4f4 url(http://jiaolian.wisecareer.org/public/img/icon/arrow-right-xiao.png) no-repeat right center');
+	},function(){
+		$(this).next().slideDown();
+		$(this).css('background','#f4f4f4 url(http://jiaolian.wisecareer.org/public/img/icon/arrow-xia-xiao.png) no-repeat right center');
+	})
+
+	$('.label').click(function(){
+		var tag = $(this).attr('tag');
+		var sh  = $(this).attr('alt');
+		if(sh == 3){
+			var msg = "你确定再次申请么？"
+		}else{
+			var msg = '你确定申请么？'; 
+		}
+
+		layer.open({
+			content: msg
+			,btn: ['确定', '取消']
+			,shadeClose: false
+,yes: function(index){
+				layer.close(index);
+				location.href="/user/apply/"+tag
+			}
+		});
+
+	})
+
+
+$('.chexiao').click(function(){
+		var tag = $(this).attr('tag');
+		
+		var msg = "你确定撤销此标签么？";
+
+	layer.open({
+		content: msg
+		,btn: ['确定', '取消']
+		,shadeClose: false
+,yes: function(index){
+			layer.close(index);
+
+			$.ajax({
+				url: "/ajax/chetag",
+				type: "Post",
+				data: "id="+tag,
+				dataType:'text',
+				async:false,
+				success: function (data){
+
+					if(data ==1){
+						location.reload();
+					}
+				}
+
+			})
+		}
+	});
+
+	})
+
+	$('.del').click(function(){
+		var tag = $(this).attr('tag');
+		
+		var msg = "删除此标签么？"
+
+		layer.open({
+			content: msg
+			,btn: ['确定', '取消']
+			,shadeClose: false
+,yes: function(index){
+				layer.close(index);
+
+				$.ajax({
+					url: "/ajax/deltag",
+					type: "Post",
+					data: "id="+tag,
+					dataType:'text',
+					async:false,
+					success: function (data){
+
+						if(data ==1){
+							location.reload();
+						}
+					}
+
+				})
+			}
+		});
+	})
+</script>
+<div id="dFoot">
+	<div class="body-nav">
+		<ul>
+			<li><a  onclick="location.href='/index/index/'"><i class="icon-nav-1"></i>首页</a></li>
+			<li><a onClick="goPermissionUrl('/message/index.html');"><i class="icon-nav-2"></i>消息</a></li>
+			<li class="in"><a onClick="goPermissionUrl('/user/index.html');"><i class="icon-nav-5"></i>个人中心</a></li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/user/label_fillIn.html');
+	});
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/user/label_fillIn',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/user/label_fillIn',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

@@ -1,0 +1,564 @@
+
+{extend name="layout/layout" }
+{block name="link"}
+<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<link href="__XUEYE__/css/login.css" type="text/css" rel="stylesheet" />
+<script>
+	$(document).ready(function(){
+		$("#phone").focus(function(){
+			$(this).next().html("");
+			$(this).next().hide();
+		});
+		$('#phone').bind('blur',function(){
+			var tel = $("#phone").val();
+
+			var parent = $(this).parent();
+			for(var i=0;i<11;i++){
+				var str= tel.substring(i,i+1);
+				if(isNaN(str)){
+					$(this).next().html("输入必须为数字");
+					$(this).next().show();
+				}
+			}
+			if(tel.length==0){
+				$(this).next().html("输入号码不能为空");
+				$(this).next().show();
+			}else if(tel.length>11||tel.length<11){
+				$(this).next().html("输入号码为11位");
+				$(this).next().show();
+			}
+
+		});
+
+		$("#mm").focus(function(){
+			$(this).next().html("");
+			$(this).next().hide();
+		})
+		$("#mm").blur(function(){
+			var psw = $("#mm").val();
+			if(psw==""){
+				$(this).next().html("不能为空");
+				$(this).next().show();
+				return;
+			}
+			if(psw.length<6||psw.length>16){
+				$(this).next().html("密码为6-16个字符");
+				$(this).next().show();
+				return;
+			}
+		})
+		$("#qrmm").focus(function(){
+			$(this).next().html("");
+			$(this).next().hide();
+		})
+		$("#qrmm").blur(function(){
+			var psw1 = $("#qrmm").val();
+			if(psw1!=$("#mm").val()){
+				$(this).next().html("必须与密码相同");
+				$(this).next().show();
+				return;
+			}
+			if(psw1==""){
+				$(this).next().html("不能为空");
+				$(this).next().show();
+				return;
+			}
+		})
+
+
+		$("#schoolid").focus(function(){
+			$(this).next().html("");
+			$(this).next().hide();
+		})
+		$("#schoolid").blur(function(){
+			var schoolid = $("#schoolid").val();
+			if(schoolid==""){
+				$(this).next().html("不能为空");
+				$(this).next().show();
+				return;
+			}
+		})
+	})
+</script>
+<style>
+	.login_tishi{
+		right: 5px;
+	}
+	#myform>ul>li{
+		position: relative;
+	}
+	#gongyue p{font-size: 14px;color: #666;line-height: 20px;text-indent: 28px;}
+	#gongyue h3{font-size: 14px;line-height: 30px;font-weight: bold;color: #666;}
+	.danxuan>li>a, .duoxuan>li>a {
+		display: block;
+		padding: 10px 0;
+		text-align: center;
+		background: #fff;
+		color: #666666;
+		border: 1px solid #f2f2f2;
+		font-size: 14px;
+		cursor: pointer;
+	}
+	.danxuan>li>a.this, .duoxuan>li>a.this {
+		background: #fff;
+		border: 1px dashed #00bb0c;
+		color: #00bb0c;
+	}
+	#school{
+		background: url("__XUEYE__/images/icon/zc_input1.png") no-repeat 6px center;
+	}
+	#schoolid{
+		background: url("__XUEYE__/images/icon/zc_input2.png") no-repeat 6px center;
+	}
+
+	table#aa td {
+		color: #666;
+		font-size: 14px;
+		line-height: 36px;
+		height: 36px;
+		display: block;
+	}
+</style>
+{/block}
+
+
+{block name='head'}
+<div id="dHead" style="position: fixed;top: 0;left: 0;z-index: 300">
+	<div class="head">
+		<h1 style="margin: 0">学校账号注册</h1>
+		<a href="javascript:history.go(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+{/block}
+
+
+{block name="content"}
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+			<br/>
+			<form action="/reg/reguser" method="post" id='myform' name="myform" >
+				<table width="100%">
+					<tr class="jigou">
+						<td colspan="2">
+							<input type="text" placeholder="学校名称"   class="school shuru text" id="school" name="schoolname" autocomplete="off"/><span class="login_tishi"></span>
+							<div id="searchresult" style="display: none;"></div>
+							<script type="text/javascript">
+								$(function(){
+
+									$('#school').bind('input propertychange', function() {
+
+										// $('#txt_search').html($(this).val().length + ' characters');
+									});
+
+								})
+								$(function () {
+									$("#school").bind('input propertychange',function (evt) {
+										ChangeCoords(); //控制查询结果div坐标
+										var k = window.event ? evt.keyCode : evt.which;
+										var uid = localStorage.CURRENT_USER_ID;
+										//输入框的id为txt_search，这里监听输入框的keyup事件
+										//不为空 && 不为上箭头或下箭头或回车
+										if ($("#school").val() != "" && k != 38 && k != 40 && k != 13) {
+											$.ajax({
+
+												//async: false, //同步执行，不然会有问题
+												dataType: "json",
+												url: WEB_API_URL+"/ajax/searchAll?type=z&term="+$("#school").val(), //提交的页面/方法名
+												contentType: "json",
+												success: function (data) {
+
+													var objData = data.data
+													if (objData.length > 0) {
+														var layer = "";
+														layer = "<table id='aa' width='100%' style='position: relative;top: -10px'>";
+														$.each(objData, function (idx, item) {
+															layer += "<tr class='line'><td class='std' width='100%'>" + item['value'] + "</td></tr>";
+														});
+														layer += "</table>";
+														//将结果添加到div中
+														$("#searchresult").empty();
+														$("#searchresult").append(layer);
+														$(".line:first").addClass("hover");
+														$("#searchresult").css("display", "");
+														//鼠标移动事件
+														$(".line").hover(function () {
+															$(".line").removeClass("hover");
+															$(this).addClass("hover");
+														}, function () {
+															$(this).removeClass("hover");
+															//$("#searchresult").css("display", "none");
+														});
+														//鼠标点击事件
+														$(".line").click(function () {
+															$("#school").val($(this).text());
+															$("#searchresult").css("display", "none");
+														});
+													} else {
+														$("#searchresult").empty();
+														$("#searchresult").css("display", "none");
+													}
+												}
+											});
+										}
+										else if (k == 38) {
+											$('#aa tr.hover').prev().addClass("hover");
+											$('#aa tr.hover').next().removeClass("hover");
+											$('#school').val($('#aa tr.hover').text());
+										} else if (k == 40) {
+											$('#aa tr.hover').next().addClass("hover");
+											$('#aa tr.hover').prev().removeClass("hover");
+											$('#school').val($('#aa tr.hover').text());
+										}
+										else if (k == 13) {
+											$('#school').val($('#aa tr.hover').text());
+											$("#searchresult").empty();
+											$("#searchresult").css("display", "none");
+										}
+										else {
+											$("#searchresult").empty();
+											$("#searchresult").css("display", "none");
+										}
+									});
+									$("#searchresult").bind("mouseleave", function () {
+										$("#searchresult").empty();
+										$("#searchresult").css("display", "none");
+									});
+								});
+								//设置查询结果div坐标
+								function ChangeCoords() {
+									// var left = $("#txt_search")[0].offsetLeft; //获取距离最左端的距离，像素，整型
+									// var top = $("#txt_search")[0].offsetTop + 26; //获取距离最顶端的距离，像素，整型（20为搜索输入框的高度）
+									var left = $("#school").position().left; //获取距离最左端的距离，像素，整型
+									var top = $("#school").position().top ;  //获取距离最顶端的距离，像素，整型（20为搜索输入框的高度）
+									$("#searchresult").css("left", left + "px"); //重新定义CSS属性
+									$("#searchresult").css("top", top + "px"); //同上
+								}
+							</script>
+						</td>
+					</tr>
+					<tr class="jigou">
+						<td colspan="2"><input type="text" placeholder="学校验证码"   class="schoolid shuru" id="schoolid" name="schoolcode" autocomplete="off"/><span class="login_tishi"></span></td>
+					</tr>
+					<tr>
+						<td colspan="2"><input type="text" placeholder="手机号码"   class="photo shuru" id="phone" name="phone" autocomplete="off"/><span class="login_tishi"></span></td>
+					</tr>
+					<tr>
+						<td colspan="2"><input type="password" placeholder="密码" class="mima shuru" id="mm" name="mm" autocomplete="off"/><span class="login_tishi"></span></td>
+					</tr>
+					<tr>
+						<td colspan="2"><input type="password" placeholder="确认密码" class="mima shuru" id="qrmm" name="qrmm" autocomplete="off"/><span class="login_tishi"></span></td>
+					</tr>
+					<tr>
+						<td colspan="2"><input type="hidden" name="vcode" id ="vcode" value="	"></td>
+					</tr>
+					<tr>
+						<td width="50%"><input type="text" placeholder="请输入验证码" class="yanzheng" id="yz" name="yz" autocomplete="off"/></td>
+						<td width="50%"><input type="button" value="获取验证码" id="btnSendCode" class="huoqu" onclick="sendMessage()" /></td>
+					</tr>
+					<tr>
+						<td colspan="2" style="padding-top: 10px;color: #00bb0c;font-size: 14px">&nbsp;&nbsp;<input type="checkbox" id="xieyi" style="height: 16px;width: 16px"/>&nbsp;&nbsp;&nbsp;我已阅读并同意<span id="yuedu"onclick="gy_show()" style="text-decoration: underline">&nbsp;用户协议&nbsp;</span></td>
+					</tr>
+					<tr>
+						<td colspan="2"><br/><input type="button" class="tijiao" id='btn_yes' value="提交" onclick=" return Verify()"/></td>
+					</tr>
+				</table>
+
+			<!-- <input type="hidden" nane="nyz" value="" id="nyz" /> -->
+			</form>
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+</div>
+<div class="show_hide" style="display: none">
+	<div class="class_content" style="background: none;padding: 0;overflow-y: scroll">
+		<div class="head" style="position: fixed;top: 0;left: 0;z-index: 1500">
+			<h1 id="gongyue_title" style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;"></h1>
+			<a href="javascript:gy_hide()" class="return"><i class="return-right"></i></a>
+		</div>
+		<div class="cleardiv55"></div>
+		<div id="gongyue" style="padding: 0 10px;background: #fff;overflow-y: scroll"></div>
+	</div>
+</div>
+<script>
+
+	var id = getUrlParam("id");
+	var obj = getUrlParam("obj");
+	var schoolname ;
+	var schoolcode;
+
+	if(obj==0){
+		$('li.jigou').remove();
+	}
+	 function scrollLoad(){
+	 	$.getJSON( WEB_API_URL +  "ajax/person?", {id:22}, function (json) {
+	 		var data=json.data;
+	 		var str1='';
+	 		str1+='<div class="cleardiv20"></div>'+data['res']+'<div class="cleardiv10"></div><input type="button" class="btn_yes" id="xy_yes" value="确认" onclick="gy_yes();"/><div class="cleardiv10"></div>';
+	 		$('#gongyue').html(str1);
+	 		$('#gongyue_title').html(data['headlines']);
+	 	});
+	 }
+	scrollLoad();
+
+    function gy_show(){
+        $('.show_hide').show();
+    }
+	function gy_hide(){
+		$('.show_hide').hide();
+	}
+	function gy_yes(){
+		$('.show_hide').hide();
+		$('#xieyi').attr('checked','checked');
+	}
+	var yuedu=true;
+	$('input[type="checkbox"]').click(function(){
+		if(yuedu==true){
+			$(this).attr("checked",'true');
+			yuedu=false;
+		}else{
+			$(this).removeAttr("checked");
+			yuedu=true;
+		}
+	});
+
+    var count = 60; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+
+
+    function sendMessage() {
+        curCount = count;
+
+    var partten = /^\d{10,13}$/;
+
+            if (!partten.test(document.getElementById("phone").value)) {
+                layer.open({
+                    content: '请输入正确的手机号码！'
+                    ,shadeClose: false
+                    ,btn: '我知道了'
+                });
+                return;
+            }
+
+		if(obj==0){
+
+        }else{
+			if(document.getElementById("school").value==""){
+				layer.open({
+					content: '请输入学校名称！'
+					,shadeClose: false
+					,btn: '我知道了'
+				});
+				return;
+			}else if(document.getElementById("schoolid").value==""){
+				layer.open({
+					content: '请输入学校验证码！'
+					,shadeClose: false
+					,btn: '我知道了'
+				});
+				return;
+			}
+		}
+
+        //产生验证码
+
+        //设置button效果，开始计时
+        $("#btnSendCode").attr("disabled", "true");
+        $("#btnSendCode").val("" + curCount + "秒内输入");
+        InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+//向后台发送处理数据
+        var vcode = $('#vcode').val();
+
+        $.ajax({
+            url: "/ajax/code",
+            type: "Post",
+            data: "sms=1&vcode="+vcode+"&tel=" + $("#phone").val(),
+            success: function (data){
+			
+			if(data.status==000){
+					layer.open({
+						content: '验证码已发送到你的手机！'
+						,shadeClose: false
+                        ,btn: '我知道了'
+					});
+					//$('#nyz').val(msg);
+        		}else {
+					layer.open({
+						content: data.msg
+						,shadeClose: false
+                            ,btn: '我知道了'
+					}); 
+					 window.clearInterval(InterValObj);//停止计时器
+                    $("#btnSendCode").removeAttr("disabled");//启用按钮
+                    $("#btnSendCode").val("重新发送");
+					 
+        		}
+			
+            	 
+            }     
+        })
+    }
+    //timer处理函数
+    function SetRemainTime() {
+        if (curCount == 0) {
+
+            window.clearInterval(InterValObj);//停止计时器
+            $("#btnSendCode").removeAttr("disabled");//启用按钮
+            $("#btnSendCode").val("重新发送");
+            $.ajax({
+                url: "/ajax/vcode",
+                type: "Post",
+                success: function (data){
+                    $('#vcode').val(data);
+                }
+            })
+            //code = ""; //清除验证码。如果不清除，过时间后，输入收到的验证码依然有效
+        }else {
+            curCount--;
+            $("#btnSendCode").val("" + curCount + "秒内输入");
+        }
+    }
+
+    function Verify(){ 
+			
+    	var dianhua = $("#phone").val();
+    	var password = $("#mm").val();
+    	var passwords = $("#qrmm").val();
+    	var code = $("#yz").val();
+    	var schoolid = $("#schoolid").val();
+    	var schoolname = $("#school").val();
+
+		if (!$('input[type="checkbox"]').attr('checked')) {
+			layer.open({
+				content: '请确认用户协议！'
+				,shadeClose: false
+				,btn: '我知道了'
+			});
+		}else{
+			$.ajax({
+				type:"POST",
+				url:WEB_API_URL+"reg/reguser?",
+				data:"type=3&phone="+dianhua+"&mm="+password+"&qrmm="+passwords+"&schoolname="+schoolname+"&schoolcode="+schoolid+"&yz="+code,
+				cache:false, //不缓存此页面
+                xhrFields: {withCredentials: true},
+                crossDomain: true,
+				success:function(data){
+					if(data.status==0){
+						localStorage.CURRENT_USER_ID = data.data;
+						localStorage.CURRENT_USER_TypeLX = 1;
+						localStorage.CURRENT_userinfo = 0;
+
+
+						layer.open({
+							content: "注册成功!"
+							,shadeClose: false
+							,btn: '知道了',
+							yes:function(index){
+								location.href='/index/index/';
+								layer.close(index);
+							}
+						});
+					}else{
+						layer.open({
+							content: data.msg
+							,shadeClose: false
+							,btn: '知道了',
+							yes:function(index){
+								layer.close(index);
+							}
+						});
+					}
+				}
+			});
+		}
+
+
+    }
+
+
+
+
+
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/reg/school',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/reg/school',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+{/block}
+{block name="menu"}
+{/block}

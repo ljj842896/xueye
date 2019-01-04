@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="/static/xueye/css/policy_decision.css"/>
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<link rel="stylesheet" href="/static/public/css/layui.css"  media="all">
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<body>
+<div id="dHead">
+	<div class="head">
+		<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">开设院校</h1>
+		<a href="javascript:history.go(-1)" class="return"><i class="return-right"></i></a>
+		<a href="javascript:show();" style="" id="screen_btn">筛选</a>
+	</div>
+</div>
+
+<div id="dBody" style=" overflow-x:hidden;table-layout: fixed;word-wrap:break-word;word-break:break-all;">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner school">
+			<div class="cleardiv10"></div>
+			<h3><span></span>专业开设院校专业（招生地：
+				<select name="" id="">
+					<option value="1">zhejiang</option>
+					<option value="1">zhejiang</option>
+					<option value="1">zhejiang</option>
+				</select>
+				）</h3>
+			<table width="100%">
+				<tr>
+					<td width="5%"></td>
+					<td><span onclick="location.href='../jcyj/school_details.html'">学校全名：北京大学 </span><span style="float: right;width: 50px;text-align: center">关注</span></td>
+				</tr>
+				<tr>
+					<td width="5%"></td>
+					<td>专业排名： <span></span></td>
+				</tr>
+				<tr>
+					<td colspan="2" style="border-top: 1px #ebebeb solid"></td>
+				</tr>
+			</table>
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+	<div class="cleardiv55"></div>
+</div>
+
+<div class="show_hide" style="display: none;">
+	<div class="class_content">
+		<div id="box1_tittle">
+			<div class="head">
+				<h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">筛选条件</h1>
+				<a class="box1_return" href="javascript:hide()"><i class="return-right"></i></a>
+				<a href="javascript:hide()" name="submit" style="" id="screen_btn"><input type="submit" value="完成" style="line-height: 40px;" class="tijiao" id="btn1"/></a>
+			</div>
+		</div>
+		<div id="box1" style="padding-top: 40px" class="clear">
+			<h4 class="tittle">类型</h4>
+			<div>
+				<ul class="duoxuan clear">
+					<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" >本科专业</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><input type="hidden" name="recommend" value="0"></li>
+					<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center"  >专科专业</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><input type="hidden" name="attention" value="0"></li>
+				</ul>
+			</div>
+			<h4 class="tittle">层级</h4>
+			<div>
+				<ul class="duoxuan clear">
+					<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" >211</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><input type="hidden" name="recommend" value="0"></li>
+					<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center"  >985</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><input type="hidden" name="attention" value="0"></li>
+					<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center"  >准211</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><input type="hidden" name="attention" value="0"></li>
+					<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center"  >独立学院</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><input type="hidden" name="attention" value="0"></li>
+				</ul>
+			</div>
+			<h4 class="tittle">特色分类</h4>
+			<div>
+				<ul class="duoxuan clear">
+					<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center" >国家重点学科</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><input type="hidden" name="recommend" value="0"></li>
+					<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center"  >国家重点实验室</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><input type="hidden" name="attention" value="0"></li>
+					<li><a href="javascript:void(0);" style="display: block;padding: 10px 0;text-align: center"  >推荐关注</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/><input type="hidden" name="attention" value="0"></li>
+					</ul>
+			</div>
+			<h4 class="tittle">地域</h4>
+			<div><input type="text" placeholder="请输入省份关键字" id="province"/></div>
+		</div>
+		<div class="cleardiv20"></div>
+		<div class="cleardiv20"></div>
+		<div class="clear"></div>
+	</div>
+</div>
+
+<div id="dFoot">
+	<div class="body-nav">
+		<ul>
+			<li><a  onclick="location.href='/index/index/'"><i class="icon-nav-1"></i>首页</a></li>
+			<li><a onClick="goPermissionUrl('/message/index.html');"><i class="icon-nav-2"></i>消息</a></li>
+			<li><a onClick="goPermissionUrl('/user/index.html');"><i class="icon-nav-5"></i>个人中心</a></li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/jcyj/school.html');
+	});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+	$('.duoxuan>li>a').toggle(function(){
+		$(this).addClass("this");
+		$(this).next().show();
+		$(this).next().next().val(1);
+
+	},function(){
+		$(this).removeClass("this");
+		$(this).next().hide();
+		$(this).next().next().val(0);
+	})
+	function hide(){
+		$('.show_hide').hide();
+	}
+	function show(){
+		$('.show_hide').show();
+	}
+
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/jcyj/recommend?type='+type,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/jcyj/recommend?type='+type,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>

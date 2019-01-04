@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/experience.css"/>
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<!--[if IE]>
+	<script src="//www.wisecareer.org/js/html5shiv.min.js"></script>
+	<![endif]-->
+	<!--<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>-->
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/layui.css"  media="all">
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		ul.layui-tab-title{
+			border-bottom: 1px solid #ebebeb;
+		}
+		ul.layui-tab-title>li.this{
+			color: #f58020;
+			border-bottom: 3px solid #f58020;
+		}
+		ul.layui-tab-title>li{
+			border-bottom: 3px solid #fff;
+		}
+		.layui-tab-title li {
+			width: 25%;
+			border: none;
+		}
+		table.pingjia{
+			border-bottom: 1px solid #ebebeb;
+			padding: 10px 0;
+		}
+		table.pingjia td{
+			line-height: 24px;
+			font-size: 14px;
+		}
+		table.pingjia td a.fkyj,table.pingjia td a.fkcx{
+			padding: 5px 10px;
+			background: #ebebeb;
+			color: #666;
+			border-radius: 5px;
+		}
+		textarea#yj_text{
+			width: 100%;
+			min-height: 130px;
+			border: none;
+		}
+		a.yj_btn{
+			display: block;
+			text-align: center;
+			line-height: 40px;
+			font-size: 16px;
+			background: #f2f2f2;
+			color: #666;
+		}
+		.show_hide{
+			width: 100%;
+			position: fixed;
+			top: 50%;
+			left: 15%;
+			margin-top: -100px;
+			z-index: 500;
+		}
+		.black_bg{
+			width: 100%;
+			height: 100%;
+			background: rgba(0,0,0,0.5);
+			position: fixed;
+			top: 50px;
+			left: 0;
+			z-index: 400;
+		}
+		.img_grade{
+			width: 20px;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">现场实习</h1>
+		<a href="/scene/internship.html" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<div id="dBody">
+	<div class="mycontent experience" style="height:100%;margin: 0">
+		<div class="cleardiv50"></div>
+		<div class="inner">
+			<div class="cleardiv10"></div>
+			<h4>场次名称：<span id="job"></span> <span class="floatright" onclick="location.href='/scene/industry/'">详情 ></span></h4>
+			<div class="cleardiv10"></div>
+		</div>
+		<div class="cleardiv5"></div>
+		<div class="inner">
+			<div class="cleardiv10"></div>
+				<ul class="layui-tab-title">
+					<li>报到</li>
+					<li onclick="">入职</li>
+					<li class="this">在岗</li>
+					<li>交接</li>
+				</ul>
+				<div class="layui-tab-content" style="">
+					<div class="layui-tab-item">
+						<div class="cleardiv20"></div>
+					</div>
+					<div class="layui-tab-item">
+						<div class="cleardiv20"></div>
+					</div>
+					<div class="layui-tab-item layui-show">
+						<div class="cleardiv20"></div>
+						<div id="jiaolian_content">
+
+						</div>
+						<div class="cleardiv20"></div>
+						<div id ='pingfen' style="border-top: solid 1px #ebebeb">
+
+						</div>
+						<div class="cleardiv20"></div>
+						<input type="button" value="去交接" class="btn_yes" style="margin: 0 auto"  id="btn3"/>
+						<div class="cleardiv20"></div>
+					</div>
+					<div class="layui-tab-item">
+						<div class="cleardiv20"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cleardiv5"></div>
+</div>
+
+<div class="show_hide" style="display: none">
+	<table width="70%" style="background: #fff;border: 1px solid #ebebeb;overflow: hidden">
+		<tr>
+			<td colspan="2" style="border-bottom: 1px solid #ebebeb;">
+				<div style="padding: 20px">
+				<textarea id="yj_text" placeholder="反馈意见" tag=""></textarea>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td width="50%" style="border-right: 1px solid #ebebeb"><a href="javascript:yes();" class="yj_btn">确定</a></td>
+			<td width="50%"><a href="javascript:no();" class="yj_btn">取消</a></td>
+		</tr>
+	</table>
+</div>
+<div class="black_bg" style="display: none"></div>
+
+<script src="//www.wisecareer.org/js/zhituo/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+	$(function(){
+		isHaveLogin('/scene/post');
+	});
+	var uid = localStorage.CURRENT_USER_ID;
+	var tid = getUrlParam("tid");
+
+
+		$.ajax({ url:WEB_API_URL + "activity/scene_space?" , async: false,data:{token: uid}, success: function(json) {
+			var str3='';
+			var str2='';
+			var data=json.data;
+			var name=data.name;
+
+			var str_ping='';
+			//console.log(data.eval_base);
+			$.each(name, function(key, val) {
+				str2 += '<table width="100%"><tr>';
+				str2 += '<td rowspan="3" width="25%"><img src="' + val['pic'] + '" alt="" width="100%"/></td>';
+				str2 += '<td rowspan="3" width="5%">&nbsp;</td><td width="75%" style="font-weight: bold"><table width="100%"><tr><td><span style="font-weight: bold;font-size: 16px">' + val['coach_nickname'] + '</span></td><td width="80" align="right">' + val['grade'] + '</td></tr></table></td>';
+				str2 += '</tr><tr><td>工龄：<span style="font-weight: bold;color: red">' + val['uid'] + ' </span>年</td></tr>';
+				str2 += '<tr><td><p id="label">教练标签：<span style="font-weight: bold">' + val['label'] + '</span></p></td></tr></table><div class="cleardiv10"></div>';
+			});
+			if(data.eval_base==''){
+				str_ping='<table width="100%"><tr><td align="center" valign="middle" style="line-height: 40px">暂无评价</td></tr></table>';
+			}else{
+
+				$.each(data.eval_base, function(key, val) {
+					str_ping += '<table width="100%" class="pingjia"><tr>';
+					str_ping +='<td width="50%">评价指标：<span style="font-weight: bold">'+val.titlename+'</span></td>';
+					str_ping +=	'<td width="50%">评分：<span style="font-weight: bold;color: red">'+val.jifen+'</span></td></tr>';
+					str_ping +='<tr><td colspan="2">教练评语：<span style="font-weight: bold">'+val.content+'</span></td></tr>';
+					if(val.opinion==null){
+						str_ping +='<tr><td colspan="2" align="right"><a class="fkyj" id="'+val.id+'" tag="'+val.titlename+'">反馈意见</a></td></tr>';
+					}else{
+						str_ping +='<tr><td colspan="2" align="left">反馈内容：'+val.opinion+'<a class="fkcx" style="float:right;height:16px;line-height:16px" id="'+val.id+'" tag="'+val.titlename+'">撤销反馈</a></td></tr>';
+					}
+					str_ping +='</table>';
+				});
+			}
+
+			//console.log(str_ping);
+
+			$('#pingfen').html(str_ping);
+			$('#jiaolian_content').html(str2);
+
+
+			if(data.degree==0){
+				window.location.href='/scene/index/';
+			}else if(data.degree==1){
+				window.location.href='/scene/entry/?tid='+tid;
+			}else if(data.degree==2){
+
+			}else if(data.degree==3){
+//				window.location.href='/scene/transfer/?tid='+tid;
+			}else if(data.degree==4){
+//				window.location.href='/scene/waitfor/?tid='+tid;
+			}else{
+				window.location.href='/scene/leave/?tid='+tid;
+			}
+			$('span#job').html(data.titlename);
+		}
+		});
+
+
+
+
+	$('#btn3').live('click',function(){
+		var text_content=$('textarea#content').val();
+		if(text_content==''){
+			layer.open({
+				content: '交接内容不能为空！',
+				btn: '我知道了',
+				shadeClose: false,
+				yes: function(index){
+					layer.close(index);
+				}
+			});
+		}else{
+			layer.open({
+				content: '你确定进行交接吗？'
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					$.ajax({
+						url: WEB_API_URL+"activity/degree",
+						type: 'POST',
+						dataType: 'json',
+						data: {token:uid,degree:3,tid:tid,content:text_content},
+						async:false,
+						success: function (result){
+							if(result.status == '0') {
+								window.location.href='/scene/transfer?&tid='+tid;
+							}else{
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+									,yes: function(index1){
+										layer.close(index1);
+									}
+								});
+							}
+						}
+					})
+				}
+			})
+		}
+	});
+
+	$('a.fkyj').live('click',function(){
+		var fk_text=$(this).attr('id');
+		var fk_tag=$(this).attr('tag');
+		$('textarea#yj_text').attr('class',fk_text);
+		$('textarea#yj_text').attr('tag',fk_tag);
+		$('.show_hide').show();
+		$('.black_bg').show();
+	});
+
+	$('a.fkcx').live('click',function(){
+		var index_tag=$(this).attr('tag');
+		var index_id=$(this).attr('id');
+		layer.open({
+			content: '你确定撤销反馈 '+index_tag+' 吗？'
+			,btn: ['确定', '取消']
+			,shadeClose: false
+			,yes: function(index){
+				$.ajax({
+					url: WEB_API_URL+"activity/user_base_opinion",
+					type: 'POST',
+					dataType: 'json',
+					data: {token:uid,id:index_id},
+					async:false,
+					success: function (result){
+						if(result.status == '0') {
+							window.location.reload();
+						}else{
+							layer.open({
+								content: result.msg
+								,shadeClose: false
+								,btn: '我知道了'
+								,yes: function(index1){
+									layer.close(index1);
+								}
+							});
+						}
+					}
+				})
+			}
+		})
+	});
+
+	function yes(){
+		var post_tag=$('textarea#yj_text').attr('tag');
+		var post_id=$('textarea#yj_text').attr('class');
+		var post_text=$('textarea#yj_text').val();
+		if(post_text==''){
+			layer.open({
+				content: '反馈内容不能为空！'
+				,btn: '我知道了'
+				,shadeClose: false
+				,time: 5
+			});
+		}else{
+			layer.open({
+				content: '你确定反馈 '+post_tag+' 吗？'
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					$.ajax({
+						url: WEB_API_URL+"activity/user_base_opinion",
+						type: 'POST',
+						dataType: 'json',
+						data: {token:uid,opinion:post_text,id:post_id},
+						async:false,
+						success: function (result){
+							if(result.status == '0') {
+								window.location.reload();
+							}else{
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+									,yes: function(index1){
+										layer.close(index1);
+									}
+								});
+							}
+						}
+					})
+				}
+			})
+		}
+	}
+	function no(){
+		$('.show_hide').hide();
+		$('.black_bg').hide();
+	}
+	setInterval(function (){
+		$.ajax({ url:WEB_API_URL + "activity/scene_space?" , async: false,data:{token: uid}, success: function(json) {
+			var data=json.data;
+
+			var str_ping='';
+			//console.log(data.eval_base);
+			$.each(data.eval_base, function(key, val) {
+				str_ping += '<table width="100%" class="pingjia"><tr>';
+				str_ping +='<td width="50%">评价指标：'+val.titlename+'</td>';
+				str_ping +=	'<td width="50%">评分：'+val.jifen+'</td></tr>';
+				str_ping +='<tr><td colspan="2">评价内容：'+val.content+'</td></tr>';
+				if(val.opinion==null){
+					str_ping +='<tr><td colspan="2" align="right"><a class="fkyj" id="'+val.id+'" tag="'+val.titlename+'">反馈意见</a></td></tr>';
+				}else{
+					str_ping +='<tr><td colspan="2" align="left">反馈内容：'+val.opinion+'<a class="fkcx" style="float:right;height:16px;line-height:16px" id="'+val.id+'" tag="'+val.titlename+'">撤销反馈</a></td></tr>';
+				}
+				str_ping +='</table>';
+			});
+			//console.log(str_ping);
+
+			$('#pingfen').html(str_ping);
+			$('span#job').html(data.titlename);
+		}
+		});
+	},10000);
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/scene/post',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/scene/post',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

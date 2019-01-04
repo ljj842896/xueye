@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>职拓e站</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="MobileOptimized" content="320"/>
+    <link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/yuan.css"/>
+    <link href="//www.wisecareer.org/css/zhituo/login.css" type="text/css" rel="stylesheet" />
+    <script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+    <script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+    <link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+    <script src="/static/zhituo/js/base.min.js"></script>
+    <script src="/static/zhituo/js/com.min.js"></script>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+
+</head>
+<body>
+<style>
+ .mycontent .shuru{
+            height: 40px;
+            padding-left: 10%;
+            padding-right: 5%;
+            color: #666;
+            border: solid 1px rgba(0,0,0,0.3);
+            margin: 5px 0;
+     font-size: 16px;
+        }
+        .mycontent .photo{
+            background: rgba(0,0,0,0);
+            width: 85%;
+        }
+        .mycontent .huoqu{
+            margin-left: 5px;
+            height: 36px;
+            width: 100px;
+            border-radius: 6px;
+            background: -webkit-linear-gradient(top,#28c1fb,#298bee);
+            background: -o-linear-gradient(top,#28c1fb,#298bee);
+            background: -ms-linear-gradient(top,#28c1fb,#298bee);
+            background: -moz-linear-gradient(top,#28c1fb,#298bee);
+            color: #fff;
+            font-weight: bold;
+        }
+        .mycontent h4 a,.mycontent h4{
+            line-height: 36px;
+            font-size: 14px;
+            color: #298bee;
+        }
+        .mycontent h4{
+            text-align: center;
+        }
+        .btn_yes{
+            margin: 10px auto;
+        }
+        .mycontent h2{
+            margin-top: 10px;
+            text-align: center;
+            line-height: 50px;
+            height: 50px;
+            font-size: 16px;
+            color: #666;
+            background: url("/public/img/line.png") no-repeat center center;
+        }
+        .jieru li{
+            float: left;
+            width: 30%;
+            padding-left: 10%;
+            padding-right: 10%;
+            text-align: center;
+        }
+        .jieru li:nth-child(2){
+            float: right;
+        }
+        .jieru li a{
+            width: 60%;
+            display: inline-block;
+        }
+        .jieru img{
+            width: 100%;
+        }
+       .error{
+           color: red;
+       }
+ #myform>ul>li {
+     position: relative;
+ }
+ .login_tishi{
+     top: 16px;
+ }
+</style>
+<!-- home -->
+<div id="dHead">
+    <div class="head">
+        <h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">填写新密码</h1>
+        <a href="javascript:history.go(-1)" class="return"><i class="return-right"></i></a>
+    </div>
+</div>
+<div id="dBody">
+    <div class="cleardiv50"></div>
+    <div class="mycontent">
+        <br/> 
+ <form action="/login/dopass" method="post" id='myform' name="myform" >
+       	  <input type="hidden" name='shouji' id="shouji" value="<{$smarty.post.phone}>" />
+       	<ul>
+                <li><input type="password" placeholder="请输入新密码" class="mima shuru" id="mm" name="password" autocomplete="off"/><span class="login_tishi"></span></li>
+                <li><input type="password" placeholder="请确认新密码" class="mima shuru" id="qrmm" name="passwds" autocomplete="off"/><span class="login_tishi"></span></li>
+                <li><input type="button" value="下一步" class="btn_yes" style="margin-top: 50px" onclick="sendMessage()"/></li>
+                <li><input type="button" value="返回登录" class="btn_yes" style="margin-top: 30px"	 onclick="location.href='/login/index'"/></li>
+       </ul>
+  </form>
+    </div>
+    <div class="cleardiv55"></div>
+</div>
+<!-- nav -->
+<script>
+    $("#mm").focus(function(){
+        $(this).next().html("");
+        $(this).next().hide();
+    })
+    $("#mm").blur(function(){
+        var psw = $("#mm").val();
+        if(psw==""){
+            $(this).next().html("不能为空");
+            $(this).next().show();
+            return;
+        }
+        if(psw.length<6||psw.length>16){
+            $(this).next().html("密码为6-16个字符");
+            $(this).next().show();
+            return;
+        }
+    })
+    $("#qrmm").focus(function(){
+        $(this).next().html("");
+        $(this).next().hide();
+    })
+    $("#qrmm").blur(function(){
+        var psw1 = $("#qrmm").val();
+        if(psw1!=$("#mm").val()){
+            $(this).next().html("必须与密码相同");
+            $(this).next().show();
+            return;
+        }
+        if(psw1==""){
+            $(this).next().html("不能为空");
+            $(this).next().show();
+            return;
+        }
+    })
+    function sendMessage(){
+		
+		var dianhua = $("#shouji").val();
+    	var password = $("#mm").val();
+    	var passwords = $("#qrmm").val(); 
+		
+		   if (!document.getElementById("mm").value) {
+            layer.open({
+                content: '密码不能为空！'
+                ,btn: '我知道了'
+            });
+            return;
+        }
+        if (!document.getElementById("qrmm").value) {
+            layer.open({
+                content: '确认密码不能为空！'
+                ,btn: '我知道了'
+            });
+            return;
+        }
+
+        if (document.getElementById("qrmm").value != document.getElementById("mm").value){
+            layer.open({
+                content: '确认密码必须与密码相同！'
+                ,btn: '我知道了'
+            });
+            return;
+        }
+
+	   	$.ajax({
+	        url: WEB_API_URL+"reg/midfy_telpasswd",
+	        type: "Post",
+	        data: {dianhua:dianhua,password:password},
+	        dataType:'json',
+	        async:false,
+	        success: function (result){
+	        	if(result.status == '0') {
+                  	localStorage.CURRENT_USER_ID = "";
+					localStorage.CURRENT_USER_TypeLX = "";  
+					layer.open({
+						content: result.msg
+						,yes: function(index){
+							location.href = "/login/index"
+						}
+						,btn: '我知道了'
+					});
+
+                }else{
+					layer.open({
+						content: result.msg
+						,btn: '我知道了'
+					});
+                }
+	        }
+	         
+	  	})
+ 
+    }
+
+    wx.config({
+        debug: false,//关闭调试模式
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        /*appId: 'xxxxxx',
+         timestamp: xxxxx,
+         nonceStr: 'xxxxx',
+         signature: 'xxxxx',*/
+
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+    wx.ready(function () {
+
+        // 2. 分享接口
+        // 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+        wx.onMenuShareAppMessage({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://zt.wisecareer.org/login/newpass',
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //   window.location.href = 'http://m.duolehuan.com/';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+
+        // 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://zt.wisecareer.org/login/newpass',
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //window.location.href = '';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+    });
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

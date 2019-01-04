@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.character>p{
+			font-size: 14px;
+			padding-bottom: 5px;
+			color: #666;
+			text-indent: 28px;
+		}
+		td{color: #666;font-size: 14px;line-height: 24px;height: 24px}
+		td>h3{color: #666;font-size: 16px;font-weight: bold;}
+		table td>h2{
+			color: #666;font-size: 16px;line-height: 36px;
+		}
+		.width50_100{display: inline-block}
+		input.dingyue{background: #00bb0c;color: #fff;width: 75px;height: 36px;line-height: 36px;border-radius: 5px;font-size: 16px}
+	</style>
+</head>
+<body>
+<!-- head -->
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">学科动态</h1>
+		<a href="javascript:history.go(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+
+		<div class="cleardiv20"></div>
+	</div>
+</div>
+
+
+<script>
+	var load_index =layer.open({type: 2, shadeClose: false});
+	var uid = localStorage.CURRENT_USER_ID;
+
+	Request = GetRequest();
+
+
+	var did = getUrlParam("did");
+	var id = '';
+	var titlename = decodeURI(GetQueryString("titlename"));
+
+	$.getJSON(WEB_API_URL + "dynamic/subjectlist?"+Request, {token: uid}, function (json) {
+		var data =json.data;
+		var str1 = "";
+		var stop='';
+		if(data !=''){
+			$.each(data, function (index, array) {
+//			if(array['has']==false){
+//				stop='订阅';
+//			}else{
+//				stop='延期';
+//			}
+				str1 +='<div class="inner"><table width="100%"><tr><td colspan="3" style="height: 10px;line-height: 10px">&nbsp;</td></tr><tr><td width="80" rowspan="4"><img src="'+array['pic']+'" alt="" width="100%"/></td>';
+				str1 +='<td colspan="2" style="height: 10px;line-height: 10px">&nbsp;</td><td width="60" rowspan="3" align="right"><input type="button" value="订阅" class="dingyue btn" id="'+array['tpid']+'"/></td>';
+				str1 +='</tr><tr><td width="10">&nbsp;</td><td valign="middle"><h3>'+array['tpname']+'动态</h3></td>';
+				str1 +='</tr><tr><td width="10">&nbsp;</td><td valign="middle">订阅人数:&nbsp;'+array['num']+'</td>';
+				str1 +='</tr><tr><td width="10">&nbsp;</td><td colspan="2" valign="middle" style="color: #00bb0c">'+array['description']+'</td></tr><tr><td colspan="3" style="height: 10px;line-height: 10px">&nbsp;</td></tr></table></div><div class="cleardiv5" style="background: #ebebeb"></div>';
+			});
+		}else{
+			layer.open({
+				content: '您已全部订阅学科动态！',
+				btn: '我知道了',
+				shadeClose: false,
+				yes: function(){
+					window.location.href="/dynamic/index";
+				}
+			});
+		}
+		$('div.mycontent').html(str1);
+
+		layer.close(load_index);
+	})
+
+$('.dingyue').live('click',function(){
+	id=$(this).attr('id');
+	$.ajax({
+		type:"POST",
+		url:WEB_API_URL+"dynamic/subjectadd?",
+		data:"token="+uid+"&classid="+id,
+		cache:false, //不缓存此页面
+		success:function(data){
+			if(data.status==0){
+				layer.open({
+					content: '已成功添加此学科动态！'
+					,shadeClose: false
+					,btn: '知道了',
+					yes:function(index){
+						location.href='/dynamic/index/';
+						layer.close(index);
+					}
+				});
+			}else{
+				layer.open({
+					content: data.msg
+					,shadeClose: false
+					,btn: '知道了',
+					yes:function(index){
+						location.href='/dynamic/index/';
+						layer.close(index);
+					}
+				});
+			}
+		}
+	});
+})
+
+</script>
+
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/dynamic/subject_list');
+	});
+
+</script>
+
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/dynamic/subject_list',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/dynamic/subject_list',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

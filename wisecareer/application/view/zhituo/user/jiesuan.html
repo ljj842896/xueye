@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="http://www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="http://www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script type="text/javascript" src="http://www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="http://www.wisecareer.org/css/zhituo/layui.css"  media="all">
+	<link rel="stylesheet" href="http://www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script type="text/javascript" src="/static/zhituo/js/base.min.js"></script>
+	<script type="text/javascript" src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		h3.title{
+			line-height: 36px;
+			font-size: 14px;
+		}
+		.danxuan2>li{
+			margin-bottom: 10px;
+			line-height: 36px;
+			height: 36px;
+		}
+		td{
+			line-height: 24px;
+		}
+		label{
+			display: block;
+			line-height: 50px;
+		}
+		#chongzhi{position: fixed;bottom: 0;left: 0;background: #fff}
+
+		#dq table td{
+			font-size: 14px;
+			line-height: 26px;
+			color: #666;
+		}
+		#zf h6{
+			line-height: 50px;
+			border: none;
+			font-size: 14px;
+			padding: 0 10px 0 35px;
+			background: url(//www.wisecareer.org/images/xueye/icon/weixin_16.png) no-repeat 10px center;
+		}
+		#zf h6:active{
+			background: #ebebeb url(//www.wisecareer.org/images/xueye/icon/weixin_16.png) no-repeat 10px center;
+		}
+		#zf h6#card {
+			background: url(//www.wisecareer.org/images/zhituo/icon/zf.png) no-repeat 10px center;
+		}
+		#zf h6#card:active{
+			background: #ebebeb url(//www.wisecareer.org/images/zhituo/icon/zf.png) no-repeat 10px center;
+		}
+		#money1,#money2{
+			position: relative;
+			top: 2px;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">我的体验套餐</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+
+
+<div id="dBody">
+	<div class="mycontent experience" style="height:100%;margin: 0">
+		<div class="cleardiv50"></div>
+			<form action="https://wapi.wisecareer.org/Wx/meal_wxpay_en" class="inner" id="myform" method="post">
+				<div id="bz">
+
+				</div>
+				<div class="cleardiv10" style="border-top: 1px solid #ebebeb"></div>
+				<div id="zf" style="">
+					<h3 class="title" style="padding-top: 10px">选择支付方式</h3>
+					<h6 style="line-height: 50px"><label for="money1" style="display: block">微信支付 <span class="floatright"><input type="radio" name="money" value="wx" id="money1"/>&nbsp;&nbsp;</span></label></h6>
+					<h6 id="card" style="line-height: 50px"><label for="money2" style="display: block">职拓币支付 <span class="floatright">余额：<span id="ye" style="color: red;font-weight: bold"></span>&nbsp;&nbsp;<input type="radio" name="money" value="yu"  id="money2"/>&nbsp;&nbsp;</span></label></h6>
+					<div class="cleardiv20"></div>
+					　<input type="hidden" id="token" name="token"/>
+					　<input type="hidden" id="tpid"  name="tpid"/>
+					　<input type="hidden" id="action"  name="action" />
+				</div>
+			</form>
+	</div>
+</div>
+
+<table width="100%" id="chongzhi" style="border-top: 1px solid #ebebeb;padding: 5px 0">
+	<tr>
+		<td width="5%"></td>
+		<td width="55%">总计&nbsp;&nbsp;￥&nbsp;<span class="font_red"><span id="money">0</span>.00 元</span></td>
+		<td width="40%"><input type="button" value="去支付" class="btn_yes recharge" onclick="jiesuan()"  style="margin:0;width: 100%;height: 40px"/></td>
+	</tr>
+</table>
+
+<script>
+	$(function(){
+		isHaveLogin('/user/jiesuan');
+	});
+</script>
+<script src="http://www.wisecareer.org/js/xueye/layui.js"></script>
+<script>
+
+	Request = GetRequest();
+	var eid = localStorage.CURRENT_USER_ID;
+	var tpid = getUrlParam("tpid");
+	var basics=0;
+	var num = null;
+
+
+	$.ajax({ url:WEB_API_URL + "experience/case_deail_set?" + Request, async: false,data:{token: eid,tpid:tpid}, success: function(json){
+		var data=json.data;
+		var coa_eval='';
+		var en_case='';
+		var aislenum='';
+		num=parseInt(data.aislenum);
+//		var aisle_list=data.aisle_list.join('，');
+		if(data.aislenum==0){aislenum='全部通道'}else{aislenum='<span style="color: red;font-weight: bold">'+data.aislenum+'</span> 条'}
+		if(data.coa_eval==0){coa_eval='未开通'}else{coa_eval='<span style="color: red;font-weight: bold">'+data.coa_eval+'</span> 条'}
+		if(data.en_case==0){en_case='未开通'}else{en_case='开通'}
+		var str1='<div class="cleardiv10"></div>';
+		str1+='<h3 class="title" onclick="location.href=\'/user/gai1\'">体验主题数<span class="floatright">&nbsp;&nbsp;&nbsp;<img src="http://www.wisecareer.org/images/zhituo/icon/arrow-right.png" alt="" height="12"/></span><span class="floatright">'+aislenum+'</span></h3>';
+		str1+='<div class="cleardiv10"></div>';
+		str1+='<h3 class="title" onclick="location.href=\'/user/gai2?num='+data.aislenum+'\'">体验主题<span class="floatright">&nbsp;&nbsp;&nbsp;<img src="http://www.wisecareer.org/images/zhituo/icon/arrow-right.png" alt="" height="12"/></span><span class="floatright" style="width: 60%;height:36px;line-height:36px;overflow: hidden;text-align: right;white-space: nowrap;text-overflow: ellipsis;">'+data.aisle_list+'</span></h3>';
+		str1+='<div class="cleardiv10"></div>';
+		str1+='<h3 class="title" onclick="location.href=\'/user/gai3\'">套餐时间<span class="floatright">&nbsp;&nbsp;&nbsp;<img src="http://www.wisecareer.org/images/zhituo/icon/arrow-right.png" alt="" height="12"/></span><span class="floatright"><span style="color: red;font-weight: bold">'+data.months+'</span> 月</span></h3>';
+		str1+='<div class="cleardiv10"></div>';
+		str1+='<h3 class="title" onclick="location.href=\'/user/gai3\'">英文案例体验<span class="floatright">&nbsp;&nbsp;&nbsp;<img src="http://www.wisecareer.org/images/zhituo/icon/arrow-right.png" alt="" height="12"/></span><span class="floatright">'+en_case+'</span></h3>';
+		str1+='<div class="cleardiv20"></div>';
+		$('div#bz').html(str1);
+		$('#money').html(data.money);
+		$('#ye').html(data.balance);
+	}
+	})
+
+
+
+	function jiesuan(){
+		var money=$('input:radio[name="money"]:checked').val();
+		if (money == null) {
+			layer.open({
+				content: '请选择支付方式'
+				, shadeClose: false
+				, btn: '我知道了'
+			});
+		}else if(money =='wx'){
+			layer.open({
+				content: '您确定要支付吗？'
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					$('#token').val(eid);
+					$('#tpid').val(tpid);
+					$('#action').val(money);
+					$("#myform").submit();
+					layer.close(index);
+				}
+			});
+		}else {
+			layer.open({
+				content: '您确定要支付吗？'
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					$.ajax({
+						url: WEB_API_URL + "experience/dopay_set",
+						type: 'POST',
+						dataType: 'json',
+						data: {token: eid, tpid: tpid,action:money},
+						async: false,
+						success: function (result) {
+							if (result.status == 0) {
+//						window.location.href = '/experience/write_plan/';
+								layer.open({
+									content: '支付成功'
+									, shadeClose: false
+									, btn: '我知道了'
+									,yes:function(){
+										window.location.href = '/index/index/';
+									}
+								});
+							} else {
+								layer.open({
+									content: result.msg
+									, shadeClose: false
+									, btn: '我知道了'
+								});
+							}
+						}
+					})
+					layer.close(index);
+				}
+			});
+		}
+	}
+
+</script>
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>
+
+
+<script>
+
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/jiesuan',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/jiesuan',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>

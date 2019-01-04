@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/experience.css"/>
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/interface.css"/>
+	<!--[if IE]>
+	<script src="//www.wisecareer.org/js/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<body>
+<!-- head -->
+
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">现场实习</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<form id="bomb_box" >
+	<ul id="box_content">
+		<li>请输入你所在模拟实习空间6位退出码</li>
+		<li><input type="number" id="bomb_text"/>&nbsp;&nbsp;&nbsp;<span id="bomb_tishi" style="color: #666"></span></li>
+		<li style="padding: 5px 0 0 0;text-align: center;"><input type="button" id="bomb_btn" class="btn_yes" value="确定" style="margin: 10px auto"/></li>
+	</ul>
+</form>
+
+<script>
+	$(function(){
+		isHaveLogin('/scene/close');
+	});
+	Request = GetRequest();
+	var uid = localStorage.CURRENT_USER_ID;
+	var num='';
+	$('#bomb_btn').click(function(){
+
+		num = $('#bomb_text').val();
+
+		if(num==""){
+			$("#bomb_tishi").html("此处不能为空");
+			$("#bomb_tishi").css('color','red');
+			return;
+		}
+		if(num.length<6||num.length>6){
+			$("#bomb_tishi").html("退出码位数错误");
+			$("#bomb_tishi").css('color','red');
+
+		}else{
+
+			$.ajax({
+				url: WEB_API_URL+"activity/input_activity",
+				type: 'POST',
+				dataType: 'json',
+				data:{token: uid,code:num},
+				async:false,
+				success: function (result){
+					if(result.status == '0') {
+						layer.open({
+							content: '恭喜你，已顺利退出。'
+							,btn: '我知道了'
+							,shadeClose: false
+							,yes: function(index){
+								window.location.href="/scene/history";
+							}
+						});
+					}else{
+						layer.open({
+							content: '你的退出码错误，请再次核对。'
+							,shadeClose: false
+							,btn: '我知道了'
+						});
+					}
+				}
+			});
+
+		}
+
+	});
+	$("#bomb_text").focus(function(){
+		$(this).val("");
+		$("#bomb_tishi").html("请输入6位退出码");
+		$("#bomb_tishi").css('color','#666');
+	})
+	$("#bomb_text").blur(function(){
+		var nick = $("#bomb_text").val();
+		if(nick==""){
+			$("#bomb_tishi").html("此处不能为空");
+			$("#bomb_tishi").css('color','red');
+			return;
+		}
+		if(nick.length<6||nick.length>6){
+			$("#bomb_tishi").html("退出码位数错误");
+			$("#bomb_tishi").css('color','red');
+			return;
+		}
+	})
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/scene/close',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/scene/close',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+</script>
+
+
+<div id="dFoot">
+	<div class="body-nav">
+		<ul>
+			<li><a onclick="location.href='/index/index/'"><i class="icon-nav-1"></i>首页</a></li>
+			<li><a onClick="goPermissionUrl('/message/index.html');"><i class="icon-nav-2"></i>消息</a></li>
+			<li><a onClick="goPermissionUrl('/user/index.html');"><i class="icon-nav-5"></i>个人中心</a></li>
+		</ul>
+	</div>
+</div>
+
+
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

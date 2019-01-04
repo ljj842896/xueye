@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link href="//www.wisecareer.org/css/zhituo/jiaolian_list.css" type="text/css" rel="stylesheet" />
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<!--[if IE]>
+	<script src="//www.wisecareer.org/js/html5shiv.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		input.jiaolian_btn{
+			width: 110px;
+			height: 40px;
+			background: #f58020;
+			color: #fff;
+		}
+		td.star>img{
+			width: 18px;
+			padding-right: 5px;
+		}
+		ul#zhishu>li{
+			width: 50%;
+			float: left;
+		}
+		td#name{
+			font-size: 16px;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">明星教练</h1>
+		<a href="/jiaolian/index" class="return"><i class="return-right"></i></a>
+	</div>
+
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+
+	</div>
+</div>
+
+
+
+<script>
+	$(function(){
+		isHaveLogin('/jiaolian/star');
+	});
+
+	$('.danxuan>li>a').click(function(){
+		$('.danxuan>li>a').removeClass("this");
+		$('.danxuan>li>img').hide();
+		$(this).addClass("this");
+		$(this).next().show();
+		var lx = $(this).attr('tag');
+		$("#lx").val(lx);
+	});
+
+	Request = GetRequest();
+	var uid = localStorage.CURRENT_USER_ID;
+	var id='';
+		$.getJSON(WEB_API_URL + "star/star?" + Request, {token: uid}, function (json) {
+			var str1 = "";
+			var str2 = "";
+			var str3 = "";
+			$.each(json.data, function (index, array) {
+
+					var b = array['label'].join(' | ');
+					str1 += '<table width="100%" class="jiaolian_details">';
+					str1 += '<tr><td width="10"></td><td width="80" rowspan="3"><img src="'+array['myInfo']['pic']+'" alt="" width="100%"  onclick="location.href=\'/jiaolian/space?id='+array['id']+'\'"/></td>';
+					str1 += '<td width="10"></td><td id="name">'+array['myInfo']['coach_nickname']+'</td><td width="10"></td></tr>';
+					str1 += '<tr><td width="10"></td><td width="10"></td><td class="star">'+array['grade']+'</td><td width="10"></td></tr>';
+					str1 += '<tr><td width="10"></td><td width="10"></td><td style="line-height: 20px">'+b+'</td><td width="10"></td></tr>';
+					str1 += '<tr><td width="10"></td><td colspan="3"><ul id="zhishu"><li><span>教育家指数：<span style="font-weight: bold">'+array['jifen']+'</span> </span></li><li><span>被关注人数：<span style="font-weight: bold">'+array['atten_num']+'</span> 人</span></li></ul></td> <td width="10"></td></tr>';
+					str1 += '<tr><td width="10"></td><td colspan="3">代言职业：'+array['zhiye']+'</td><td width="10"></td></tr>';
+					str1 += '<tr><td colspan="5" style="height: 5px;line-height: 5px">&nbsp;</td></tr>';
+					if(array['attention']==0){
+						str1 += '<tr><td colspan="5" style="height: 40px;line-height: 40px"><ul id="zhishu"><li style="text-align: center"><a style="text-decoration: underline;color: #f58020" href="/jiaolian/space?id='+array['id']+'">进入教练空间</a></li><li style="text-align: center"><a class="a_btn" id="'+array['id']+'" onclick="gz(this);" stop="0" style="color:#929292"><img src="http://www.wisecareer.org/images/zhituo/icon/heart_b.png" alt="" height="18" style="position: relative;top: 3px"/> 关注教练</a></li></td></tr>';
+					}else{
+						str1 += '<tr><td colspan="5" style="height: 40px;line-height: 40px"><ul id="zhishu"><li style="text-align: center"><a style="text-decoration: underline;color: #f58020" href="/jiaolian/space?id='+array['id']+'">进入教练空间</a></li><li style="text-align: center"><a class="a_btn" id="'+array['id']+'" onclick="gz(this);" stop="1" style="color:#f58020"><img src="http://www.wisecareer.org/images/zhituo/icon/heart.png" alt="" height="18" style="position: relative;top: 3px"/> 已关注</a></li></td></tr>';
+					}
+					str1 += '</table><div class="cleardiv5" style="background: #ebebeb"></div>';
+
+			});
+			$('div.mycontent').append(str1);
+		});
+	function gz(a){
+		id=$(a).attr('id');
+		var stop=$(a).attr('stop');
+		$.ajax({
+			url: WEB_API_URL+"star/attenrecom",
+			type: 'POST',
+			dataType: 'json',
+			data: {token:uid,type:1,uid:id},
+			async:false,
+			success: function (result){
+				if(result.status == '0') {
+					if(stop==0){
+						layer.open({
+							content: '关注成功'
+							,skin: 'msg'
+							,time: 2 //2秒后自动关闭
+						});
+						$(a).html('<img src="http://www.wisecareer.org/images/zhituo/icon/heart.png" alt="" height="18" style="position: relative;top: 3px"/> 已关注');
+						$(a).attr('stop','1');
+						$(a).css('color','#f58020');
+					}else{
+						layer.open({
+							content: '取消关注'
+							,skin: 'msg'
+							,time: 2 //2秒后自动关闭
+						});
+						$(a).html('<img src="http://www.wisecareer.org/images/zhituo/icon/heart_b.png" alt="" height="18" style="position: relative;top: 3px"/> 关注教练');
+						$(a).attr('stop','0');
+						$(a).css('color','#929292');
+					}
+				}
+			}
+		})
+	}
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/jiaolian/star',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/jialian/star',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

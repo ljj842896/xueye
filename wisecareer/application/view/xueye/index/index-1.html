@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//xueye.wisecareer.org/css/xueye/yuan.css"/>
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<style>
+		html,body{
+			height: auto;
+		}
+		#demo{
+			position: relative;
+			width: 100%;
+		}
+		#circle_num>h4{
+			color: #fff;
+			line-height: 30px;
+		}
+
+		@media all and (min-width: 375px) {
+			#dBody{
+				bottom: 130px;
+			}
+			#dFoot{
+				height: 125px;
+			}
+			#dFoot>#jiaxiang{
+				position: fixed;
+				bottom: 105px;
+				left: 50%;
+				margin-left: -30px;
+				z-index: 2000;
+			}
+			#dFoot>table{
+				padding: 20px 0
+			}
+			#dFoot>table#table_1 td{
+				line-height: 80px;
+			}
+			#dFoot>table#table_2 td{
+				line-height: 35px;
+			}
+		}
+		@media (min-width:320px) and (max-width:375px) {
+			#dBody{
+				bottom: 120px;
+			}
+			#dFoot{
+				height: 115px;
+			}
+			#dFoot>#jiaxiang{
+				position: fixed;
+				bottom: 95px;
+				left: 50%;
+				margin-left: -30px;
+				z-index: 2000;
+			}
+			#dFoot>table{
+				padding: 20px 0
+			}
+			#dFoot>table#table_1 td{
+				line-height: 70px;
+			}
+			#dFoot>table#table_2 td{
+				line-height: 30px;
+			}
+		}
+		@media all and (max-width: 320px) {
+			#dBody{
+				bottom: 110px;
+			}
+			#dFoot{
+				height: 105px;
+			}
+			#dFoot>#jiaxiang{
+				position: fixed;
+				bottom: 85px;
+				left: 50%;
+				margin-left: -30px;
+				z-index: 2000;
+			}
+			#dFoot>table{
+				padding: 20px 0
+			}
+			#dFoot>table#table_1 td{
+				line-height: 60px;
+			}
+			#dFoot>table#table_2 td{
+				line-height: 25px;
+			}
+		}
+
+		.danxuan3>li{
+			background: none;
+			line-height: 30px;
+			height: 30px;
+		}
+		.danxuan3>li>a.this{
+			background: none;
+			border: 1px dashed #fff;
+			color: #fff;
+		}
+		.btn_yes{
+			background: #fff;
+			color: #666;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">&nbsp;&nbsp;智能学业导航</h1>
+		<a class="return" href="/session.php" style="top: 3px;color: #fff;font-size: 14px"><img src="//xueye.wisecareer.org/images/xueye/icon/weizhi.png" alt="" height="16"/> {$citydiqu}</a>
+	</div>
+</div>
+
+<div id="dBody2" style="top:55px;bottom: 110px">
+	<div class="mycontent" style="height:100%;background: #fff;margin: 0">
+		<div class="cleardiv20"></div>
+		<div class="cleardiv5"></div>
+		<div class = "wrapper" >
+			<ul class = "menu" >
+				<li>
+					<div class="prize" onclick="location.href='/presentation/major/'">
+						<h3><img src="//xueye.wisecareer.org/images/xueye/home.png" alt="" class="img"/></h3>
+						<p class="p_title">收藏专业</p>
+						<br/>
+					</div>
+				</li>
+				<li>
+					<div class="prize" onclick="location.href='/jcyj/details/'">
+						<h3><img src="//xueye.wisecareer.org/images/xueye/home2.png" alt="" class="img"/></h3>
+						<p class="p_title">决策树</p>
+						<!--<img src="//zxedu.wisecareer.org/images/tanhao.png" alt="" width="25" class="yujing"/>-->
+						<br/>
+					</div>
+				</li>
+				<li>
+					<div class="prize" onclick="location.href='/dynamic/index/'">
+						<h3><img src="//xueye.wisecareer.org/images/xueye/home3.png" alt="" class="img"/></h3>
+						<p class="p_title">学科动态</p>
+						<br/>
+					</div>
+				</li>
+				<li>
+					<div class="prize" onclick="location.href='/presentation/index/'">
+						<h3><img src="//xueye.wisecareer.org/images/xueye/home4.png" alt="" class="img"/></h3>
+						<p class="p_title">我的报告</p>
+						<!--<img src="//zxedu.wisecareer.org/images/tanhao.png" alt="" width="25" class="yujing"/>-->
+						<br/>
+					</div>
+				</li>
+				<img src="//xueye.wisecareer.org/images/xueye/yuan2.png" alt="" width="100%"/>
+				<img src="//xueye.wisecareer.org/images/xueye/yuan_green.png" alt="" width="40%" id="yuan_blue"/>
+				<img src="{$userpic}" alt="" style="width:35vw;height: 35vw" class="li_num" id="li_num2" onclick="location.href='/presentation/index/'"/>
+				<img src="//xueye.wisecareer.org/images/xueye/20170711143700_510.png" alt="" style="width:35vw;height: 35vw" class="li_num" id="li_num1"/>
+				<script>
+					var height=document.getElementById('li_num2');
+					var n=true;
+					setInterval(function(){
+						if(n==true){
+							$('#li_num2').fadeOut(1500);
+							$('#li_num1').fadeIn(1500);
+							n=false;
+						}else{
+							$('#li_num1').fadeOut(1500);
+							$('#li_num2').fadeIn(1500);
+							n=true;
+						}
+					},3000)
+				</script>
+
+			</ul>
+			<div class="cleardiv20"></div>
+		</div>
+		</div>
+</div>
+
+<div class="show_hide" {if $Think.session.SESSION_USER_CITYID >0 } style="display:none" {/if}
+<form method="POST" name="myform"  id="myform" action="/session.php">
+	<div class="class_bg"></div>
+	<div class="class_content" style="background: none">
+		<h2 style="font-size: 20px">选择考区</h2>
+		<div class="cleardiv5"></div>
+		<h6 style="border-bottom: 1px solid #fff"></h6>
+		<div class="cleardiv10"></div>
+		<ul class="danxuan3 clear">
+	 </ul>
+		<input type="button" value="确 定" class="btn_yes" onClick="city()"/>
+	</div> 
+    </form>
+</div> 
+<div id="dFoot" style="background: none;border-top: 5px solid #ebebeb">
+	<img src="//xueye.wisecareer.org/images/xueye/jia_xiang.png" alt="" id="jiaxiang"/>
+	<table style="background: #fff;color: #666;" width="100%" id="table_1">
+		<tr>
+			<td align="center" style="border-right: 1px solid #ebebeb;font-size: 16px" onclick="location.href='/aggregate/major_search/'">专业检索</td>
+			<td align="center" style="font-size: 16px" onclick="location.href='/aggregate/school_search/'">大学检索</td>
+			<td align="center" style="border-left: 1px solid #ebebeb;font-size: 16px;position: relative" onclick="location.href='/index/selection/'">高考3+3</td>
+		</tr>
+	</table>
+	<table style="background: #fff;color: #666;display: none" width="100%"  id="table_2">
+		<tr>
+			<td align="center" style="border-right: 1px solid #ebebeb;font-size: 16px" onclick="location.href='/aggregate/major_search/'">专业检索</td>
+			<td align="center" style="font-size: 16px" onclick="location.href='/aggregate/school_search/'">大学检索</td>
+			<td align="center" style="border-left: 1px solid #ebebeb;font-size: 16px;position: relative" onclick="location.href='/index/selection/'">高考3+3</td>
+		</tr>
+		<tr>
+			<td style="line-height: 4px">&nbsp;</td>
+			<td style="line-height: 4px">&nbsp;</td>
+			<td style="line-height: 4px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="line-height: 1px;background: #ebebeb">&nbsp;</td>
+			<td style="line-height: 1px;background: #ebebeb">&nbsp;</td>
+			<td style="line-height: 1px;background: #ebebeb">&nbsp;</td>
+		</tr>
+		<tr>
+			<td style="line-height: 4px">&nbsp;</td>
+			<td style="line-height: 4px">&nbsp;</td>
+			<td style="line-height: 4px">&nbsp;</td>
+		</tr>
+		<tr>
+			<td align="center" style="border-right: 1px solid #ebebeb;font-size: 16px" onclick="location.href='/collection/index/'">关注高校</td>
+			<td align="center" style="font-size: 16px" onclick="location.href='/aggregate/major/'">专业排名</td>
+			<td align="center" style="border-left: 1px solid #ebebeb;font-size: 16px;position: relative" onclick="location.href='/user/index/'">个人中心</td>
+		</tr>
+	</table>
+</div>
+
+<script>
+	var uid = localStorage.CURRENT_USER_ID;
+	Request = GetRequest()
+
+	$('#jiaxiang').toggle(function(){
+		$(this).attr('src','//xueye.wisecareer.org/images/xueye/jian_xiang.png');
+		$('#table_1').fadeOut(500,function(){$('#table_2').fadeIn(500)});
+
+	},function(){
+		$(this).attr('src','//xueye.wisecareer.org/images/xueye/jia_xiang.png');
+		$('#table_2').fadeOut(500,function(){$('#table_1').fadeIn(500)});
+	});
+	$('.danxuan3>li>a').live('click',function(){
+		var tag = $(this).attr('tag');
+
+		$('.danxuan3>li>input[type="hidden"]').remove();
+		$(this).after('<input name="cityid" type="hidden"  value='+tag+' />' )  
+ 
+		$('.danxuan3>li>a').removeClass("this");
+		$('.danxuan3>li>img').hide();
+		$(this).addClass("this");
+		$(this).next().next().show();
+	});
+
+
+	function scrollLoad() {
+		$.getJSON(WEB_API_URL + "classnamel/areaClass?"+Request, {token: uid}, function (json) {
+			var str1 = "";
+			$.each(json.data, function (index, array) {
+				str1 +='<li id="'+array['ar_id']+'"><a href="javascript:void(0);"  tag="'+array['ar_id']+'" style="display: block;padding:0;text-align: center">'+array['ar_name']+'</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes_bai.png" alt=""/></li>';
+			});
+			$('.show_hide .danxuan3').append(str1);
+		});
+
+	}
+	scrollLoad();
+
+	function city(){ 
+
+		if($('.danxuan3>li>a').is('.this')){
+		 	document.myform.submit(); 
+		}else{
+
+
+			layer.open({
+				content: '请选择你所在的考区'
+				,shadeClose: false
+,btn: '我知道了'
+			});
+		}
+	}
+
+
+//		(function(){
+//			var str='';
+//			str+='<table id="dongjie" width="70%">';
+//			str+='<tr><td>&nbsp;</td></tr><tr><td align="center">你帐号已被冻结！</td></tr>';
+//			str+='<tr><td>&nbsp;</td></tr><tr><td>&nbsp;</td></tr><tr><td align="center"><input type="button" value="我知道了！" onclick="location.href=\'http://jiaolian.wisecareer.org/login/loginout\'"/></td></tr>';
+//			str+='</table>';
+//			str+='<div id="dongjie_zhezhao"></div>';
+//			$('body').append(str);
+//		})();
+
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

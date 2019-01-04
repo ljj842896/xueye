@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link href="/static/xueye/css/user_info.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//www.wisecareer.org/left_and_right_slide/css/idangerous.swiper.css">
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/public/js/jquery.mousewheel.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		#city{
+			background:none;
+			width: auto;
+			padding-right: 10px;
+		}
+		h3{
+			line-height: 20px;
+			font-size: 14px;
+			padding: 5px 0;
+		}
+		h3>select#city{
+			font-size: 16px;
+			font-weight: bold;
+			text-decoration:underline ;
+		}
+		h5{
+			cursor: pointer;
+			line-height: 40px;
+			font-size: 14px;
+			color: #fff;
+			padding-left: 20px;
+			background-image: url("//xueye.wisecareer.org/images/xueye/icon/arrow-right-xiao.png");
+			background-repeat: no-repeat;
+			background-position: right center;
+			margin-bottom: 5px;
+			background-color: #fff;
+		}
+
+		{if $Think.get.action == "advantage"}
+			h5,span#data{color:#70da84;}
+			{elseif $Think.get.action == "selection" }
+			h5,span#data{color:#6adad9;}
+			{elseif $Think.get.action == "major"}
+			h5,span#data{color:#ff7374;}
+			{elseif $Think.get.action == "character" }
+			h5,span#data{color: #ffba7c;}
+			{/if}
+
+
+		td{line-height: 30px;font-size: 14px;color: #666}
+		span.space{width: 20px;display: inline-block;}
+		select#shoucang{
+			line-height: 30px;
+			border: solid 1px rgba(0,0,0,0.3);
+			padding: 0 2.5%;
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">竞争数据</h1>
+		<a href="/dynamic/chart" class="return"><i class="return-right"></i></a>
+
+		<a href="/index/index.html" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle;width: 25px"/></a>
+	</div>
+<script>
+	var uid = localStorage.CURRENT_USER_ID;
+	$.getJSON(WEB_API_URL + "care/proportion?action={$Think.get.action}", {token: uid}, function (json) {
+
+		var str1 = "";
+		if(json.status != 0){
+			layer.open({
+				content: "抱歉呀！大数据服务只面向个人付费会员（职拓粉儿）开放哟 ：）"
+				,shadeClose: false
+				,btn: ['成为会员', '返回']
+				,yes: function(index){
+					location.href = "/user/wallet/";
+					layer.close(index);
+				},no:function(index){
+					location.href = "/dynamic/chart/";
+					layer.close(index);
+				}
+			});
+		}
+		if(json.data =='' || json.data ==null){
+			layer.open({
+				content: json.msg
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index){
+					location.href = "/dynamic/chart";
+					layer.close(index);
+				}
+			});
+		}
+		$('span#data').html(json.data);
+	})
+</script>
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+			<table width="100%" style="padding: 10px 0">
+				<tr>
+					<td width="80" align="left">
+						{if $Think.get.action == "advantage"}
+						<img src="/static/xueye/images/icon/shuju_icon1.png" alt="" width="50"/>
+						{elseif $Think.get.action == "selection" }
+						<img src="/static/xueye/images/icon/shuju_icon2.png" alt="" width="50"/>
+						{elseif $Think.get.action == "major"}
+						<img src="/static/xueye/images/icon/shuju_icon3.png" alt="" width="50"/>
+						{elseif $Think.get.action == "character" }
+						<img src="/static/xueye/images/icon/shuju_icon4.png" alt="" width="50"/>
+						{/if}
+
+					</td>
+					<td><h3>{if $Think.get.action == "advantage"}与我学科优势（<span id="data"></span>）相同的人{elseif $Think.get.action == "selection"}与我的选科组合(<span id="data"></span>)相同的人{elseif $Think.get.action == "major"}与我关注同样专业的人{elseif $Think.get.action == "character"}与我性格类型(<span id="data"></span>)相同的人{/if}</h3></td>
+					<!--<td>占比：</td>-->
+				</tr>
+					{if $Think.get.action == "major"}
+				<tr><td colspan="2" style="line-height: 5px">&nbsp;</td></tr>
+                <tr>
+					<td colspan="2">
+						<select name="" id="shoucang" onchange="javascript:location=this.options[this.selectedIndex].value;">
+							<option value="">请选择关注专业</option>
+						</select>
+					</td>
+                </tr>
+                   {/if}
+			</table>
+		</div>
+	 <div class="cleardiv5"></div>
+     {if ($Think.get.action == "major" && $Think.get.eid >0) || $Think.get.action == "character" || $Think.get.action == "advantage"  || $Think.get.action == "selection" }
+     {if $Think.get.action != "advantage"}
+            <h5 onclick="gourl('/dynamic/data_content/?action={$Think.get.action}&act=1&eid={$Think.get.eid}')">优势学科分布</h5>
+     {/if}
+			<!--<h5 onclick="location.href='/dynamic/data_content/?action={$Think.get.action}&act=2&eid={$Think.get.eid}'">学科订阅分布</h5>-->
+			<h5 onclick="gourl('/dynamic/data_content/?action={$Think.get.action}&act=7&eid={$Think.get.eid}')">文理倾向分布</h5>
+			<h5 onclick="gourl('/dynamic/data_content/?action={$Think.get.action}&act=4&eid={$Think.get.eid}')">人气专业排名</h5>
+			<h5 onclick="gourl('/dynamic/data_content/?action={$Think.get.action}&act=5&eid={$Think.get.eid}')">专业方向分布</h5>
+             {if $Think.get.action != "selection"}
+			<h5 onclick="gourl('/dynamic/data_content/?action={$Think.get.action}&act=6&eid={$Think.get.eid}')">选科组合分布</h5>
+            {/if}
+			<!--<h5 onclick="location.href='/dynamic/data_content/?action={$Think.get.action}&act=3&eid={$Think.get.eid}'">行业去向分布</h5>-->
+      {/if}
+    <div class="cleardiv5"></div>
+			<!--<p style="color: #666">数据来源：全国 <span class="space">&nbsp;</span>样本规模：>10万</p>-->
+
+	</div>
+</div>
+
+<script>
+	$(function(){
+		isHaveLogin('/dynamic/data');
+	});
+	 
+	 
+ 	function gourl(url) {
+	    if(localStorage.CURRENT_USER_VIP == 0){
+            UserVip2()
+		}else{
+            location.href=url
+		}
+
+    }
+</script>
+<script src="//www.wisecareer.org/left_and_right_slide/js/idangerous.swiper-2.0.min.js"></script>
+<script>
+	$(function(){
+
+		//Init Navigation
+		var nav = $('.swiper-nav').swiper({
+			slidesPerView: 'auto',
+			freeMode:true,
+			noSwiping : true,
+			freeModeFluid:true,
+//			calculateHeight : true,
+			visibilityFullFit: true,
+			onSlideClick: function(nav){
+				pages.swipeTo( nav.clickedSlideIndex )
+			}
+		})
+
+		//Function to Fix Pages Height
+		function fixPagesHeight() {
+			$('.swiper-pages').css({
+				height: $(window).height()
+			})
+		}
+//		$(window).on('resize',function(){
+//			fixPagesHeight()
+//		})
+//		fixPagesHeight()
+
+		//Init Pages
+		var pages = $('.swiper-pages').swiper({
+			noSwiping : true,
+			onSlideChangeStart: function(){
+				$(".swiper-nav .active").removeClass('active')
+				$(".swiper-nav .swiper-slide").eq(pages.activeIndex).addClass('active')
+			},
+		})
+
+		var mySwiper = new Swiper('#banner',{
+			loop:true,
+			autoplay:5000,
+			calculateHeight : true,
+			pagination : '.pagination',
+
+			//其他设置
+		});
+
+        //Scroll Containers
+        $('.scroll-container').each(function(){
+            $(this).swiper({
+
+                mode:'vertical',
+                scrollContainer: true,
+                mousewheelControl: true,
+                scrollbar: {
+                    container:$(this).find('.swiper-scrollbar')[0]
+                }
+            })
+        })
+
+        //Gallery
+        var swiperGallery = $('.swiper-gallery').swiper({
+            mode: 'vertical',
+            slidesPerView: 'auto',
+            freeMode: true,
+            freeModeFluid: true,
+            scrollbar: {
+                container:$('.swiper-gallery .swiper-scrollbar')[0]
+            }
+        })
+
+
+
+	})
+
+	function showsubmenu(sid)
+	{
+		whichEl = eval("submenu" + sid);
+		if (whichEl.style.display == "none")
+		{
+			eval("submenu" + sid + ".style.display=\"\";");
+			$("#"+sid).attr("style","background-image:url('//xueye.wisecareer.org/images/xueye/icon/arrow-xia-xiao.png')");
+
+		}
+		else
+		{
+			eval("submenu" + sid + ".style.display=\"none\";");
+			$("#"+sid).attr("style","background-image:url('//xueye.wisecareer.org/images/xueye/icon/arrow-right-xiao.png')");
+
+		}
+	}
+	var uid = localStorage.CURRENT_USER_ID;
+	Request = GetRequest();
+
+	var geteid = getUrlParam('eid');
+	var action = getUrlParam('action');
+
+	$.getJSON(WEB_API_URL + "school/major_collection?"+Request, {token: uid}, function (json) {
+
+		var str1 = "";
+		var data =json.data; 
+		$.each(data.list, function (index, array) {
+			if( array['eid']==geteid) {
+				str1 += '<option value="?action=major&eid=' + array['eid'] + '" selected>' + array['titlename'] + '</option>';
+			}else{
+				str1 += '<option value="?action=major&eid=' + array['eid'] + '">' + array['titlename'] + '</option>';
+			}
+
+		})
+
+		$('select#shoucang').append(str1);
+	});
+
+
+
+
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/dynamic/data?action='+action,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/dynamic/data?action='+action,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

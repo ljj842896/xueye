@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link href="/static/xueye/css/user_info.css" type="text/css" rel="stylesheet" />
+	<link href="//xueye.wisecareer.org/css/xueye/input.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<script type="text/javascript">
+
+
+
+	</script>
+	<style>
+		table.youhui td h2,table.youhui td h3,table.youhui td p{
+			 color: #666;
+		}
+		table.youhui td h2{
+			font-size: 16px;
+			font-weight: bold;
+			line-height: 28px;
+		}
+		table.youhui td h3,table.youhui td p{
+			font-size: 12px;
+			line-height: 28px;
+		}
+		ul#youhui_list>li{
+			margin-bottom: 5px;
+		}
+	</style>
+</head>
+
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">优惠券</h1>
+		<a href="javascript:window.history.back(-1)" class="return" style="top: 5px"><i class="return-right"></i></a>
+		<a href="/index/index.html" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle;width: 25px"/></a>
+	</div>
+</div>
+
+<!-- user-info  -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<ul id="youhui_list">
+
+		</ul>
+	</div>
+</div>
+
+<!-- nav -->
+<script>
+	var uid = localStorage.CURRENT_USER_ID;
+
+	Request = GetRequest();
+	$.ajax({ url:WEB_API_URL +"user/card?", async: false,data:{token: uid}, success: function(json) {
+		var data=json.data;
+		var str1='';
+		var use='';
+		var color='';
+		var time='';
+		if(data==''){
+			str1='<li><div class="inner" style="padding: 0"></div><table width="100%" border="0" cellpadding="0" cellspacing="0" class="youhui"><tr><td align="center" valign="middle" style="line-height: 60px;font-size: 16px;color: #666">暂无优惠券</td></tr></table></li>';
+		}else{
+			$.each(data, function (index, array) {
+				str1+='<li><div class="inner" style="padding: 0"><table width="100%" border="0" cellpadding="0" cellspacing="0" class="youhui">';
+				str1+='<tr><td valign="middle" width="100" style="font-size: 28px;border-left: 3px solid #00bb0c" align="left" rowspan="5" >&nbsp;￥'+array['rate']+'</td>';
+				if(array['use']==1){
+					use='已使用';color='background: #aaa;';
+					time='使用时间：'+array['use_time'];
+				}else if(array['use']==0){
+					use='未领取';color='background: #00bb0c;';
+					time='有效期：'+array['kdate']+'-'+array['jdate'];
+				}
+				str1+='<td><div style="height: 10px"></div></td><td valign="middle" width="48" align="center" rowspan="5" style="'+color+'"><h1 style="width: 22px;padding: 5px 0;color: #fff;font-weight: bold;font-size: 14px">'+use+'</h1></td></tr>';
+				str1+='<tr><td><h2 style="">'+array['title']+'</h2></td></tr>';
+				str1+='<tr><td><h3>'+time+'</h3></td></tr>';
+				str1+='<tr><td><div style="height: 10px"></div></td></tr></table></div></li>';
+			});
+		}
+		$('ul#youhui_list').html(str1);
+	}});
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/user/card',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/user/card',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

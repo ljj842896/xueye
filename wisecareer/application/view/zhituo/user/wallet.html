@@ -1,0 +1,184 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link href="//www.wisecareer.org/css/zhituo/user_info.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<body>
+
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">我的账户</h1>
+		<a href="/user/index" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<!-- user-info  -->
+
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner wallet">
+			<div class="cleardiv10"></div>
+			<ul id="main_ul">
+				<li style="font-size: 16px;font-weight: bold">当前账户&nbsp; &nbsp;  <span id="dianhua"></span></li>
+				<li>账户类型&nbsp; &nbsp; <span id = "viptype"></span></li>
+				<li>当前余额&nbsp; &nbsp; <span id="balance" style="color: #f58020"></span>&nbsp;职拓币<span class="floatright"><input type="button" value="充&nbsp;值" id="recharge"  onclick="location.href='/user/auth'"/></span>
+					<!--<p class="font_red">学校包月用户可直接使用</p>-->
+				</li>
+
+			</ul>
+			<h4 class="zhankai" onclick="location.href='/user/recharge'" style="margin-top: 0;">充值记录</h4>
+			<h4 class="zhankai" onclick="location.href='/user/integral'">消费记录</h4>
+			<table></table>
+			<div class="cleardiv20"></div>
+			<div class="cleardiv20"></div>
+		</div>
+	</div>
+</div>
+
+<script>
+</script>
+<script type="text/javascript">
+	var token = localStorage.CURRENT_USER_ID
+	$.getJSON(WEB_API_URL + "user/ztwallet?"+Request, {'token': token}, function (json) {
+		if(json.status ==0){
+			var data = json.data;
+			$('#dianhua').html(data.dianhua);
+			if(data.status==2){
+				var viptypestr = '机构会员'
+			}else{
+				var viptypestr = '普通会员'
+			}
+			$('#viptype').html(viptypestr);
+			$('#balance').html(data.money);
+
+			var listr ='<li style="line-height: 36px">'
+			if(data.status==2 && data.days>0){
+				listr +='体验套餐 &nbsp; &nbsp; <span style="color: #f58020">到期时间：'+data.jsdate+'</span>'
+				listr +='<span class="floatright" style="margin-top: -3px"><input type="button" value="增项" id="renew"  onclick="javascript:zx()"/></span>'
+//
+			}else if(data.casehas ==0){
+				listr +='体验套餐 &nbsp; &nbsp; <span style="color:#f58020">未开通 </span>'
+				listr +='<span class="floatright" style="margin-top: -3px"><input type="button" value="购买套餐" id="renew"  onclick="location.href=\'/experience/set1\'"/></span>'
+			}else if(data.days==0){
+				listr +='体验套餐 &nbsp; &nbsp; <span style="color:#f58020">已到期 </span>'
+				listr +='<span class="floatright" style="margin-top: -3px"><input type="button" value="购买套餐" id="renew"  onclick="location.href=\'/experience/set1\'"/></span>'
+
+			}else{
+				listr +='体验套餐 &nbsp; &nbsp; <span style="color: #f58020">到期时间：'+data.jsdate+'</span>'
+				listr +='<span class="floatright" style="margin-top: -3px"><input type="button" value="增项" id="renew"  onclick="javascript:zx()"/></span>'
+
+			}
+			listr += '</li>'
+
+			$('#main_ul').append(listr);
+
+			/*
+			 *
+			 *
+			 * <li style="line-height: 36px">机构到期时间&nbsp; &nbsp; <span style="color: #00bb0c">已到期</span><br/>VIP 到期时间&nbsp; &nbsp; <span style="color: #00bb0c"> 暂未开通</span> <span class="floatright" style="margin-top: -3px"><input type="button" value="延&nbsp;期" id="renew"  onclick="location.href='/user/vip'"/></span></li>
+			 * */
+		}
+	})
+	function zx(){
+//		layer.open({
+//			content: '暂未开通'
+//			,skin: 'msg'
+//			,time: 2 //2秒后自动关闭
+//		});
+		window.location.href='/user/increase';
+	}
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/wallet',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/user/wallet',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+</body>
+</html>

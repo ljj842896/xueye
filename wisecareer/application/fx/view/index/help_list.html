@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>分销管理系统</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="MobileOptimized" content="320"/>
+    <script src="//xy.wisecareer.org/static/public/js/jquery-1.8.3.min.js"></script>
+    <script src="//xy.wisecareer.org/static/fx/js/com.min.js"></script>
+    <script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+    <link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="//xy.wisecareer.org/static/public/css/fx.css" id="ys"/>
+    <!--标准mui.css-->
+    <link rel="stylesheet" href="/static/public/css/mui/mui.min.css">
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<body>
+
+
+<div id="dHead" style="top: -5px">
+    <div class="head">
+        <h1 style="font-family:Arial,'微软雅黑', Helvetica, sans-serif;">帮助中心</h1>
+        <a href="/index/index.html" class="return"><img src="http://www.wisecareer.org/images/zhituo/icon/return-right.png" alt="" style="width: 12px"/></a>
+    </div>
+</div>
+
+
+<div id="dBody">
+    <div class="cleardiv50"></div>
+    <!--html5 nav-->
+    <div class="mui-content">
+        <div class="mui-card">
+            <ul class="mui-table-view mui-table-view-chevron">
+                <li class="mui-table-view-cell mui-collapse"><a class="mui-navigate-right" href="#">系统如何使用</a>
+                    <ul class="mui-table-view mui-table-view-chevron">
+                        <li class="mui-table-view-cell">
+                            <a class="" href="/index/help.html?id=32" >1.管理和激励自己的分销团队</a>
+                        </li>
+                        <li class="mui-table-view-cell">
+                            <a class="" href="/index/help.html?id=33" >2.我可以享受哪些人带来的收益？</a>
+                        </li>
+                        <li class="mui-table-view-cell">
+                            <a class="" href="/index/help.html?id=34" >3.我如何提现？</a>
+                        </li>
+                        <li class="mui-table-view-cell">
+                            <a class="" href="/index/help.html?id=35" >4.记账如果出错了怎么查？</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="mui-table-view-cell mui-collapse" style="border-top: 1px solid #ebebeb"><a class="mui-navigate-right" href="#">分销推广技巧</a>
+                    <ul class="mui-table-view mui-table-view-chevron">
+                        <li class="mui-table-view-cell"><a class="" href="/index/help2.html?type=2">职拓e站经典推广语</a></li>
+                        <li class="mui-table-view-cell"><a class="" href="/index/help2.html?type=1">学业e站经典推广语</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+</div>
+
+<script src="//xy.wisecareer.org/static/fx/js/mui.min.js"></script>
+
+<script>
+    var userid='{$userid}';
+    var sessiontype = '{$sessiontype}';
+    mui.init({
+        swipeBack:true //启用右滑关闭功能
+    });
+    window.addEventListener('toggle', function(event) {
+        if (event.target.id === 'M_Toggle') {
+            var isActive = event.detail.isActive;
+            var table = document.querySelector('.mui-table-view');
+            var card = document.querySelector('.mui-card');
+            if (isActive) {
+                card.appendChild(table);
+                card.style.display = '';
+            } else {
+                var content = document.querySelector('.mui-content');
+                content.insertBefore(table, card);
+                card.style.display = 'none';
+            }
+        }
+    });
+
+    var ys=document.getElementById("ys");
+    if(sessiontype==1){
+        ys.setAttribute("href","//xy.wisecareer.org/static/public/css/fx2.css");
+    }
+</script>
+
+<script>
+
+    wx.config({
+        debug: false,//关闭调试模式
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        /*appId: 'xxxxxx',
+         timestamp: xxxxx,
+         nonceStr: 'xxxxx',
+         signature: 'xxxxx',*/
+
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+    wx.ready(function () {
+
+        // 2. 分享接口
+        // 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+        wx.onMenuShareAppMessage({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://fx.wisecareer.org/index/distributor?userid='+userid,
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //   window.location.href = 'http://m.duolehuan.com/';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+
+        // 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://fx.wisecareer.org/index/distributor?userid='+userid,
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //window.location.href = '';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+    });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link href="//xueye.wisecareer.org/css/xueye/user_1.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<body>
+<!-- head -->
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">学业决策模型</h1> 
+        <a href="javascript:history.go(-1)" class="return"><i class="return-right"></i></a>
+		<a href="/index/index.html" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle;width: 25px"/></a>
+	</div>
+
+<link href="//xueye.wisecareer.org/css/xueye/message.css" type="text/css" rel="stylesheet" />
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="baogao" style="background: #fff">
+			<div class="inner">
+				<table width="100%" style="background: #fff;padding: 15px 0" id="user_xx">
+					<tr>
+						<td rowspan="3" width="100"><div class="portrait head_pic_man head_pic"><img id = 'pic' src="" alt="" style="border: 1px solid #ebebeb;"/></div></td>
+						<td width="10">&nbsp;</td>
+						<td id="name"></td>
+					</tr>
+					<tr>
+						<td width="10">&nbsp;</td>
+						<td id="school"></td>
+					</tr>
+					<tr>
+						<td width="10">&nbsp;</td>
+						<td ></td>
+					</tr>
+				</table>
+			</div>
+			<div class="cleardiv5" style="background: #ebebeb"></div>
+			<div style="padding: 0 10px">
+				<ul class="content decision">
+					<li>学业目标：<span id="span1">暂无</span>&nbsp;&nbsp;<span id="b1"></span></li>
+					<li>优势学科：<span id="span2">暂无</span>&nbsp;&nbsp;<span id="b2"></span></li>
+					<!--<li>弱势学科：<span id="span6">暂无</span></li>-->
+					<li>学科漏斗：<span id="span3">暂无</span>&nbsp;&nbsp;<span id="b3"></span></li>
+					<li>兴趣漏斗：<span id="span4">暂无</span>&nbsp;&nbsp;<span id="b4"></span><span id="b6"></span></li>
+					<li>行业漏斗：<span id="span5">暂无</span>&nbsp;&nbsp;<span id="b5"></span></li>
+					<li>本校优势科目：<span id="span6">暂无</span></li>
+					<li>本校弱势科目：<span id="span7">暂无</span></li>
+				</ul>
+				<input type="button" value="我要修改" class="btn_yes" onclick="location.href='/jcyj/details/'"/>
+				<div class="cleardiv5"></div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+	var load_index =layer.open({type: 2, shadeClose: false});
+	$(function(){
+		isHaveLogin('/presentation/decision_parameter');
+	});
+
+	var uid = localStorage.CURRENT_USER_ID;
+	Request = GetRequest()
+
+	var did = getUrlParam("did");
+	var titlename = decodeURI(GetQueryString("titlename"));
+	var subjectnomsg='';
+	var advantagepromptmsg='';
+	var disciplinepromptmsg='';
+	var advantagepromptmsg1='';
+	var disciplinepromptmsg1='';
+	var targetpromptmsg='';
+	var interestptmsg='';
+	var industryptmsg='';
+
+	$.getJSON(WEB_API_URL + "navigation/planning?"+Request, {token: uid}, function (json) {
+		var data=json.data;
+
+if(data['nagigt']==1){
+	$('span#span1').html(json.data['target']);
+	$('span#span2').html(json.data['advantage']);
+	$('span#span3').html("<span class=\"font_red\">排除&nbsp;&nbsp;</span>"+json.data['discipline']);
+	$('span#span4').html("<span class=\"font_red\">排除&nbsp;&nbsp;</span>"+json.data['interest']);
+	$('span#span5').html("<span class=\"font_red\">排除&nbsp;&nbsp;</span>"+json.data['industry']);
+	$('span#span6').html(json.data['scadvantage']);
+	$('span#span7').html(json.data['scweak']);
+
+
+
+
+	if(data['subjectno'] == 1){
+		$('#b1').html("<span class='prompt' onclick='click1()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+		subjectnomsg= data['subjectnomsg'];
+	}
+	if(data['advantageprompt'] == 1){
+		$('#b2').append("<span class='prompt' onclick='click2()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+		advantagepromptmsg= data['advantagepromptmsg'];
+	}
+	if(data['advantageprompt1'] == 1){
+		$('#b2').append("<span class='prompt' onclick='click2_1()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+		advantagepromptmsg1= data['advantagepromptmsg1'];
+	}
+	if(data['disciplineprompt'] == 1){
+		$('#b3').append("<span class='prompt' onclick='click3()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+		disciplinepromptmsg= data['disciplinepromptmsg'];
+	}
+
+	if(data['disciplineprompt1'] == 1){
+		$('#b3').append("<span class='prompt' onclick='click3_1()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+		disciplinepromptmsg1= data['disciplinepromptmsg1'];
+	}
+
+	if(data['targetprompt'] == 1){
+		$('#b4').html("<span class='prompt' onclick='click4()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+		targetpromptmsg= data['targetpromptmsg'];
+	}
+	if(data['interestprompt'] == 1){
+		$('#b6').html("<span class='prompt' onclick='click5()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+		interestptmsg= data['interestptmsg'];
+	}
+	if(data['industryprompt'] == 1){
+		$('#b5').html("<span class='prompt' onclick='click6()'><img src='//zxedu.wisecareer.org/images/tanhao.png' width='16' height='16' id='btn_3'></span>");
+		industryptmsg= data['industryptmsg'];
+	}
+
+
+	layer.close(load_index);
+//	$('span#span6').html(json.data['scweak']);
+}else{
+	layer.close(load_index);
+	layer.open({
+		content: '未选择学业决策模型！'
+		,shadeClose: false
+,btn: '我知道了'
+		,shadeClose: false
+,yes: function(index){
+			location.href = "/jcyj/option1";
+			layer.close(index);
+		}
+	});
+
+
+}
+
+	});
+    var token = localStorage.CURRENT_USER_ID
+    $.getJSON(WEB_API_URL + "user/xygetuser?", {'token': token}, function (json) {
+
+        if(json.status ==0){
+            var array = json.data;
+            var pic  = $('#pic').attr('src','__PICURL__/'+array.pic)
+            $('#name').html(array.user_name)
+            $('#school').html(array.school_name)
+        }else{
+            window.location.href='/index/index'
+        }
+    })
+
+	function click1(){
+		layer.open({
+			content: subjectnomsg
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+	function click2(){
+		layer.open({
+			content: advantagepromptmsg
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+
+	function click2_1(){
+		layer.open({
+			content: advantagepromptmsg1
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+
+	function click3(){
+		layer.open({
+			content: disciplinepromptmsg
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+	function click3_1(){
+		layer.open({
+			content: disciplinepromptmsg1
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+	function click4(){
+		layer.open({
+			content: targetpromptmsg
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+	function click5(){
+		layer.open({
+			content: interestptmsg
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+	function click6(){
+		layer.open({
+			content: industryptmsg
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	}
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/presentation/decision_parameter',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/presentation/decision_parameter',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

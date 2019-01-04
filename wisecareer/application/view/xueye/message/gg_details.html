@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//xueye.wisecareer.org/css/xueye/yuan.css"/>
+	<link href="/static/xueye/css/user_info.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/public/js/jquery.mousewheel.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<link rel="stylesheet" href="/static/public/css/layui.css"  media="all">
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		.message>.layui-tab>.layui-tab-title>li{
+			padding-top: 0;
+		}
+		.message>.layui-tab>.layui-tab-title>li:last-child {
+			padding-bottom: 0;
+		}
+		ul#content2>li{
+			border: 1px solid #ebebeb;
+			padding: 10px 5px;
+			margin-bottom: 10px;
+		}
+		ul#content2>li>h2{font-size: 16px;color: #666;font-weight: 600;line-height: 30px;padding-top: 10px}
+		ul#content2>li>h6{font-size: 14px;color: #666;line-height: 30px;height: 30px;overflow: hidden;}
+		ul#content2>li>h6>a{width: 150px;display:inline-block;text-align: center;color: #666;font-weight: 600;}
+	</style>
+</head>
+<body>
+
+<!-- head -->
+
+
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">公告</h1>
+		<a href="javascript:window.history.back(-1)" class="return"><i class="return-right"></i></a>
+		<!--<a href="javascript:void(0);" style="" id="screen_btn">筛选</a>-->
+	</div>
+
+
+
+
+<link href="//xueye.wisecareer.org/css/xueye/message.css" type="text/css" rel="stylesheet" />
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+		<div class="inner">
+			<div class="message clear">
+				<div class="layui-tab">
+					<ul class="layui-tab-title">
+						<li class="layui-this" style="width: 50%">系统消息</li>
+						<li style="width: 50%">公告</li>
+					</ul>
+					<div class="layui-tab-content">
+						<div class="layui-tab-item layui-show" id="tab1">
+							<ul id="content1">
+
+							</ul>
+						</div>
+						<div class="layui-tab-item" id="tab2">
+							<ul id="content2" class="clear" style="padding:10px 0">
+								<li>
+									<img src="http://pic.wisecareer.org/od/shcool_pic/2016328152410.jpg" alt="" width="100%"/>
+									<h2>标题</h2>
+									<h6>正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文</h6>
+									<h6 align="right"><a href="">查看详情 >></a></h6>
+								</li>
+								<li>
+									<img src="http://pic.wisecareer.org/od/shcool_pic/2016328152410.jpg" alt="" width="100%"/>
+									<h2>标题</h2>
+									<h6>正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文</h6>
+									<h6 align="right"><a href="/message/gg_details">查看详情 >></a></h6>
+								</li>
+								<li>
+									<img src="http://pic.wisecareer.org/od/shcool_pic/2016328152410.jpg" alt="" width="100%"/>
+									<h2>标题</h2>
+									<h6>正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文正文</h6>
+									<h6 align="right"><a href="">查看详情 >></a></h6>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<div class="cleardiv55"></div>
+</div>
+<div class="return_top"><img src="//xueye.wisecareer.org/images/xueye/return_top.png" alt="" /></div>
+<div id="screen_zhezhao">&nbsp;</div>
+<div id="screen" style="opacity: 0;">
+	<h2>请选择消息类型</h2>
+	<ul class="danxuan clear">
+		<li style="padding: 0;background: none"><a href="javascript:void(0);" style="display: block;padding:0;text-align: center" num="0" class="obj1">全部</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+		<li style="padding: 0;background: none"><a href="javascript:void(0);" style="display: block;padding:0;text-align: center"  num="1"  >系统消息</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+		<li style="padding: 0;background: none"><a href="javascript:void(0);" style="display: block;padding:0;text-align: center"  num="2"  >公告</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+		<li style="padding: 0;background: none"><a href="javascript:void(0);" style="display: block;padding:0;text-align: center"  num="3"  >学员消息</a><img src="//xueye.wisecareer.org/images/xueye/icon/yes.png" alt=""/></li>
+	</ul>
+	<div class="clear"></div>
+	<div class="cleardiv5" style="background: #d8d8d8"></div>
+	<h2 style="background: #fff" id="screen_yes">确定</h2>
+	<h2 style="background: #fff" id="screen_close">取消</h2>
+</div>
+<script>
+	var lx='';
+	var slide=false;
+	$('#screen>.danxuan>li>a').click(function(){
+		$('#screen>.danxuan>li>a').removeClass("this");
+		$('#screen>.danxuan>li>img').hide();
+			$(this).addClass("this");
+			$(this).next().show();
+			lx = $(this).attr('num');
+			$('#screen>.danxuan>li>input[type="hidden"]').remove();
+		slide=true;
+	});
+
+ 	var stop=true;
+	$('#screen_btn').click(function(){
+		if(stop==true){
+			$('#screen').css({'transform':'translate(0,0)','opacity':'1'});
+			$('#screen_zhezhao').show();
+			stop=false;
+		}else{
+			$('#screen').css({'transform':'translate(0,350px)','opacity':'0'});
+			$('#screen_zhezhao').hide();
+			stop=true;
+		}
+	});
+
+	$('#screen_close').click(function(){
+		$('#screen').css({'transform':'translate(0,350px)','opacity':'0'});
+		$('#screen_zhezhao').hide();
+		stop=true;
+	});
+
+
+</script>
+
+<script type="text/javascript">
+	var uid = localStorage.CURRENT_USER_ID;
+	var tab1_i = 1; //设置当前页数
+	var Request = GetRequest();
+	var shu='';
+	//滚屏加载
+
+	//给窗口滚动事件绑定滚屏加载方法
+	var winH = $(window).height(); //页面可视区域高度
+	$(window).scroll(function () {
+		var pageH = $(document).height();
+		var scrollT = $(window).scrollTop(); //滚动条top
+		var aa = (pageH - scrollT) ;
+		if (tab1_i == 0) {
+			return false;
+			$(window).scroll()
+		}
+
+		if (aa ==winH) {
+			scrollLoad();
+
+		}
+	});
+
+
+	function GetRequest() {
+		var url = location.search; //获取url中"?"符后的字串
+
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			return str;
+		}
+
+	}
+
+	$('#screen_yes').live('click',function(){
+		if(slide==false){
+			layer.open({
+				content: '请选择筛选类型！'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else{
+			$(".message ul").html('');
+			tab1_i = 1;
+			shu=lx;
+			scrollLoad();
+			$('#screen').css({'transform':'translate(0,350px)','opacity':'0'});
+			$('#screen_zhezhao').hide();
+		}
+	});
+
+	function scrollLoad(){
+
+		var str = "";
+		var load_index =layer.open({type: 2, shadeClose: false});
+		if (tab1_i == 0) {
+			return false;
+		}
+		if(shu==''){
+			shu=0;
+		}
+		$.ajax({ url:WEB_API_URL + "user/userMessage?" + Request , async: false,data:{token: uid, page: tab1_i,type:shu}, success: function(json){
+			if(json.data){
+				$.each(json.data,function(index,array){
+					str += "<li>";
+					str +="<h4>"+array['titlename']+"</h4>";
+					str +="<h5>"+array['datetime']+"</h5>";
+					str +="<div class=\"clear\"></div>";
+					str +="<div class=\"bg\"></div>";
+					str +="<p>"+array['content']+"</p>";
+					str +="</li>";
+				});
+				tab1_i++;
+			}else{
+				tab1_i = 0;//设置数据已全部加载
+				str = "<li style='text-align: center'>无数据加载......</li>";
+			}
+			$(".message ul#content1").append(str);
+			layer.close(load_index);
+		}
+
+		});
+	}
+
+
+	scrollLoad();
+
+
+
+
+		var UA = window.navigator.userAgent;  //使用设备
+		var CLICK = "click";
+		if (/ipad|iphone|android/.test(UA)) {   //判断使用设备
+			CLICK = "tap";
+		}
+		$(".tab a").each(function (j) {
+			var num = j + 1;
+
+			$(this).click(function () {
+				$('html, body').animate({
+					scrollTop: 0,
+					scrollLeft: 0
+				});
+				$(".tab a").attr("class", "");
+				$(this).attr("class", "on");
+				for (var i = 1; i <= 2; i++) {
+					$("#tab_kc" + i).css("display", "none");
+				}
+				$("#tab_kc" + num).css("display", "block");
+			});
+		});
+		$("#top").click(function (event) {
+			$("body,html").animate({
+				scrollTop: 0
+			}, 500)
+		});
+		var gonav_btn = $("#gonav_btn");
+		var gonav_box = $("#gonav_box");
+		gonav_box.hide();
+		gonav_btn[CLICK](function () {
+			event.preventDefault();
+			gonav_box.slideToggle("slow");
+		});
+		$('.return_top').click(function () {
+			window.scrollTo(0, 0);
+			$(this).hide();
+		})
+		$(document).mousewheel(function (event) {
+			if ($(document).scrollTop() > 600) {
+				$('.return_top').show();
+			} else {
+				$('.return_top').hide();
+			}
+//		alert($(document).scrollTop());
+
+		})
+</script>
+<div id="dFoot">
+	<div class="body-nav">
+		<ul>
+			<li><a  onclick="location.href='/index/index/'"><i class="icon-nav-1"></i>首页</a></li>
+			<li class="in"><a onClick="goPermissionUrl('/message/index.html');"><i class="icon-nav-2"></i>消息</a></li>
+			<li><a onClick="goPermissionUrl('/user/index.html');"><i class="icon-nav-5"></i>个人中心</a></li>
+		</ul>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/message/gg_details.html');
+	});
+</script>
+
+
+<script src="/static/public/js/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+	layui.use('element', function(){
+		var $ = layui.jquery
+				,element = layui.element(); //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+		//触发事件
+		var active = {
+			tabAdd: function(){
+				//新增一个Tab项
+				element.tabAdd('demo', {
+					title: '新选项'+ (Math.random()*1000|0) //用于演示
+					,content: '内容'+ (Math.random()*1000|0)
+					,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+				})
+			}
+			,tabDelete: function(othis){
+				//删除指定Tab项
+				element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+				othis.addClass('layui-btn-disabled');
+			}
+			,tabChange: function(){
+				//切换到指定Tab项
+				element.tabChange('demo', '22'); //切换到：用户管理
+			}
+		};
+
+		$('.site-demo-active').on('click', function(){
+			var othis = $(this), type = othis.data('type');
+			active[type] ? active[type].call(this, othis) : '';
+		});
+
+		//Hash地址的定位
+		var layid = location.hash.replace(/^#test=/, '');
+		element.tabChange('test', layid);
+
+		element.on('tab(test)', function(elem){
+			location.hash = 'test='+ $(this).attr('lay-id');
+		});
+
+	});
+</script>
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/message/gg_details',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/message/gg_details',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

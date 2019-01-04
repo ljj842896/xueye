@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link href="//www.wisecareer.org/css/zhituo/user_1.css" type="text/css" rel="stylesheet" />
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<!--[if IE]>
+	<script src="//www.wisecareer.org/js/html5shiv.min.js"></script>
+	<![endif]-->
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		#nothing{
+			padding: 20px 0;
+			font-size: 16px;
+			color: #666;
+		}
+		table tr>td,table tr>td>span{
+			font-size: 14px;
+		}
+		div.renshu{
+			width: 90%;
+			padding: 0 5%;
+			color: #666666;
+			position: absolute;
+			top: 0;left: 0;
+			z-index: 300;
+			background: #fff;
+			min-height: 0px;
+			display: none;
+		}
+		div.renshu>table td{
+			line-height: 24px;
+		}
+		th{line-height: 30px}
+		.my-date>table{
+			background: #fff;
+		}
+		input#mail,input#lichang{
+			padding: 0 3%;
+			width: 94%;
+			height: 30px;
+			line-height: 30px;
+		}
+		#bomb_box>#box_content>li{
+			padding-right: 15px;
+			line-height: 30px;
+		}
+		#close{
+			padding: 20px;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+	<h1 style="margin: 0">现场实习报告</h1>
+	<a href="javascript:history.go(-1)" class="return"><i class="return-right"></i></a>
+	<a href="javascript:cli();" style="" id="screen_btn">全选</a>
+</div>
+
+<!-- home -->
+
+
+<div id="dFoot" style="height: 40px;">
+	<div class="xq-nav" style="height: 50px">
+		<ul>
+			<li><a href="/scene/history.html">日志</a></li>
+			<li class="shoucang"><a id="collects" onclick="open_mail();">打印报告</a></li>
+		</ul>
+	</div>
+</div>
+
+<div class="show_hide" style="display: block">
+	<div class="class_bg"></div>
+	<div class="class_content" style="background: none">
+		<form id="bomb_box" >
+			<ul id="box_content">
+				<li class="cleardiv10"></li>
+				<li>请输入你接收报告的邮箱</li>
+				<li class="paddingbottom10"><input type="text" id="mail" placeholder="请输入你接收报告的邮箱"/></li>
+				<li style="padding: 0 10px;text-align: center;"><input type="button" id="bomb_btn" class="tijiao" onclick="sub()" value="发送" style="margin: 10px auto"/></li>
+				<li class="cleardiv10"></li>
+			</ul>
+			<div class="cleardiv10"></div>
+		</form>
+		<a href="javascript:history.go(-1)" class="return" id="close"><img src="http://www.wisecareer.org/images/zhituo/icon/return-right.png" alt="" height="20"/></a>
+	</div>
+</div>
+
+
+<script>
+	$("td.dianji").live('click',function(){
+		$(this).parent().parent().parent().find("div.renshu").show();
+		$('a#screen_btn').hide();
+	});
+	$("input.fanhui").live('click',function(){
+		$(this).parent().parent().parent().parent().parent().hide();
+		$('a#screen_btn').show();
+	});
+</script>
+
+
+
+<script src="//www.wisecareer.org/js/flickity-docs.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/scene/baogao');
+	});
+	function GetRequest() {
+		var url = location.search; //获取url中"?"符后的字串
+
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			return str;
+		}
+	}
+
+
+	Request = GetRequest();
+	var uid = localStorage.CURRENT_USER_ID;
+	var back = getUrlParam("back");
+	var checked=true;
+	if(back==1){
+		$('a.return').attr('href','/index/index');
+		$('a#close').attr('href','/index/index');
+	}
+	var text1='';
+	var text2='';
+	var text3='';
+	$.ajax({ url:WEB_API_URL + "activity/Internship_record?" , async: false,data:{token: uid}, success: function(json){
+		var str1 = '';
+		var data=json.data;
+		if(data.list==''){
+			checked=false;
+			$('a#screen_btn').hide();
+		}
+
+		$('input#mail').val(data.email);
+		$('input#mail').html(data.email);
+	}
+	});
+
+
+
+
+	function sub(){
+		var mail=$('input#mail').val();
+		console.log(mail);
+		layer.open({
+			content: '你确定把现场实习报道发送到 '+mail+' 邮箱中？'
+			,btn: ['确定', '取消']
+			,shadeClose: false
+			,yes: function(index) {
+				$.ajax({
+					url: WEB_API_URL + "publics/send_email",
+					type: 'POST',
+					dataType: 'json',
+					data: {token: uid, mail: mail},
+					async: false,
+					success: function (result) {
+						if (result.status == '0') {
+							layer.open({
+								content: '成功发送到' +mail+' 邮箱！'
+								, shadeClose: false
+								, btn: '我知道了'
+								, yes: function (index1) {
+									layer.close(index1);
+									window.location.href = '/scene/input';
+								}
+							});
+
+						} else {
+							layer.open({
+								content: result.msg
+								, shadeClose: false
+								, btn: '我知道了'
+								, yes: function (index1) {
+									layer.close(index1);
+								}
+							});
+						}
+					}
+				})
+			}
+		});
+	}
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/scene/baogao',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/scene/baogao',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+
+
+	function open_mail(){
+		if(checked==false){
+			layer.open({
+				content: '请参加现场实习后打印报告！'
+				,btn: '我知道了'
+				, shadeClose: false
+			});
+		}else if($("input[type='checkbox']").attr("checked")){
+			show();
+		}else{
+			layer.open({
+				content: '请选择要打印的现场实习报告！'
+				,btn: '我知道了'
+				, shadeClose: false
+			});
+		}
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

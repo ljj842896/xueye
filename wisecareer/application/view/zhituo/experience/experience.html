@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/experience.css"/>
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/interface.css"/>
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/user_1.css"/>
+	<link rel="stylesheet" type="text/css" href="//www.wisecareer.org/css/normalize.css" />
+	<link rel="stylesheet" href="//www.wisecareer.org/css/flickity-docs.css" media="screen" />
+	<!--[if IE]>
+	<script src="//www.wisecareer.org/js/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<link rel="stylesheet" type="text/css" href="//www.wisecareer.org/css/zhituo/layui.css" />
+	<style>
+		.content p{
+			padding: 0;
+			font-size: 14px;
+		}
+		.content_inner h2 a img{
+			width: 16px;
+			height: 16px;
+			padding-right: 8px;
+		}
+		.content_inner h2 .li_left{
+			width: 70%
+		}
+		.content_inner h2 .li_left a{
+			background: none;
+			font-size: 14px;
+			/*font-weight:bold;*/
+			padding:5px 0 ;
+			display: block;
+			line-height: 20px;
+		}
+		.content_inner>h5 {
+			cursor: pointer;
+			padding-left: 20px;
+			background-color: #f4f4f4;
+			background-image: url(//www.wisecareer.org/images/zhituo/icon/arrow-right-xiao.png);
+			background-repeat: no-repeat;
+			background-position: right center;
+			margin-bottom: 10px;
+			line-height: 36px;
+			font-size: 14px;
+			color: #666666;
+		}
+		.content table tr>td{
+			line-height: 20px;
+		}
+		.content table#select tr>td{
+			padding-top: 5px;
+		}
+		label{
+			font-size: 14px;
+		}
+		input[type='checkbox']{width: 16px;height: 16px;margin-top: 2px}
+		input#i{
+			display: inline-block;
+			width: 90%;
+			padding-left: 5%;
+			border-radius: 0;
+			color: #666;
+			text-align: left;
+			line-height: 30px;
+			font-size: 14px;
+		}
+		.inner>.content div>img{
+			width: 100%;
+			height: auto;
+		}
+		table#jiaolian_pj label{
+			padding-top: 10px;
+			display: block;
+		}
+	</style>
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">案例体验</h1>
+		<a href="javascript:close4()" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent experience" style="height:100%;margin: 0">
+	<div class="inner">
+		<div class="content">
+		</div>
+	</div>
+	</div>
+</div>
+
+<!--<div id="dFoot">-->
+	<!--<div class="body-nav">-->
+		<!--<ul>-->
+			<!--<li class="in"><a onclick="close1();"><i class="icon-nav-1"></i>首页</a></li>-->
+			<!--<li><a onClick="close2();"><i class="icon-nav-2"></i>消息</a></li>-->
+			<!--<li><a onClick="close3();"><i class="icon-nav-5"></i>个人中心</a></li>-->
+		<!--</ul>-->
+	<!--</div>-->
+<!--</div>-->
+<script>
+	$(function(){
+		isHaveLogin('/experience/experience');
+	});
+	var jiantou=true;
+	var jiantou2=true;
+
+	$('#h52').live('click',function(){
+		var stop=$('#h52').attr('stop');
+		if(stop==2){
+			layer.open({
+				content: '暂无引导问题'
+				,skin: 'msg'
+				,time: 3 //2秒后自动关闭
+			});
+		}else if(jiantou2==true){
+			$('#h52').css('backgroundImage','url("//www.wisecareer.org/images/zhituo/icon/arrow-xia-xiao.png")');
+			jiantou2=false;
+			$('#wenti').slideToggle();
+		}else{
+			$('#h52').css('backgroundImage','url("//www.wisecareer.org/images/zhituo/icon/arrow-right-xiao.png")');
+			jiantou2=true;
+			$('#wenti').slideToggle();
+		}
+	});
+	$('#h51').live('click',function(){
+		var stop=$('#h51').attr('stop');
+		if(stop==2){
+			layer.open({
+				content: '暂无素材'
+				,skin: 'msg'
+				,time: 3 //2秒后自动关闭
+			});
+		}else if(jiantou==true){
+			$('#h51').css('backgroundImage','url("//www.wisecareer.org/images/zhituo/icon/arrow-xia-xiao.png")');
+			jiantou2=false;
+			$('#sucai').slideToggle();
+		}else{
+			$('#h51').css('backgroundImage','url("//www.wisecareer.org/images/zhituo/icon/arrow-right-xiao.png")');
+			jiantou2=true;
+			$('#sucai').slideToggle();
+		}
+	});
+</script>
+<script>
+	var token = localStorage.CURRENT_USER_ID;
+	Request = GetRequest();
+	var eid = localStorage.CURRENT_USER_ID;
+	var tid = getUrlParam("tid");
+	var id ='';
+	var font_num='';
+	var stop_pj=0;
+	var pj_label=true;
+	function close1(){
+		layer.open({
+			content: '您确定要退出此页面吗？'
+			,btn: ['确定', '取消']
+			,shadeClose: false
+			,yes: function(index){
+				window.location.href='/index/index/';
+				layer.close(index);
+			}
+		});
+	}
+	function close2(){
+		layer.open({
+			content: '您确定要退出此页面吗？'
+			,btn: ['确定', '取消']
+			,shadeClose: false
+			,yes: function(index){
+				goPermissionUrl('/message/index.html');
+				layer.close(index);
+			}
+		});
+	}
+	function close3(){
+		layer.open({
+			content: '您确定要退出此页面吗？'
+			,btn: ['确定', '取消']
+			,shadeClose: false
+			,yes: function(index){
+				goPermissionUrl('/user/index.html');
+				layer.close(index);
+			}
+		});
+	}
+
+	function close4(){
+		layer.open({
+			content: '您确定要退出此页面吗？'
+			,btn: ['确定', '取消']
+			,shadeClose: false
+			,yes: function(index){
+				window.location.href='/experience/index/';
+				layer.close(index);
+			}
+		});
+	}
+
+	function submit(){
+		layer.open({
+			content: '您确定提交吗？'
+			,btn: ['确定', '取消']
+			,shadeClose: false
+			,yes: function(index){
+				layer.close(index);
+			}
+		});
+	}
+	var daname={};
+//	$(".select_click").bind('click',function(){
+//
+//		var key= $(this).attr('id');
+//		var val = $(this).val();
+//
+//		daname[key] = val
+//
+//	})
+
+	$('#jiaolian_pj label').live('click',function(){
+
+		if($("input#pj1").is(':checked')){
+			pj_label=true;
+		}else if($("input#pj0").is(':checked')){
+			pj_label=false;
+		}
+		console.log(stop_pj);
+	});
+
+	function xuanze(){
+		var xuanzhong=$('input.select_click:checked');
+		var pj=$("input[name='pj']").is(':checked');
+		var pj_num=$('input[name="pj"]:checked').val()
+		for(var j=0;j<xuanzhong.length;j++){
+			daname[j]=xuanzhong.eq(j).attr('id');
+		}
+//		console.log(daname);
+		var i=document.getElementById('i');
+		var qita= i.value;
+		if(i.value==''){
+			layer.open({
+				content: 'i-观点为你的独立于现有选项的观点。不能为空哟！'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else if($('table#select input.select_click:checked').length==0){
+			layer.open({
+				content: '选项不能为空！'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else if($('input:radio[name="pj"]:checked').val()==null){
+			layer.open({
+				content: '请选择是否教练评价'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else if(pj_label==false){
+			layer.open({
+				content: '确定提交你的答案吗？'
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					$.ajax({
+						url: WEB_API_URL+"problem/handle",
+						type: 'POST',
+						dataType: 'json',
+						data: {token:token,tyid:3,tid:tid,id:id,qita:qita,daname:daname,pj_num:0},
+						async:false,
+						success: function (result){
+							if(result.status == '0') {
+								layer.open({
+									content:'<img src="' +result.data.tsxiao+'" width="50"/><br/><br/>'+result.data.tsname+'<br/>获得经验值:'+result.data.altijifen+'&nbsp;&nbsp;&nbsp;胜任力:'+result.data.altydefen_rate+'&nbsp;&nbsp;&nbsp;i-观点奖励:2.0'
+									,btn: '我知道了'
+									,shadeClose: false
+									,yes: function(index){
+										layer.close(index);
+										location.reload();
+									}
+								});
+							}else{
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+								});
+							}
+						}
+					})
+				}
+			});
+		} else if(stop_pj==0){
+			layer.open({
+				content: '未开通教练评价，请先购买教练评价服务！'
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index){
+					layer.close(index);
+				}
+			});
+		}else if(stop_pj==1){
+			layer.open({
+				content: '你的教练评价已用完，需要购买新的教练评价服务！'
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index){
+					layer.close(index);
+				}
+			});
+		}else{
+			layer.open({
+				content: '推送教练i观点会扣除1条教练评价！确定提交你的答案和i观点吗？'
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					$.ajax({
+						url: WEB_API_URL+"problem/handle",
+						type: 'POST',
+						dataType: 'json',
+						data: {token:token,tyid:3,tid:tid,id:id,qita:qita,daname:daname,pj_num:pj_num},
+						async:false,
+						success: function (result){
+							if(result.status == '0') {
+								layer.open({
+									content:'<img src="' +result.data.tsxiao+'" width="50"/><br/><br/>'+result.data.tsname+'<br/>获得经验值:'+result.data.altijifen+'&nbsp;&nbsp;&nbsp;胜任力:'+result.data.altydefen_rate+'&nbsp;&nbsp;&nbsp;i-观点奖励:2.0'
+									,btn: '我知道了'
+									,shadeClose: false
+									,yes: function(index){
+										layer.close(index);
+										location.reload();
+									}
+								});
+							}else{
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+								});
+							}
+						}
+					})
+				}
+			});
+		}
+	}
+	function my(){
+		$.ajax({
+			url: WEB_API_URL+"problem/handle",
+			type: 'POST',
+			dataType: 'json',
+			data: {token:token,tyid:2,tid:tid,id:id},
+			async:false,
+			success: function (result){
+				if(result.status == '0') {
+						layer.open({
+							content: '你确定进行下一题吗？'
+							,btn: ['确定', '取消']
+							,shadeClose: false
+							,yes: function(index){
+								location.reload();
+							}
+						});
+				}else{
+					layer.open({
+						content: result.msg
+						,shadeClose: false
+						,btn: '我知道了'
+						,yes: function(index){
+							location.reload();
+						}
+					});
+				}
+			}
+		})
+	}
+
+	function text(){
+		var content=document.getElementById('content');
+		var pj=$("input[name='pj']").is(':checked');
+		var pj_num=$('input[name="pj"]:checked').val()
+		var shop_content=content.value;
+		if(content.value==''){
+			layer.open({
+				content: '回答内容不能为空！'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else if($('input:radio[name="pj"]:checked').val()==null){
+			layer.open({
+				content: '请选择是否教练评价'
+				,btn: '我知道了'
+				,shadeClose: false
+			});
+		}else if(pj_label==false){
+			layer.open({
+				content: '确定提交你的答案吗？'
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					layer.close(index);
+					$.ajax({
+						url: WEB_API_URL+"problem/handle",
+						type: 'POST',
+						dataType: 'json',
+						data: {token:token,tyid:1,tid:tid,id:id,shop_content:shop_content,pj_num:0},
+						async:false,
+						success: function (result){
+							if(result.status == '0') {
+								if(result.data=='siz'){
+									layer.open({
+										content: '回答内容字数不足 '+font_num+' 字！'
+										,btn: '我知道了'
+										,shadeClose: false
+									});
+								}else if(result.data=='yansi'){
+									layer.open({
+										content: '请等待！'
+										,btn: '我知道了'
+										,shadeClose: false
+									});
+								}else{
+									layer.open({
+										content:'<img src="' +result.data.tsxiao+'" width="50"/><br/><br/>'+result.data.tsname+'<br/>获得经验值：'+result.data.altijifen+'&nbsp;&nbsp;&nbsp;胜任力：'+result.data.altydefen_rate
+										,btn: '我知道了'
+										,shadeClose: false
+										,yes: function(index){
+											layer.close(index);
+											location.reload();
+										}
+									});
+
+								}
+							}else{
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+								});
+							}
+						}
+
+					})
+				}
+			});
+		}else if(stop_pj==0){
+			layer.open({
+				content: '未开通教练评价，请先购买教练评价服务！'
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index){
+					layer.close(index);
+				}
+			});
+		}else if(stop_pj==1){
+			layer.open({
+				content: '你的教练评价已用完，需要购买新的教练评价服务！'
+				,btn: '我知道了'
+				,shadeClose: false
+				,yes: function(index){
+					layer.close(index);
+				}
+			});
+		}else{
+			layer.open({
+				content: '推送教练答案会扣除1条教练评价！确定提交你的答案吗？'
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					layer.close(index);
+					$.ajax({
+						url: WEB_API_URL+"problem/handle",
+						type: 'POST',
+						dataType: 'json',
+						data: {token:token,tyid:1,tid:tid,id:id,shop_content:shop_content,pj_num:pj_num},
+						async:false,
+						success: function (result){
+							if(result.status == '0') {
+								if(result.data=='siz'){
+									layer.open({
+										content: '回答内容字数不足 '+font_num+' 字！'
+										,btn: '我知道了'
+										,shadeClose: false
+									});
+								}else if(result.data=='yansi'){
+									layer.open({
+										content: '请等待！'
+										,btn: '我知道了'
+										,shadeClose: false
+									});
+								}else{
+									layer.open({
+										content:'<img src="' +result.data.tsxiao+'" width="50"/><br/><br/>'+result.data.tsname+'<br/>获得经验值：'+result.data.altijifen+'&nbsp;&nbsp;&nbsp;胜任力：'+result.data.altydefen_rate
+										,btn: '我知道了'
+										,shadeClose: false
+										,yes: function(index){
+											layer.close(index);
+											location.reload();
+										}
+									});
+								}
+							}else{
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+								});
+							}
+						}
+
+					})
+				}
+			});
+		}
+	}
+
+	function fanhui(){
+		layer.open({
+			content: '您确定提交吗？'
+			,btn: ['确定', '取消']
+			,shadeClose: false
+			,yes: function(index){
+				layer.close(index);
+				window.location.href='/experience/mark/'
+			}
+		});
+	}
+
+</script>
+<script src="//www.wisecareer.org/js/zhituo/layui.js" charset="utf-8"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+
+<script>
+
+	layui.use('element', function(){
+		var $ = layui.jquery
+				,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+		//触发事件
+		var active = {
+			setPercent: function(){
+				//设置50%进度
+				element.progress('demo', '50%')
+			}
+			,loading: function(othis){
+				var DISABLED = 'layui-btn-disabled';
+				if(othis.hasClass(DISABLED)) return;
+
+				//模拟loading
+				var n = 0, timer = setInterval(function(){
+					n = n + Math.random()*10|0;
+					if(n>100){
+						n = 100;
+						clearInterval(timer);
+						othis.removeClass(DISABLED);
+					}
+					element.progress('demo', n+'%');
+				}, 300+Math.random()*1000);
+
+				othis.addClass(DISABLED);
+			}
+		};
+
+		$('.site-demo-active').on('click', function(){
+			var othis = $(this), type = $(this).data('type');
+			active[type] ? active[type].call(this, othis) : '';
+		});
+	});
+
+
+	$.ajax({ url:WEB_API_URL + "problem/transfer?" + Request, async: false,data:{token: eid,tid:tid}, success: function(json){
+		var data=json.data;
+		var eval_num='';
+
+		if(data.eval_has==0){
+			stop_pj=0;
+			eval_num=' <span style="color: red;font-weight: bold">未开通</span>';
+
+		}else{
+			if(data.eval_num==0||data.eval_num==null){
+				stop_pj=1;
+				eval_num='（剩余 <span style="color: red;font-weight: bold"> 0 </span> 条）';
+			}else{
+				eval_num='（剩余 <span style="color: red;font-weight: bold"> '+data.eval_num+' </span> 条）';
+				stop_pj=2;
+			}
+		}
+		console.log(stop_pj);
+
+
+		if(data==''){
+			window.location.href='/experience/mark?tid='+tid;
+		}else{
+			id=data.id;
+		var str1='<div class="cleardiv20"></div><div class="layui-progress layui-progress-big" lay-showpercent="true">';
+		str1 +='<div class="layui-progress-bar" lay-percent="'+data['tage']+'%"></div></div><div class="cleardiv20" style="border-bottom: 1px solid #ebebeb"></div>';
+		var str2 ='';
+		if(data.tyid==1){
+			font_num=data.axx['describesz'];
+			str2 +='<form class="content_inner"><div class="cleardiv5"></div>';
+			str2 +='<h2 class="clear" style="margin: 0;padding: 0;background: none"><span class="li_left"><a href="javascript:void(0);" style="color: #666;text-indent: 28px">'+data.axx['titlename']+'</a></span></h2>';
+			str2 +='<h4>情景描述</h4><div>'+data.axx['setting']+'</div>';
+			str2 +='<div class="cleardiv10"></div><h4>体验任务</h4><p>'+data.axx['describe']+'</p><div class="cleardiv20"></div>';
+
+			if(data.axx['renwu']==''){
+				str2 +='<h5 id="h52" stop="2">引导问题</h5>';
+			}else{
+				str2 +='<h5 id="h52" stop="0">引导问题</h5><div id="wenti" style="display: none">';
+
+				str2 +='<p class="pic_yes">'+data.axx['renwu']+'</p>';
+
+				str2 +='<div class="cleardiv20"></div></div>';
+			}
+
+			str2 +='<div><textarea id="content" style="width: 100%;min-height: 100px"></textarea><div class="cleardiv20"></div>';
+			str2 +='<table width="100%" id="jiaolian_pj" style="line-height: 40px"><tr><td width="60%" style="line-height: 40px;font-size: 14px"> i-观点教练评价 '+eval_num+' </td><td width="20%"><label for="pj1">是 <input type="radio" name="pj" value="1" id="pj1" style="position: relative;top: -15px"/></label></td><td width="20%"><label for="pj0">否 <input type="radio" name="pj" value="0" id="pj0" style="position: relative;top: -15px"/></label></td></tr></table>'
+			str2 +='<div><input type="button" id ="foll"  value="提交" onclick="text()" class="left btn_yes"/></div><div class="cleardiv20"></div></form>';
+		}else if(data.tyid==2){
+			str2 +='<form class="content_inner">';
+			str2 +='<h2 class="clear" style="margin: 0;padding: 0;background: none"><span class="li_left"><a href="javascript:void(0);" style="color: #666;text-indent: 28px">'+data.axv['titlename']+'</a></span></h2>';
+			str2 +='<div class="cleardiv10"></div><div><img src="//www.wisecareer.org/od/'+data.axv['pic']+'" alt="" width="100%"/></div>';
+			str2 +='<div class="cleardiv20"></div><div><input type="button" id ="foll"  value="提交" onclick="my()" class="left btn_yes"/></div><div class="cleardiv20"></div></form>';
+		}else if(data.tyid==3){
+			str2 +='<form class="content_inner"><div class="cleardiv10"></div>';
+			str2 +='<h2 class="clear" style="margin: 0;padding: 0;background: none"><span class="li_left"><a href="javascript:void(0);" style="color: #666;text-indent: 28px">'+data.axs['titlename']+'</a></span></h2>';
+			if(data.axs['pic']==''){}else{
+				str2 +='<div class="cleardiv10"></div><div><img src="//www.wisecareer.org/od/'+data.axs['pic']+'" alt="" width="100%"/></div>';
+			}
+			if(data.axs['sucai']==''){
+				str2 +='<div class="cleardiv20"></div><h5 id="h51" stop="2">素材</h5>';
+			}else{
+				str2 +='<div class="cleardiv20"></div><h5 id="h51" stop="0">素材</h5><p id="sucai" style="display:none ">'+data.axs['sucai']+'</p>';
+			}
+				str2 +='<div class="cleardiv10"></div><table width="100%" id="select">';
+			if(data.axs['lx']==1){
+				$.each(data.adts, function (index, array) {
+					str2 += '<tr><td width="25" valign="top" align="left"><input type="radio" name="'+data.axs['id']+'" class="select_click" id="'+array['da']+'"/></td><td colspan="2"><label class="select_click" for="'+array['da']+'">'+array['da']+'、'+array['titlename']+'</label></td></tr>';
+				});
+			}else{
+				$.each(data.adts, function (index, array) {
+					str2 += '<tr><td width="25" valign="top" align="left"><input type="checkbox" name="'+data.axs['id']+'" class="select_click" id="'+array['da']+'"/></td><td colspan="2"><label class="select_click" for="'+array['da']+'">'+array['da']+'、'+array['titlename']+'</label></td></tr>';
+				});
+			}
+
+
+			str2 +='<tr><td valign="middle" align="left" colspan="2" style="padding-top: 10px" ><img src="http://zxedu.wisecareer.org/img/i-.png" alt=""/></td><td valign="middle" style="padding-top: 10px">&nbsp;&nbsp;<input type="text" value="" placeholder="请输入i-观点" id="i" onkeydown="if(event.keyCode==13){return false;}"/></td></tr></table>';
+			str2 +='<table width="100%" id="jiaolian_pj" style="line-height: 40px"><tr><td width="60%" style="line-height: 40px;font-size: 14px"> i-观点教练评价 '+eval_num+' </td><td width="20%"><label for="pj1">是 <input type="radio" name="pj" value="1" id="pj1" style="position: relative;top: -15px"/></label></td><td width="20%"><label for="pj0">否 <input type="radio" name="pj" value="0" id="pj0" style="position: relative;top: -15px"/></label></td></tr></table>'
+			str2 +='<div class="cleardiv20"></div><div><input type="button" id ="foll"  value="提交" onclick="xuanze()" class="left btn_yes"/></div><div class="cleardiv20"></div></form>';
+		}
+		str2 +='<div class="cleardiv20"></div>';
+//		$.each(data.label, function (index, array) {
+//			str1 +='<tr><td width="120" >'+array['tpname']+'</td><td><input type="number"  id="'+array['type']+"_"+array['tid']+'" class="howmuch" min="1"  value="" step="1" style="text-align: center" onkeyup="onlyNonNegative(this)"/>&nbsp; 次</td></tr>';
+//		});
+			
+		$('div.content').html(str1+str2);
+
+		}
+	}})
+
+
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>
+
+
+
+<script>
+
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/experience',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/experience/experience',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+

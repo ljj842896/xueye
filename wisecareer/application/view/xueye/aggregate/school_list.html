@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link href="/static/xueye/css/aggregate.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/public/js/jquery.mousewheel.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<link rel="stylesheet" href="/static/public/css/layui.css"  media="all">
+	<script src="//xueye.wisecareer.org/js/xueye/city.js"></script>
+	<script src="__PUBLIC__/js/base.min.js"></script>
+	<script src="__PUBLIC__/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+
+<body>
+<!-- head -->
+
+<div id="dHead">
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">大学检索结果</h1>
+		<a href="/aggregate/school_search/" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<a href="javascript:void(0);" id="screen_btn" style="position: fixed">筛选</a>
+<div id="shaixuan" style="display: none">
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">筛选地区</h1>
+		<a href="javascript:shaixuan_hide();" class="return"><i class="return-right"></i></a>
+	</div>
+	<form method="GET" action="" accept-charset="UTF-8">
+	<table width="100%">
+		<tr>
+			<td colspan="3">
+				<ul id="shaixuan_content" class="shaixuan_content">
+
+				</ul>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3"><input onClick="hrefurl()" value="确定" class="btn_yes" id="shaixuan_btn"/></td>
+		</tr>
+	</table>
+		</form>
+</div>
+
+
+<!-- home -->
+<div id="dBody" style="position: static;height: auto">
+	<div class="mycontent">
+		<div class="school_list" style="background: #fff">
+			<div class="cleardiv50"></div>
+			<h4 class="tittle">符合你检索条件的学校为 <span id="tittle_num"></span> 个</h4>
+			<div id="content">
+
+			</div>
+		</div>
+	</div>
+</div>
+<div class="return_top"><img src="//xueye.wisecareer.org/images/xueye/return_top.png" alt="" /></div>
+
+<script>
+	$(function(){
+		isHaveLogin('/aggregate/school_list');
+	});
+</script>
+<script type="text/javascript">
+	function hrefurl(){
+		$('#dBody').css({'height':'auto','overflow-y':'scroll'});
+		var scids =[]
+		var objectscid = $(".shaixuan_content>li[class='this']");
+		for( i=0;i<objectscid.length;i++){
+			scids[scids.length]=objectscid[i].getAttribute('id');
+			
+		}
+		
+		var url = window.location.href ;
+		
+		var newur = url.replace(/(scid=).*&/g, '$1'+scids.join(",")+"&"); 
+	
+		window.location.href = newur
+	}
+</script>
+
+<script src="/static/public/js/layui.js"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+
+		var uid = localStorage.CURRENT_USER_ID;
+			Request = GetRequest();
+
+		var titlename = getUrlParam("titlename");
+		var lx = getUrlParam("lx");
+
+		var did = getUrlParam("did");
+
+		var scid=getUrlParam('scid');
+		var arr_form=scid.split(",");
+//		alert(arr_form[0]);
+		var vip=1;
+
+		var tab1_i = 1; //设置当前页数
+		//滚屏加载
+		
+		//给窗口滚动事件绑定滚屏加载方法
+
+
+
+		
+	
+		function scrollLoad() {
+
+			var load_index =layer.open({type: 2, shadeClose: false});
+			if (tab1_i == 0) {
+				return false;
+			}
+
+			$.getJSON(WEB_API_URL + "/school/search_school?"+Request, {'token': uid, page: tab1_i}, function (json) {
+				var str1 = "";
+				var str2 = "";
+				str2 =json.data['num'];
+				if (json.data.list !='') {
+					$.each(json.data.list, function (index, array) {
+						if(array['has']==1){
+							mohas="class='this'";
+						}else{
+							mohas="class=''";
+						}
+						str1 += "<table width=\"100%\" class=\"school\" >";
+						str1 += "<tr><td width='20'></td><td width=\"60\" rowspan=\"3\" align=\"center\" valign=\"middle\" onClick='goSiteUrl(\"/jcyj/school_details.html?schoolid="+array['id']+"\");'><img src=\"http://pic.wisecareer.org/" + array['pic'] + "\" alt=\"\" width=\"100%\"/></td><td width=\"20\"></td>";
+						str1 += "<td style=\"font-size: 16px;\" onClick='goSiteUrl(\"/jcyj/school_details.html?schoolid="+array['id']+"\");'>" + array['titlename'] + "</td><td width='20'></td></tr>";
+						str1 += "<tr><td width='20'></td><td></td><td><span>" + array['scid'] + "</span>&nbsp;&nbsp;&nbsp;<span>" + array['sdid'] + "</span><span class='floatright shoucang' style='background: none'><a style='display: block' "+mohas+" id = "+array['id']+"><i class='icon-star'></i></a></span></td><td width='20'></td></tr><tr><td width='20'></td> <td></td> <td class=\"\">";
+						var arr1 = array['tagids'];
+						for (var n = 0; n < arr1.length; n++) {
+							str1 += "<span class='bianqian'>" + arr1[n] + "</span>";
+						}
+
+						str1 += "</td><td width='20'></td></tr></table>";
+
+					});
+						if(localStorage.CURRENT_USER_VIP==0){
+							if(str2>3){
+								vip=0;
+							}
+							$('#screen_btn').hide();
+						}
+						if(vip==0){
+							str1 += "<table width=\"100%\" class=\"school\" onclick='UserVip2();'>";
+							str1 += "<td align='center' colspan='5' style='font-size: 16px;color: #666;line-height: 40px;'>升级VIP可查看全部</td></tr></table>";
+							tab1_i=0;
+						}else{
+
+							tab1_i++;
+						}
+					
+				} else {
+					str1 += "<table width=\"100%\" style=\'padding:0;border: none\'><tr><td align=\'center\' style='border: none;color: #666;line-height: 50px;font-size: 16px;'>加载完</td></tr></table>";
+					tab1_i = 0;
+				}
+				 // if(uid.length != 26 && json.data['num']>10){
+				 // str1 += "<table width=\"100%\" style=\'padding: 0;border: none\'><tr><td align=\'center\' style='border: none;color: #666;line-height: 50px;font-size: 16px;' onclick=\"location.href='/login/index/'\">登录查看更多</td></tr></table>";
+				 // str1 += "<div class='cleardiv55'></div>";
+			      // }
+				if(vip==0){
+					$('#content').html(str1);
+				}else{
+					$('#content').append(str1);
+				}
+
+				$('#tittle_num').html(str2);
+				layer.close(load_index);
+			});
+	
+		}
+
+
+		scrollLoad();
+
+
+		if(vip==0){
+			tab1_i = 0;
+		}else{
+
+				var winH = $(window).height(); //页面可视区域高度
+				$(window).scroll(function () {
+					var pageH = $(document).height();
+					var scrollT = $(window).scrollTop(); //滚动条top
+					var aa = (pageH - scrollT) ;
+					if (tab1_i == 0) {
+						return false;
+						$(window).scroll()
+					}
+
+					if (aa ==winH) {
+						scrollLoad();
+
+					}
+				});
+
+		}
+
+
+		$('a#screen_btn').live('click',function() {
+			var str_dy = "";
+			$.getJSON(WEB_API_URL+"classnamel/areaClass",{token:uid},function(json){
+				$.each(json.data,function(index,array){
+					str_dy +="<li id='"+array['ar_id']+"' style='cursor:pointer;'>"+array['ar_name']+"&nbsp;&nbsp;&nbsp;<img src=\"//xueye.wisecareer.org/images/xueye/icon/yes.png\" style='display: none'/></li>"
+				});
+				$('#shaixuan_content>li').remove();
+				$('#shaixuan_content').append(str_dy);
+
+				for(var n=0;n<arr_form.length;n++){
+					var name_id=arr_form[n];
+					$('#'+name_id).addClass('this');
+					$('#'+name_id+'>img').show();
+				}
+
+			});
+		});
+		
+	$('.shaixuan_content>li').live('click',function(){
+		$(this).addClass('this');
+		$(this).children().show();
+	});
+	$('.shaixuan_content>li.this').live('click',function(){
+		$(this).removeClass('this');
+		$(this).children().hide();
+	});
+
+
+	$('#screen_btn').click(function(){
+		$('#shaixuan').show();
+		$('#dBody').css({'height':'100%','overflow-y':'hidden'});
+	});
+		function shaixuan_hide(){
+			$('#shaixuan').hide();
+			$('#dBody').css({'height':'auto','overflow-y':'scroll'});
+		}
+	$('#dHead,#dBody,#dFoot').click(function(){
+		$('#shaixuan').hide();
+	});
+	$('#shaixuan_btn').click(function(){
+		$('#shaixuan').hide();
+	});
+	$('#shaixuan td.option').click(function(){
+		$('#shaixuan td').removeClass("this");
+		$(this).addClass("this");
+		$('ul#shaixuan_xq').show();
+	});
+
+	$('.duoxuan>li>a').toggle(function(){
+		$(this).addClass("this");
+		$(this).next().show();
+		$(this).next().next().val(1);
+	},function(){
+		$(this).removeClass("this");
+		$(this).next().hide();
+		$(this).next().next().val(0);
+	})
+
+		
+		$('.return_top').click(function(){
+			window.scrollTo(0,0);
+			$(this).hide();
+		})
+		$(document).mousewheel(function(event) {
+			if($(document).scrollTop()>600){
+				$('.return_top').show();
+			}else{
+				$('.return_top').hide();
+			}
+//		alert($(document).scrollTop());
+
+		});
+
+		$('.shoucang>a').live('click',function(){
+
+			var uid = localStorage.CURRENT_USER_ID;
+			var schoolid =$(this).attr('id');
+
+			var thisa = $(this);
+			if(vip==0){
+				UserVip2();
+			}else{
+				$.ajax({
+					type:"POST",
+					url:WEB_API_URL+"school/collection_add?",
+					data:"token="+uid+"&schoolid="+schoolid,
+					cache:false, //不缓存此页面
+					success:function(data){
+						if(data.status==0){
+							if(thisa.attr('class') =='this'){
+								layer.open({
+									content: '取消收藏'
+									,skin: 'msg'
+									,time: 2 //2秒后自动关闭
+								});
+								thisa.attr('class','')
+							}else{
+								thisa.attr('class','this')
+								layer.open({
+									content: '已收藏'
+									,skin: 'msg'
+									,time: 2 //2秒后自动关闭
+								});
+							}
+						}else{
+							layer.open({
+								content: data.msg
+								,btn: ['登录', '取消']
+								,shadeClose: false
+								,yes: function(index){
+									goPermissionUrl("/aggregate/school_search/");
+									layer.close(index);
+								}
+							});  }
+					}
+				});
+
+			}
+
+		})
+
+
+
+</script>
+
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/aggregate/school_list?titlename='+titlename+'&scid='+scid+'&lx='+lx,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/aggregate/school_list?titlename='+titlename+'&scid='+scid+'&lx='+lx,
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

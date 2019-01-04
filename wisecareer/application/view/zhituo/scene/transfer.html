@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/experience.css"/>
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<!--[if IE]>
+	<script src="//www.wisecareer.org/js/html5shiv.min.js"></script>
+	<![endif]-->
+	<!--<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>-->
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="//www.wisecareer.org/css/zhituo/layui.css"  media="all">
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <script charset="utf-8" src="//www.wisecareer.org/kindeditor/kindeditor-min.js"></script>
+    <script>
+			var editor1;
+			var editor2;
+			var editor3;
+			KindEditor.ready(function(K) {
+				editor1 = K.create('textarea[name="content1"]', {
+					width : '99%',
+		 
+					items : [
+						 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+						'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+						'insertunorderedlist', '|', 'emoticons']
+				});
+				editor2 = K.create('textarea[name="content2"]', {
+					width : '99%',
+
+					items : [
+						  'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+						'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+						'insertunorderedlist', '|', 'emoticons']
+				});
+				editor3 = K.create('textarea[name="content3"]', {
+					width : '99%',
+
+					items : [
+						  'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+						'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+						'insertunorderedlist', '|', 'emoticons']
+				});
+			});
+		</script>
+	<style>
+		ul.layui-tab-title{
+			border-bottom: 1px solid #ebebeb;
+		}
+		ul.layui-tab-title>li.this{
+			color: #f58020;
+			border-bottom: 3px solid #f58020;
+		}
+		ul.layui-tab-title>li{
+			border-bottom: 3px solid #fff;
+		}
+		.layui-tab-title li {
+			width: 25%;
+			border: none;
+		}
+	</style>
+</head>
+<body>
+<!-- head -->
+<div id="dHead">
+	<div class="head">
+		<h1 style="margin: 0">现场实习</h1>
+		<a href="/scene/post" class="return"><i class="return-right"></i></a>
+	</div>
+</div>
+
+<div id="dBody">
+	<div class="mycontent experience" style="height:100%;margin: 0">
+		<div class="cleardiv50"></div>
+		<div class="inner">
+			<div class="cleardiv10"></div>
+			<h4>场次名称：<span id="job"></span> <span class="floatright" onclick="location.href='/scene/industry/'">详情 ></span></h4>
+			<div class="cleardiv10"></div>
+		</div>
+		<div class="cleardiv5"></div>
+		<div class="inner">
+			<div class="cleardiv10"></div>
+				<ul class="layui-tab-title">
+					<li>报到</li>
+					<li onclick="">入职</li>
+					<li>在岗</li>
+					<li class="this">交接</li>
+				</ul>
+				<div class="layui-tab-content" style="">
+					<div class="layui-tab-item">
+						<div class="cleardiv20"></div>
+					</div>
+					<div class="layui-tab-item">
+						<div class="cleardiv20"></div>
+					</div>
+					<div class="layui-tab-item">
+						<div class="cleardiv20"></div>
+					</div>
+
+					<div class="layui-tab-item layui-show">
+						<div class="cleardiv10"></div>
+						<h4>本次已完成的工作内容</h4>
+						<div id="content1"><textarea class="handover_report" name="content1"></textarea></div>
+						<div class="cleardiv10"></div>
+						<h4>未完成的工作</h4>
+						<div id="content2"><textarea class="handover_report" name="content2"></textarea></div>
+						<div class="cleardiv10"></div>
+						<h4>我的收获和感想</h4>
+						<div id="content3"><textarea class="handover_report" name="content3"></textarea></div>
+						<div class="cleardiv10"></div>
+						<h4>上传作品</h4>
+                        <form id="infoLogoForm" enctype='multipart/form-data' >
+						<div id="content4">
+							<div class="cnt-updateWrapper">
+								<div>
+									<div id="loadImg" class="cnt-img-content">
+										<img id="logo" class="ctn-uploadImg" src="${ctx}/static/images/u8385.png" draggable="false" style="display: none">
+										<div id="licenseBox" class="ctn-licence">
+											<input type="file" id="ctn-input-file" name="file" accept="image/*" style="width: 100%">
+										</div>
+									</div>
+								</div>
+
+									<!--<div>上传成功后，请点击保存后才能生效</div>-->
+									<!--<div>-->
+										<!--<button id="infoLogoSaveBt" class="btn btn-default cnt-save" type="button">保存</button>-->
+									<!--</div>-->
+
+							</div>
+						</div>
+						<div class="cleardiv20"></div>
+						<div class="cleardiv20"></div>
+						<table width="100%">
+							<tr>
+								<td width="50%"><input type="button" value="提交并离岗" class="btn_yes" style="margin: 0 auto" id="btn4"/></td>
+								<td width="50%"><input type="button" value="返回" class="btn_yes" style="margin: 0 auto" id="btn5"/></td>
+							</tr>
+						</table>
+                        </form>
+						<div class="cleardiv20"></div>
+						<div class="cleardiv20"></div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="cleardiv5"></div>
+</div>
+
+
+
+<script src="//www.wisecareer.org/js/zhituo/layui.js" charset="utf-8"></script>
+
+<script>
+	$(function(){
+		isHaveLogin('/scene/transfer');
+	});
+	var uid = localStorage.CURRENT_USER_ID;
+	var tid = getUrlParam("tid");
+	var uploading = false;
+
+	$.ajax({ url:WEB_API_URL + "activity/scene_space?" , async: false,data:{token: uid}, success: function(json) {
+		var str3='';
+		var data=json.data;
+		$('.return').attr('href','/scene/post?&tid='+tid);
+		if(data.degree==0){
+			window.location.href='/scene/index/';
+		}else if(data.degree==1){
+			window.location.href='/scene/entry/?tid='+tid;
+		}else if(data.degree==2){
+			window.location.href='/scene/post/?tid='+tid;
+		}else if(data.degree==3){
+
+		}else if(data.degree==4){
+//			window.location.href='/scene/waitfor/?tid='+tid;
+		}else{
+			window.location.href='/scene/leave/?tid='+tid;
+		}
+		$('span#job').html(data.titlename);
+	}
+	});
+
+	$('#btn4').live('click',function(){
+		var text_content1 = editor1.html();
+		text_content1 = encodeURIComponent(text_content1);
+		var text_content2 = editor2.html();
+		text_content2 = encodeURIComponent(text_content2);
+		var text_content3 = editor3.html();
+		text_content3 = encodeURIComponent(text_content3);
+
+		var file=$('#ctn-input-file').val();
+        var postdata =  new FormData($('#infoLogoForm')[0]);
+
+        postdata.append('content1',text_content1);
+        postdata.append('content2',text_content2);
+        postdata.append('content3',text_content3);
+
+
+
+        if(uploading){
+			alert("文件正在上传中，请稍候");
+			return false;
+		}
+		if(text_content1==''){
+			layer.open({
+				content: '本次已完成的工作内容不能为空！',
+				btn: '我知道了',
+				shadeClose: false,
+				yes: function(index){
+					layer.close(index);
+				}
+			});
+		}else if(text_content2==''){
+			layer.open({
+				content: '未完成的工作不能为空！',
+				btn: '我知道了',
+				shadeClose: false,
+				yes: function(index){
+					layer.close(index);
+				}
+			});
+		}else if(text_content3==''){
+			layer.open({
+				content: '我的收获和感想不能为空！',
+				btn: '我知道了',
+				shadeClose: false,
+				yes: function(index){
+					layer.close(index);
+				}
+			});
+		}else if(file==''){
+			layer.open({
+				content: '你尚未上传实习作品。实习作品可以为你的现场实习加分哟。你确认放弃上传吗？',
+				btn: ['确定', '取消'],
+				shadeClose: false,
+				yes: function(index){
+					layer.open({
+						content: '你确定提交并离岗吗？一旦离岗不能返回实习空间！'
+						,btn: ['确定', '取消']
+						,shadeClose: false
+						,yes: function(index){
+							$.ajax({
+								url: WEB_API_URL+"activity/degree?token="+uid+"&degree=4&tid="+tid,
+								type: 'POST',
+								dataType: 'json',
+								data:postdata,
+								processData: false,
+								contentType: false,
+								beforeSend: function(){
+									uploading = true;
+								},
+								success: function (result){
+									if(result.status == '0') {
+										window.location.href='/scene/waitfor?&tid='+tid;
+									}else{
+										layer.open({
+											content: result.msg
+											,shadeClose: false
+											,btn: '我知道了'
+											,yes: function(index1){
+												layer.close(index1);
+											}
+										});
+									}
+									uploading = false;
+								}
+							})
+						}
+					})
+					layer.close(index);
+				}
+			});
+		}else{
+			if(uploading){
+				alert("文件正在上传中，请稍候");
+				return false;
+			}
+			layer.open({
+				content: '你确定提交并离岗吗？一旦离岗不能返回实习空间！'
+				,btn: ['确定', '取消']
+				,shadeClose: false
+				,yes: function(index){
+					$.ajax({
+						url: WEB_API_URL+"activity/degree?token="+uid+"&degree=4&tid="+tid,
+						type: 'POST',
+						dataType: 'json',
+						data:postdata,
+						processData: false,
+						contentType: false,
+                        beforeSend: function(){
+							uploading = true;
+						},
+						success: function (result){
+							if(result.status == '0') {
+								window.location.href='/scene/waitfor?&tid='+tid;
+							}else{
+								layer.open({
+									content: result.msg
+									,shadeClose: false
+									,btn: '我知道了'
+									,yes: function(index1){
+										layer.close(index1);
+									}
+								});
+							}
+							uploading = false;
+						}
+					})
+				}
+			})
+		}
+	})
+
+	$('#btn5').live('click',function() {
+		var text_content1 = editor1.html();
+		text_content1 = encodeURIComponent(text_content1);
+		var text_content2 = editor2.html();
+		text_content2 = encodeURIComponent(text_content2);
+		var text_content3 = editor3.html();
+		text_content3 = encodeURIComponent(text_content3);
+
+		if (uploading) {
+			alert("文件正在上传中，请稍候");
+			return false;
+		}else{
+			$.ajax({
+				url: WEB_API_URL+"activity/degree?token="+uid+"&degree="+2+"&tid="+tid+"&content1="+text_content1+"&content2="+text_content2+"&content3="+text_content3,
+				type: 'POST',
+				dataType: 'json',
+				data: new FormData($('#infoLogoForm')[0]),
+				async:false,
+				cache: false,
+				processData: false,
+				contentType: false,
+				beforeSend: function(){
+					uploading = true;
+				},
+				success: function (result){
+					if(result.status == '0') {
+						window.location.href='/scene/post?&tid='+tid;
+					}else{
+						layer.open({
+							content: result.msg
+							,shadeClose: false
+							,btn: '我知道了'
+							,yes: function(index1){
+								layer.close(index1);
+							}
+						});
+					}
+					uploading = false;
+				}
+			})
+		}
+
+	})
+
+	$.ajax({
+		url: WEB_API_URL+"activity/leave",
+		type: 'POST',
+		dataType: 'json',
+		data: {token:uid,tid:tid},
+		async:false,
+		success: function (result){
+			if(result.status == '0') {
+				$('#content1>.handover_report').val(result.data['content1']);
+				$('#content2>.handover_report').val(result.data['content2']);
+				$('#content3>.handover_report').val(result.data['content3']);
+			}else{
+				layer.open({
+					content: result.msg
+					,shadeClose: false
+					,btn: '我知道了'
+					,yes: function(index1){
+						layer.close(index1);
+					}
+				});
+			}
+		}
+	})
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/scene/transfer',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/scene/transfer',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

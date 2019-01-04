@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>智能学业e站</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="MobileOptimized" content="320"/>
+    <link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+    <link href="//xueye.wisecareer.org/css/xueye/user_1.css" type="text/css" rel="stylesheet" />
+    <script src="/static/public/js/jquery-1.8.3.min.js"></script>
+    <script src="/static/lib/layer/mobile/layer.js"></script>
+    <link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+    <link rel="stylesheet" href="/static/public/css/layui.css"  media="all">
+    <link href="//xueye.wisecareer.org/css/xueye/message.css" type="text/css" rel="stylesheet" />
+    <script src="/static/public/js/base.min.js"></script>
+    <script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<body>
+<!-- head -->
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">我的专业偏好</h1>
+        <a href="javascript:history.go(-1)" class="return"><i class="return-right"></i></a>
+		<a href="/index/index.html" id="screen_btn"><img src="//xueye.wisecareer.org/images/xueye/icon/nav-1-bai.png" alt="" width="25" style="display: inline-block;vertical-align: middle"/></a>
+	</div>
+
+<div id="dBody" style="bottom: 40px">
+	<div class="cleardiv50"></div>
+		<div class="layui-tab">
+			<ul class="layui-tab-title" style=" width: 100%;text-align: center;height: 32px;margin-bottom: 5px;background: #fff;padding: 15px 0">
+				<li class="layui-this" style="width: 35%">专业类型偏好</li>
+				<li style="width: 35%">专业类别偏好</li>
+			</ul>
+			<div class="layui-tab-content">
+				<div class="layui-tab-item layui-show" id="tab1" style="background: #fff">
+					<div class="mycontent">
+						<div class="inner">
+							<div class="cleardiv20"></div>
+					<iframe src="" id="iframelx" name="iframelx" frameborder="0" scrolling="no" width="100%" height="350"></iframe>
+					<p class="explain">说明：上图为本人所有收藏专业的类型分布。</p>
+					<div class="cleardiv10"></div>
+				</div>
+			</div>
+				</div>
+				<div class="layui-tab-item" id="tab2" style="background: #fff">
+					<div class="mycontent">
+						<div class="inner">
+							<div class="cleardiv20"></div>
+							<iframe src="" id="iframepageaaa" name="iframepageaaa" frameborder="0" scrolling="no" width="100%" height="510"></iframe>
+							<p class="explain">说明：上图为本人所有收藏专业的类别分布。</p>
+							<div class="cleardiv10"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<script>
+                var uid = localStorage.CURRENT_USER_ID;
+                $('#iframelx').attr('src','//www.wisecareer.org/Report/report_xy/ad_gh_lx_U.php?token='+uid);
+                $('#iframepageaaa').attr('src','//zxedu.wisecareer.org/student_zxedu/ad_dx_zy.php?token='+uid+'&action=none')
+			</script>
+		</div>
+</div>
+
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/presentation/zhuanye.html');
+	});
+</script>
+
+<script src="/static/public/js/layui.js" charset="utf-8"></script>
+<script>
+	layui.use('element', function(){
+		var $ = layui.jquery
+				,element = layui.element(); //Tab的切换功能，切换事件监听等，需要依赖element模块
+
+		//触发事件
+		var active = {
+			tabAdd: function(){
+				//新增一个Tab项
+				element.tabAdd('demo', {
+					title: '新选项'+ (Math.random()*1000|0) //用于演示
+					,content: '内容'+ (Math.random()*1000|0)
+					,id: new Date().getTime() //实际使用一般是规定好的id，这里以时间戳模拟下
+				})
+			}
+			,tabDelete: function(othis){
+				//删除指定Tab项
+				element.tabDelete('demo', '44'); //删除：“商品管理”
+
+
+				othis.addClass('layui-btn-disabled');
+			}
+			,tabChange: function(){
+				//切换到指定Tab项
+				element.tabChange('demo', '22'); //切换到：用户管理
+			}
+		};
+
+		$('.site-demo-active').on('click', function(){
+			var othis = $(this), type = othis.data('type');
+			active[type] ? active[type].call(this, othis) : '';
+		});
+
+		//Hash地址的定位
+		var layid = location.hash.replace(/^#test=/, '');
+		element.tabChange('test', layid);
+
+		element.on('tab(test)', function(elem){
+			location.hash = 'test='+ $(this).attr('lay-id');
+		});
+
+	});
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/presentation/zhuanye',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/presentation/zhuanye',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

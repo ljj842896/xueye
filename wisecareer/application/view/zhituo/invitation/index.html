@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>职拓e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="//www.wisecareer.org/css/zhituo/style.css" type="text/css" rel="stylesheet" />
+	<link href="//www.wisecareer.org/css/zhituo/user_1.css" type="text/css" rel="stylesheet" />
+	<script src="//www.wisecareer.org/js/jquery-1.8.3.min.js"></script>
+	<script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+	<!--[if IE]>
+	<script src="//www.wisecareer.org/js/html5shiv.min.js"></script>
+	<![endif]-->
+	<script src="/static/zhituo/js/base.min.js"></script>
+	<script src="/static/zhituo/js/com.min.js"></script>
+	<link rel="stylesheet" href="//www.wisecareer.org/js/layer/mobile/need/layer.css"/>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+	<style>
+		input.consultation{
+			background: #f58020;
+			width: 100%;
+			height: 40px;
+			border: none;
+			color: #fff;
+			font-size: 16px;
+			font-weight: bold;
+			-webkit-appearance: none;
+		}
+		td{
+			font-size: 16px;
+		}
+		.sort_box table tr>td{
+			font-size: 16px;
+			color: #666666;
+			line-height: 24px;
+		}
+		.sort_box h4{
+			border-bottom: solid 1px #ebebeb;
+			padding:0 3%;
+		}
+		.sort_box h4>a{
+			line-height: 40px;
+			height:40px;
+			font-size: 16px;
+			display: block;
+			background: url('//www.wisecareer.org/images/zhituo/icon/arrow-right.png') no-repeat right center;
+			background-size: 9px;
+		}
+		.inner{
+			margin-bottom: 5px;
+		}
+		.xq-nav ul li a{
+			font-size: 16px;
+			line-height: 48px;
+		}
+	</style>
+</head>
+<body>
+
+<!-- head -->
+<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+	<h1 style="margin: 0">实习申请</h1>
+	<a href="javascript:history.go(-1)" class="return"><i class="return-right"></i></a>
+</div>
+
+<!-- home -->
+<div id="dBody" style="overflow: auto;">
+	<div class="mycontent">
+		<div class="cleardiv55"></div>
+		<div id="content"></div>
+
+		<div class="cleardiv20"></div>
+	</div>
+</div>
+
+<!--<div id="dFoot" style="height: 40px;">-->
+	<!--<div class="xq-nav" style="height: 50px">-->
+		<!--<ul>-->
+			<!--<li><a href="/invitation/journal">我的历史邀约</a></li>-->
+			<!--<li class="shoucang"><a id="collects" href="/reg/agreement?id=20">了解“模拟实习空间”</a></li>-->
+		<!--</ul>-->
+	<!--</div>-->
+<!--</div>-->
+
+<script src="//www.wisecareer.org/js/flickity-docs.min.js"></script>
+<script type="text/javascript">
+	$(function(){
+		isHaveLogin('/invitation/index');
+	});
+	function GetRequest() {
+		var url = location.search; //获取url中"?"符后的字串
+
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			return str;
+		}
+	}
+
+
+	var money='';
+	var srate='';
+	var tid='';
+	var eid='';
+	Request = GetRequest();
+	var uid = localStorage.CURRENT_USER_ID;
+	var back = getUrlParam("back");
+	if(back==1){
+		$('a.return').attr('href','/index/index');
+	}
+	var text1='';
+	var text2='';
+	var text3='';
+	$.ajax({ url:WEB_API_URL + "activity/invitation?" , async: false,data:{token: uid}, success: function(json){
+		var str1 = '';
+		var data=json.data;
+		var zhuangtai='';
+		if(data!=''){
+			$.each(data, function (index, array) {
+				str1 += '<div class="inner"><div class="sort_box" style="padding: 20px 0">';
+				str1 += '<table width="100%"   style="color: #666666;padding:0 5px 10px;position: relative"><tr>';
+				str1 += '<td style="padding:5px 0" width="80">实习岗位：</td><td valign="middle">'+array['titlename']+'</td></tr>';
+				str1 += '<td style="padding:5px 0" width="80">所在省市：</td><td valign="middle">'+array['sc']+'&nbsp;&nbsp;'+array['sd']+'</td></tr>';
+				str1 += '<td style="padding:5px 0" width="80">具体地址：</td><td valign="middle">'+array['address']+'</td></tr>';
+				str1 += '<tr><td style="padding:5px 0">开始时间：</td><td valign="middle">'+array['ksdate']+'</td></tr>';
+				str1 += '<tr><td style="padding:5px 0">结束时间：</td><td valign="middle">'+array['jsdate']+'</td></tr>';
+
+				str1 += '<tr><td style="padding:5px 0">已报名：</td><td valign="middle" class="dianji"><span style="font-size: 18px;color:#f58020">'+array['num']+'&nbsp;</span>人&nbsp;（限 '+array['usernum']+' 人）</td></tr>';
+				str1 += '<tr><td style="padding:5px 0" >消费额：</td><td valign="middle" class="dianji"><span style="font-size: 18px;color:#f58020">'+array['srate']+' </span> 职拓币</span></td></tr>';
+				str1 += '<tr><td style="padding:5px 0">活动内容：</td><td valign="middle">'+array['content']+'</td></tr>';
+				if(array['hasaccept']==0){zhuangtai='<span style="color: red">未报名</span>'}else{zhuangtai='<span style="color: #00bb0c">已报名</span>'}
+				str1 += '<tr><td style="padding:5px 0" >报名状态：</td><td valign="middle">'+zhuangtai+'</td></tr>';
+				str1 += '<tr><td align="center" colspan="2">';
+//				<span>当前职拓币 &nbsp;<span style="font-size: 18px;color: red">'+array['money']+'</span> &nbsp;&nbsp;/&nbsp;&nbsp;
+				if(array['hasaccept']==0){
+					str1 += '<input type="button" value="我要报名" class="btn_yes" stop="0" tid="'+array['id']+'" eid="'+array['eid']+'" money="'+array['money']+'" srate="'+array['srate']+'" style="margin: 10px auto" onclick="yuyue(this)"/> ';
+				}else{
+					str1 += '<input type="button" value="取消报名" class="btn_yes" stop="1" tid="'+array['id']+'" eid="'+array['eid']+'" money="'+array['money']+'" srate="'+array['srate']+'" style="margin: 10px auto" onclick="yuyue(this)"/> ';
+				}
+				str1 += '</td></tr></table><div class="cleardiv20"></div></div></div>';
+			});
+		}else{
+			str1 +='<div class="inner"><div class="sort_box" style="padding: 10px 0">';
+			str1 +='<p style="padding: 10px 3% 20px;font-size: 14px;line-height:24px;color: #666;border-bottom: 1px solid #ebebeb;position: relative;text-align: center">暂无其他可申请的项目。请随时关注。</p>';
+			str1 +='<h4><a href="/invitation/jihui">实习邀约提醒 <img src="http://www.wisecareer.org/images/zhituo/icon/tixing.png" alt="" height="24" style="position: relative;left: 3px;top: 5px"/></a></h4><h4><a href="/invitation/journal">历史邀约</a></h4><h4><a href="/reg/agreement?id=20">了解“模拟实习空间”</a></h4>';
+			str1 +='<div class="cleardiv20"></div></div></div>';
+		}
+		$('#content').html(str1);
+	}});
+
+	$('#tanhao1').live('click',function(){
+		layer.open({
+			content: text1
+			,btn: '我知道了'
+		});
+	});
+	$('#tanhao2').live('click',function(){
+		layer.open({
+			content: text2
+			,btn: '我知道了'
+		});
+	});
+	$('#tanhao3').live('click',function(){
+		layer.open({
+			content: text3
+			,btn: '我知道了'
+		});
+	});
+	function yuyue(a){
+		money=Number($(a).attr('money'));
+		srate=Number($(a).attr('srate'));
+
+
+
+		tid=$(a).attr('tid');
+		eid=$(a).attr('eid');
+		if($(a).attr('stop')==0){
+		if(money>srate){
+				layer.open({
+					content: '本次报名需要'+srate+'职拓币，确定报名吗？'
+					,btn: ['报名', '取消']
+					,shadeClose: false
+					,yes: function(index){
+						$.ajax({
+							url: WEB_API_URL+"activity/acceptinvitation",
+							type: 'POST',
+							dataType: 'json',
+							data: {token: uid,tid:tid,eid:eid},
+							async:false,
+							success: function (result){
+								if(result.status==0){
+									location.reload();
+								}else{
+									layer.open({
+										content: result.msg
+										,skin: 'msg'
+										,time: 3 //3秒后自动关闭
+									});
+								}
+							}
+						});
+
+						layer.close(index);
+					}
+				});
+			}else{
+				layer.open({
+					content: '本次报名需要'+srate+'职拓币，你的职拓币余额不足，请充值。'
+					,btn: ['充值', '取消']
+					,shadeClose: false
+					,yes: function(index){
+						window.location.href='/user/auth';
+					}
+				});
+			}
+
+		}
+		else{
+			layer.open({
+				content: '亲，一旦取消不可再报名哟。你确定取消本场报名吗？'
+				,btn: ['确定', '返回']
+				,shadeClose: false
+				,yes: function(index){
+					$.ajax({
+						url: WEB_API_URL+"activity/acceptinvitation",
+						type: 'POST',
+						dataType: 'json',
+						data: {token: uid,tid:tid,eid:eid},
+						async:false,
+						success: function (result){
+							if(result.status==0){
+								location.reload();
+							}else{
+								layer.open({
+									content: result.msg
+									,skin: 'msg'
+									,time: 3 //3秒后自动关闭
+								});
+							}
+						}
+					});
+
+					layer.close(index);
+				}
+			});
+
+
+//			layer.open({
+//				content: '已报名，请勿重复报名'
+//				,shadeClose: false
+//				,btn: '我知道了'
+//			});
+
+	//			layer.open({
+	//				content: '您确定要取消预约吗？'
+	//				,btn: ['确定', '取消']
+	//				,yes: function(index){
+	//					$(a).val('预约');
+	//					$(a).attr('stop','0');
+	//					layer.close(index);
+	//				}
+	//			});
+			}
+		}
+
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/invitation/index',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '跨行业职业体验及现场实习平台',
+			desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+			link: 'http://zt.wisecareer.org/invitation/index',
+			imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552666'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1273552666'type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>

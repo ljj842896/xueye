@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"/>
+    <script src="//xy.wisecareer.org/static/public/js/jquery-1.8.3.min.js"></script>
+    <script src="//xy.wisecareer.org/static/fx/js/com.min.js"></script>
+    <script src="//xy.wisecareer.org/static/fx/js/base.min.js"></script>
+    <script src="//www.wisecareer.org/js/layer/mobile/layer.js"></script>
+    <link rel="stylesheet" href="//xy.wisecareer.org/static/public/css/fx.css" id="ys"/>
+    <script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+    <title></title>
+    <style>
+        h3{
+            line-height: 2.4rem;
+        }
+        h4#name{
+            text-align: center;line-height: 2rem;font-size: 1.2rem
+        }
+        table#next1 td,table#next2 td{
+            font-size: 1rem;
+            font-weight: bold;
+            line-height: 40px;
+            background: #ebebeb;
+        }
+        table.xx_list td{
+            line-height: 24px;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+<div id="dHead">
+    <div class="head">
+        <h1 style="margin: 0">我的团队（一级）</h1>
+        <a href="/index/index.html" class="return"><img src="http://www.wisecareer.org/images/zhituo/icon/return-right.png" alt="" style="width: 12px"/></a>
+    </div>
+</div>
+
+<div id="dBody">
+    <div class="cleardiv50"></div>
+    <div class="mycontent">
+        <div class="inner character">
+            <div class="cleardiv10"></div>
+            <table width="100%">
+                <tr>
+                    <td width="10" rowspan="2">&nbsp;</td>
+                    <td width="80" align="center" rowspan="2">
+                        <img src="//www.wisecareer.org/od/" alt="" width="80" style="border-radius: 50%" id="pic"/>
+                        <h4 id="name"></h4>
+                    </td>
+                    <td width="20" rowspan="2">&nbsp;</td>
+                    <td>
+                        <h3 style="font-weight: normal">下一级分销共 <span style="color: red;font-weight: bold;font-size: 1.4rem" id="td_num"></span> 人</h3>
+                        <div class="cleardiv5"></div>
+                        <h3 style="font-weight: normal">累计收益 ￥ <span style="color: red;font-weight: bold;font-size: 1.4rem" id="sy_num"></span> 元</h3>
+                    </td>
+                    <td width="10" rowspan="2">&nbsp;</td>
+                </tr>
+            </table>
+            <div class="cleardiv10"></div>
+        </div>
+        <div class="cleardiv5"></div>
+        <div class="inner">
+
+            <div class="cleardiv20"></div>
+            <table width="100%" class="xx_list" cellpadding="0" cellspacing="0" border="0">
+
+                <tr onclick="location.href='/index/subordinate2.html?userid='">
+                    <td width="5"></td>
+                    <td align="left" style="line-height: 30px"> </td>
+                    <td align="right" style="line-height: 30px">收益：<span style="min-width: 30px;display: inline-block;color: red;text-align: center"></span>元 &nbsp;&nbsp;&nbsp; 下级<span style="min-width: 30px;display: inline-block;color: red;text-align: center"></span>人</td>
+                    <td width="20" align="right"><img src="http://www.wisecareer.org/images/zhituo/icon/arrow-right.png" alt="" width="7" style="position: relative;top: 2px"/></td>
+                </tr>
+               
+
+                
+            </table> 
+            <div class="cleardiv20" style="border-bottom: 1px solid #ebebeb"></div>
+            <div class="cleardiv20"></div>
+            <p>
+                注：经销商按收益分成的高低排序。
+                    经销商收益可提现，也可充值职拓币。
+            </p>
+            <div class="cleardiv20"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var userid='{$userid}';
+    var uid = '{$token}';
+    var sessiontype = '{$sessiontype}';
+    var load_index =layer.open({type: 2, shadeClose: false});
+    var str1 = "";
+    $.ajax({ url:"https://wapi.wisecareer.org/fenxiao/subordinate?" , async: false,data:{token: uid}, success: function(json) {
+
+        var data=json.data;
+        var pic='';
+        var pic2='';
+        var username='';
+        var href='';
+        var usermoney=0;
+        if(data.pic==''){
+            pic='http://www.wisecareer.org/images/user-image.png';
+        }else{
+            pic=data.pic;
+        }
+        if(json.data.list==''){
+            str1='<tr><td style="line-height: 40px;" align="center">无下级</td></tr>'
+        }else{
+            $.each(json.data.list, function (index, array) {
+
+                if(array['pic']==''){
+                    pic2='http://www.wisecareer.org/images/user-image.png';
+                }else{
+                    pic2=array['pic'];
+                }
+
+                if(array['username']==''||array['username']==null){
+                    username='匿名';
+                }else{
+                    username=array['username'];
+                }
+
+                if(array['num']==0){
+                    href="abc();";
+                }else{
+                    href="location.href='/index/subordinate2.html?userid="+array['userid']+"'";
+                }
+
+                str1+='<tr onclick="'+href+'">';
+                str1+='<td align="left" style="line-height: 30px;" valign="top"><img src="'+pic2+'" alt="" style="border-radius: 50%;width: 30px;position: relative;top: 4px"/>&nbsp;&nbsp;<span style="position: relative;top: -6px">'+username+'</span></td>';
+                str1+='<td align="right" style="line-height: 30px" valign="middle">贡献收益<span style="min-width: 30px;display: inline-block;color: red;text-align: center">'+array['moneynum']+'</span>元 &nbsp;&nbsp; 发展下级<span style="min-width: 30px;display: inline-block;color: red;text-align: center">'+array['num']+'</span>人</td>';
+                str1+='<td width="20" align="right"><img src="http://www.wisecareer.org/images/zhituo/icon/arrow-right.png" alt="" width="7" style="position: relative;top: 2px"/></td> </tr>';
+
+            });
+        }
+        if(data.usermoney==''){usermoney=0}else{usermoney=data.usermoney}
+        $('table.xx_list').html(str1);
+        $('h4#name').html(data.username);
+        $('span#td_num').html(data.usernum);
+        $('span#sy_num').html(usermoney);
+        $('img#pic').attr('src',pic);
+        layer.close(load_index);
+    }
+    });
+
+    function abc(){
+        layer.open({
+            content: '此用户暂无下线！'
+            ,shadeClose: false
+            ,btn: '我知道了'
+        });
+    }
+
+
+    var ys=document.getElementById("ys");
+    if(sessiontype==1){
+        ys.setAttribute("href","//xy.wisecareer.org/static/public/css/fx2.css");
+    }
+</script>
+
+
+<script>
+
+    wx.config({
+        debug: false,//关闭调试模式
+        appId: '{$signPackage["appId"]}',
+        timestamp: {$signPackage["timestamp"]},
+        nonceStr: '{$signPackage["nonceStr"]}',
+        signature: '{$signPackage["signature"]}',
+        /*appId: 'xxxxxx',
+         timestamp: xxxxx,
+         nonceStr: 'xxxxx',
+         signature: 'xxxxx',*/
+
+        jsApiList: [
+            // 所有要调用的 API 都要加到这个列表中
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+    wx.ready(function () {
+
+        // 2. 分享接口
+        // 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+        wx.onMenuShareAppMessage({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://fx.wisecareer.org/index/distributor?userid='+userid,
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击发送给朋友');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //   window.location.href = 'http://m.duolehuan.com/';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+
+        // 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+        wx.onMenuShareTimeline({
+            title: '跨行业职业体验及现场实习平台',
+            desc: '近30个行业、岗位、专题的职业（案例）体验、现场实习、多元随机评价、精准定位“职业教练”...... 积累经验值，换得未来好工作。',
+            link: 'http://fx.wisecareer.org/index/distributor?userid='+userid,
+            imgUrl: 'http://www.wisecareer.org/images/zhituo.jpg',//自定义图片地址
+            trigger: function (res) {
+                // alert('用户点击分享到朋友圈');
+            },
+            success: function (res) {
+                //alert('已分享');
+                //window.location.href = '';
+            },
+            cancel: function (res) {
+                //alert('已取消');
+            },
+            fail: function (res) {
+                //alert(JSON.stringify(res));
+            }
+        });
+    });
+
+</script>
+
+</body>
+</html>

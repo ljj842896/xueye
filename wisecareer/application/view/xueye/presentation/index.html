@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>智能学业e站</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+	<meta name="MobileOptimized" content="320"/>
+	<link href="/static/xueye/css/style.css" type="text/css" rel="stylesheet" />
+	<link href="//xueye.wisecareer.org/css/xueye/user_1.css" type="text/css" rel="stylesheet" />
+	<script src="/static/public/js/jquery-1.8.3.min.js"></script>
+	<script src="/static/lib/layer/mobile/layer.js"></script>
+	<link rel="stylesheet" href="/static/lib/layer/mobile/need/layer.css"/>
+	<script src="/static/public/js/base.min.js"></script>
+	<script src="/static/public/js/com.min.js"></script>
+	<script src="//res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+</head>
+<body>
+<!-- head -->
+	<div class="head" style="position: fixed;top: 0;left: 0;z-index: 300">
+		<h1 style="margin: 0">我的报告</h1>
+		<a href="/index/index" class="return"><i class="return-right"></i></a>
+	</div>
+
+<link href="//xueye.wisecareer.org/css/xueye/message.css" type="text/css" rel="stylesheet" />
+<!-- home -->
+<div id="dBody">
+	<div class="cleardiv50"></div>
+	<div class="mycontent">
+
+		<div class="baogao" style="background: #fff">
+			<div class="inner">
+				<table width="100%" style="background: #fff;padding: 15px 0" id="user_xx">
+					<tr>
+						<td rowspan="3" width="100"><div class="portrait head_pic_man head_pic"><img id = 'pic' src="" alt="" style="border: 1px solid #ebebeb;"/></div></td>
+						<td width="10">&nbsp;</td>
+						<td id="name"></td>
+					</tr>
+					<tr>
+						<td width="10">&nbsp;</td>
+						<td id="school"></td>
+					</tr>
+					<tr>
+						<td width="10">&nbsp;</td>
+						<td ></td>
+					</tr>
+				</table>
+			</div>
+			<div class="cleardiv5" style="background: #ebebeb"></div>
+			<h5 class="xq_h5" onClick="goPermissionUrl('/presentation/decision_parameter/');">我的学业决策模型</h5>
+           	<h5 class="xq_h5" id="shoucang" onClick=""  style="padding:5px 25px 5px 15px">收藏专业 &nbsp; <span style="float: right;color:#00bb0c" class="num">个&nbsp;&nbsp;&nbsp;&nbsp;<img src="//zxedu.wisecareer.org/images/tanhao.png" width="16" height="16"> </span>  </h5>
+			<h5 class="xq_h5" id="juece" onClick=""  style="padding:5px 25px 5px 15px">决策匹配度&nbsp; <span style="float: right;color:#00bb0c" class="policynum">%&nbsp;&nbsp;&nbsp;&nbsp;<img src="//zxedu.wisecareer.org/images/tanhao.png" width="16" height="16"></span></h5>
+			<h5 class="xq_h5" id="zhuanye" onClick="goPermissionUrl('/presentation/zhuanye/');" style="padding:5px 25px 5px 15px">我的专业偏好</h5>
+ 
+			<h5 class="xq_h5" id="branch" onClick="goPermissionUrl('/presentation/branch_list?id=1');" style="padding:5px 25px 5px 15px">我的学科能力 &nbsp;&nbsp;<img src="//www.wisecareer.org/images/new.gif" alt="" height="10"/></h5>
+
+ 
+
+			<h5 class="xq_h5" id="hangye" onClick="goPermissionUrl('/presentation/hangye/');" style="padding:5px 25px 5px 15px">我的行业去向</h5>
+            <h5 class="xq_h5" id="xuanke" onClick="goPermissionUrl('/presentation/xuankao/');" style="padding:5px 25px 5px 15px">高考3+3选科策略</h5>
+            <h5 class="xq_h5" id="tuijian" onClick="goPermissionUrl('/presentation/xueke/');" style="padding:5px 25px 5px 15px">推荐关注 <span style="color:#00bb0c">学科</span> / <span style="color:#00bb0c">高校</span> / <span style="color:#00bb0c">行业</span></h5>
+			<h5 class="xq_h5" style="background: none;padding: 5px 10px 5px 15px;">我的选科方案 <span class="xkfa" style="color:#00bb0c;float: right">&nbsp;&nbsp;&nbsp;&nbsp;<img src="//zxedu.wisecareer.org/images/tanhao.png" width="16" height="16"></span></h5>
+			<h5 class="xq_h5" id="xgbg" style="padding:5px 25px 5px 15px">我的性格报告 <span class="character_report" style="float: right;color:#00bb0c"></span></h5>
+			<h5 class="xq_h5" id="dybg" style="padding:5px 25px 5px 15px">多元智能报告 <span class="character_report" style="float: right;color:#00bb0c"></span></h5>
+		</div>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+
+	var load_index =layer.open({type: 2, shadeClose: false});
+	$(function(){
+		isHaveLogin('/presentation/index');
+	});
+
+
+	function GetRequest() {
+		var url = location.search; //获取url中"?"符后的字串
+
+		if (url.indexOf("?") != -1) {
+			var str = url.substr(1);
+			return str;
+		}
+	}
+
+	function member(){
+		layer.open({
+			content: '此通道为会员专享，请先进入我的账户升级会员'
+			,btn: ['确定', '取消']
+			,yes: function(index){
+				window.location.href='/user/wallet.html'
+			}
+		});
+	}
+	Request = GetRequest();
+	var uid = localStorage.CURRENT_USER_ID;
+	var schoolid = getUrlParam("schoolid");
+	var text1='';
+	var text2='';
+	var text3='';
+	$.getJSON(WEB_API_URL + "navigation/presentation?" + Request, {token: uid}, function (json) {
+		var str1 = "";
+		var str2 = "";
+		var str3 = ""; 
+		text1=json.data['subjectnomsg'];
+		text2=json.data['numprotesmg'];
+		text3=json.data['policyprotesmg'];
+
+		if(json.data['subjectno']==1){
+			str1 +=json.data['subject']+'&nbsp;<span class="prompt" id="tanhao1"><img src="//zxedu.wisecareer.org/images/tanhao.png" width="16" height="16"></span>';
+		}else{
+			str1 +=json.data['subject'];
+		} 
+		
+		if(json.data['numprote']==1){
+			str2 +='<span onclick="goPermissionUrl(\'/presentation/major/\');">共'+json.data['num']+'个专业</span>&nbsp;<span class="prompt" id="tanhao2"><img src="//zxedu.wisecareer.org/images/tanhao.png" width="16" height="16"></span>';
+		}else{
+			str2 +='<span>共'+json.data['num']+'个专业</span>';
+			$('h5#shoucang').attr("onClick","goPermissionUrl('/presentation/major?id=1');");
+		}
+
+		if(json.data['nagigt']==1){
+			if(json.data['policyprote']==1){
+				str3 +='<span onclick="goPermissionUrl(\'/presentation/major/\');">'+json.data['policynum']+'%</span>&nbsp;<span class="prompt" id="tanhao3"><img src="//zxedu.wisecareer.org/images/tanhao.png" width="16" height="16"></span>';
+			}else{
+				str3 +=json.data['policynum']+'%';
+				$('h5#juece').attr("onClick","goPermissionUrl('/presentation/major?id=1');");
+			}
+		}else{
+			str3='';
+		}
+
+		$('span.xkfa').html(str1);
+		$('span.num').html(str2);
+		$('span.policynum').html(str3);
+		layer.close(load_index);
+	});
+	$('#tanhao1').live('click',function(){
+		layer.open({
+			content: text1
+			,shadeClose: false
+			,btn: '我知道了'
+		});
+	});
+	$('#tanhao2').live('click',function(){
+		layer.open({
+			content: text2
+			,shadeClose: false
+,btn: '我知道了'
+		});
+	});
+	$('#tanhao3').live('click',function(){
+		layer.open({
+			content: text3
+			,shadeClose: false
+,btn: '我知道了'
+		});
+	});
+
+
+
+
+
+	$.getJSON(WEB_API_URL + "character/character?" + Request, {token: uid}, function (json) {
+		if(json.data.chart!=''){
+			$('.character_report').html(json.data['xing']).attr('onClick','goPermissionUrl("/presentation/character_list/");')
+		}else{
+			$('.character_report').html('暂无数据，去测评&nbsp;');
+			$('.character_report').live('click',function(){
+				window.location.href='/character/notice/';
+			});
+		}
+
+	})
+    var token = localStorage.CURRENT_USER_ID;
+    $.getJSON(WEB_API_URL + "user/xygetuser?", {'token': token}, function (json) {
+
+        if(json.status ==0){
+            var array = json.data;
+            var pic  = $('#pic').attr('src','__PICURL__/'+array.pic);
+            $('#name').html(array.user_name);
+            $('#school').html(array.school_name);
+			if(json.data.ots==0){
+				$('#xgbg').attr('onClick','goPermissionUrl("/character/notice?return=2");');
+				$('#xgbg>.character_report').html('暂无数据，去测评&nbsp;');
+			}else{
+				$('#xgbg').attr('onClick','goPermissionUrl("/presentation/character_list/");');
+				$('#xgbg>.character_report').html('');
+			}
+			if(json.data.ots_mul==0){
+				$('#dybg').attr('onClick','goPermissionUrl("/character/notice2?return=2");');
+				$('#dybg>.character_report').html('暂无数据，去测评&nbsp;');
+			}else{
+				$('#dybg').attr('onClick','goPermissionUrl("/presentation/character_list2/");');
+				$('#dybg>.character_report').html('');
+			}
+        }else{
+            window.location.href='/index/index'
+        }
+    })
+	
+//	$.getJSON(WEB_API_URL + "school/major_collection?"+Request, {token: uid}, function (json) {
+//		if(json.data.list.length<3){
+//			layer.open({
+//				content: '抱歉啦！你现在所收藏的专业太少了,请先去收藏专业吧。在决策树页有为你推荐的专业。通过“专业检索”中你的“学科优势”和自己喜欢的“行业”也可以定位到自己的目标专业哟。'
+//				,shadeClose: false
+//				,btn: '我知道了'
+//			});
+//		}
+//	}) 
+	 
+</script>
+
+
+<script>
+	wx.config({
+		debug: false,//关闭调试模式
+		appId: '{$signPackage["appId"]}',
+		timestamp: {$signPackage["timestamp"]},
+		nonceStr: '{$signPackage["nonceStr"]}',
+		signature: '{$signPackage["signature"]}',
+		/*appId: 'xxxxxx',
+		 timestamp: xxxxx,
+		 nonceStr: 'xxxxx',
+		 signature: 'xxxxx',*/
+
+		jsApiList: [
+			// 所有要调用的 API 都要加到这个列表中
+			'checkJsApi',
+			'onMenuShareTimeline',
+			'onMenuShareAppMessage',
+			'onMenuShareQQ'
+		]
+	});
+	wx.ready(function () {
+
+		// 2. 分享接口
+		// 2.1 监听"分享给朋友"，按钮点击、自定义分享内容及分享结果接口
+
+
+		wx.onMenuShareAppMessage({
+			title: '智能学业e站，您身边的生涯规划专家！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/presentation/index',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击发送给朋友');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//   window.location.href = 'http://m.duolehuan.com/';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+
+		// 2.2 监听"分享到朋友圈"按钮点击、自定义分享内容及分享结果接口
+		wx.onMenuShareTimeline({
+			title: '快来学业e站吧！',
+			desc: '国内唯一生涯大数据动态分析及学业决策智能支持平台',
+			link: 'http://xy.wisecareer.org/presentation/index',
+			imgUrl: 'http://xy.wisecareer.org/static/xueye/images/20170711143700_510.png',//自定义图片地址
+			trigger: function (res) {
+				// alert('用户点击分享到朋友圈');
+			},
+			success: function (res) {
+				//alert('已分享');
+				//window.location.href = '';
+			},
+			cancel: function (res) {
+				//alert('已取消');
+			},
+			fail: function (res) {
+				//alert(JSON.stringify(res));
+			}
+		});
+	});
+
+	function hide(){
+		$('.show_hide').hide();
+	}
+
+	function show(){
+		$('.show_hide').show();
+	}
+</script>
+<script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1273552621'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s13.cnzz.com/z_stat.php%3Fid%3D1273552621' type='text/javascript'%3E%3C/script%3E"));</script></body>
+</html>
